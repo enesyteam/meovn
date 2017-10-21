@@ -1,0 +1,155 @@
+.load-container {
+    position: absolute;
+    right: 1.5em;
+    top: 0.5em;
+    z-index: 10;
+    float: right;
+    position: relative;
+    overflow: hidden;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.aside-load-container{
+    position: relative;
+    padding: 15px auto !important;
+    box-sizing: border-box;
+    margin: 15px !important;
+}
+.comment-typing-load-container{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    padding: 0 auto !important;
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+.load8 .loader {
+    margin: 0 auto!important;
+    position: relative;
+    border-top: .06em solid hsla(0,0%,100%,.2)!important;
+    border-right: .06em solid hsla(0,0%,100%,.2)!important;
+    border-bottom: .06em solid hsla(0,0%,100%,.2)!important;
+    border-left: .061em solid #00AFF0!important;
+    transform: translateZ(0);
+    animation: load8 .5s infinite linear;
+}
+.load8 .loader,
+.load8 .loader:after {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+// google loader
+$green: #008744;
+$blue: #0057e7;
+$red: #d62d20;
+$yellow: #ffa700;
+$white: #eee;
+
+// scaling... any units
+$width: 50px;
+
+body {
+  background-color: $white;
+}
+
+// demo-specific
+.showbox {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5%;
+}
+// end demo-specific
+
+.loader {
+  position: relative;
+  margin: 0 auto;
+  width: $width;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: $red;
+  }
+  40% {
+    stroke: $blue;
+  }
+  66% {
+    stroke: $green;
+  }
+  80%,
+  90% {
+    stroke: $yellow;
+  }
+}

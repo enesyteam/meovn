@@ -1,0 +1,28 @@
+:root .swx .side .timeline .recent .list-seller-name{
+    display: none;
+    font-size: 12px;
+    color: #888;
+    float: right;
+    line-height: 20px;
+    width: 20px;
+    height: 20px;
+    background: #2b333b;
+    border-radius: 50%;
+    text-align: center;
+    margin-top: 5px;
+    transition: background-color .2s cubic-bezier(.23,1,.32,1);
+}
+:root .swx .side .timeline .recent .list-seller-name.visible{
+    display: block;
+    transition: background-color .2s cubic-bezier(.23,1,.32,1);
+}
+:root .swx .chat-box{
+	width: 250px;
+    position: absolute;
+    z-index: 9999999999999;
+    bottom: 0;
+    right: 0;
+    padding: 15px;
+    display: block;
+    background: red;
+}
