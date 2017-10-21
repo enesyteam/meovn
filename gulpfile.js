@@ -9,6 +9,8 @@ cleanCSS = require('gulp-clean-css'),
 minify = require('gulp-minify-css'),
 $ = require('gulp-load-plugins')();
 
+var serve = require('gulp-serve');
+
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 
@@ -98,3 +100,14 @@ gulp.task('html', function(){
           .pipe($.versionAppend(['html', 'js', 'css'], {appendType: 'guid', versionFile: 'version.json'}))
           .pipe($.minifyHtml());
 });
+
+
+gulp.task('serve', serve(''));
+gulp.task('serve-build', serve(['public', 'build']));
+gulp.task('serve-prod', serve({
+  root: ['public', 'build'],
+  port: 80,
+  middleware: function(req, res) {
+    // custom optional middleware 
+  }
+}));

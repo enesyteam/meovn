@@ -23,6 +23,8 @@
 		meovn.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
 			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
 
+			var CURRENT_USER_ID = 73;
+
 			$scope.audio = ngAudio.load('assets/sounds/click.mp3');
 			 $scope.clickSound = ngAudio.load('assets/sounds/button-2.mp3');
 			 $scope.getOrderSound = ngAudio.load('assets/sounds/click.mp3');
@@ -226,9 +228,7 @@
 
 				$scope.currentUser = null;
 				function getCurrentUser(){
-				 // 	$http.get('/v3/currentLogedinUser').then(function(data){
-				 // 		$scope.currentUser = data;
-					// });
+				 $scope.currentUser = $scope.sellers[0];
 				}
 				getCurrentUser();
 
@@ -290,39 +290,7 @@
 							}
 					});
 				};
-				$scope.testPusher = function(){
-					// pusher.trigger('my-channel', 'new-comment', item);
-				}
 
-				// infinitive scroll
-				$scope.isLoadingMore = false;
-				$scope.loadMoreRecords = function (){
-					return false;
-					if(!$scope.orders) return;
-					$scope.isLoadingMore = true;
-					if($scope.showMyOrders){
-						var url = '/v3/getMyOrders/?page=' + $scope.orders.page;
-					}
-					else if(!$scope.activeStatus){
-						var url = '/v3/getOrders/?page=' + $scope.orders.page;
-					}
-					else{
-						var url = 'v3/getOrdersByStatus/' + $scope.activeStatus.id + '?page=' + $scope.orders.page;
-					}
-					$http.get(url).then(function(data){
-
-						if(data.length == 0) {
-							$scope.isLoadingMore = false;
-							return;
-						}
-						console.log(url);
-						for (var i =  0; i < data.length; i++) {
-								$scope.orders.$add(data[i]);
-							}
-							$scope.orders.page++;
-							$scope.isLoadingMore = false;
-					});
-				}
 				$scope.showAlert = function(title, content, alertType){
 					var option = {
 				      autoDismiss: false,
@@ -354,27 +322,6 @@
 				$scope.toggleShowMyOrders = function(){
 					$scope.showMyOrders = !$scope.showMyOrders;
 				}
-				$scope.getMyOrders = function(){
-					$scope.isShowAll = false;
-					$scope.isAsideLoading = true;
-					var url = 'v3/getMyOrders/' + '?page=' + 1;
-					$http.get(url).then(function(data){
-						$scope.showMyOrders = true;
-						$scope.activeStatus = null;
-						$scope.orders = $firebaseArray(fOrdersRef);
-						for (var i =  0; i < data.length; i++) {
-								$scope.orders.$add(data[i]);
-							}
-							$scope.orders.page++;
-							$scope.isAsideLoading = false;
-
-							// if orders.items not null => active first item
-							if($scope.orders.length > 0){
-							     // active first item
-							     $scope.active($scope.orders[0]);
-							}
-						});
-				}
 
 				$scope.getOrderByUid = function(id){
 			        return $scope.orders.filter(function(m){
@@ -399,7 +346,7 @@
 				// $scope.currentUser = null;
 
 				$scope.userCanReleaseOrChangeStatus = function(order){
-					return ($scope.currentUser.is_admin == 1) || ($scope.currentUser.id == order.seller_will_call_id);
+					return true;// ($scope.currentUser.is_admin == 1) || ($scope.currentUser.id == order.seller_will_call_id);
 				}
 				$scope.releaseOrder = function(event, order){
 					event.stopPropagation();
@@ -429,27 +376,6 @@
 						$scope.activeStatus = null;
 					}
 					
-				}
-				$scope.GetOrdersByStatus = function(status){
-					$scope.isShowAll = false;
-					$scope.isAsideLoading = true;
-					var url = 'v3/getOrdersByStatus/' + status.id + '?page=' + 1;
-					$http.get(url).then(function(data){
-						// $scope.activeStatus = status;
-						$scope.showMyOrders = false;
-						$scope.orders = $firebaseArray(fOrdersRef);
-						for (var i =  0; i < data.length; i++) {
-								$scope.orders.$add(data[i]);
-							}
-							$scope.orders.page++;
-							$scope.isAsideLoading = false;
-
-							// if orders.items not null => active first item
-							if($scope.orders.length > 0){
-							     // active first item
-							     $scope.active($scope.orders[0]);
-							}
-						});
 				}
 
 				$scope.getPageIdFromOrder = function(order){
@@ -490,30 +416,30 @@
 				}
 
 				// get all comment for an Order
-				$scope.getComments = function(order){
-					var commentUrl = '/v3/getComments/' + order.id;
-					$scope.isPageBusy = true;
-					$http.get(commentUrl).then(function(data){
-						// $scope.commentList = $firebaseArray(fCommentsRef);
-						if(data.length > 0){
+				// $scope.getComments = function(order){
+				// 	var commentUrl = '/v3/getComments/' + order.id;
+				// 	$scope.isPageBusy = true;
+				// 	$http.get(commentUrl).then(function(data){
+				// 		// $scope.commentList = $firebaseArray(fCommentsRef);
+				// 		if(data.length > 0){
 							
-						   for (var i = 0; i < data.length; i++) {
-   								var user = $scope.findUser(data[i].user_id);
+				// 		   for (var i = 0; i < data.length; i++) {
+   	// 							var user = $scope.findUser(data[i].user_id);
 
-						   		var	$commentItem = {
-									'id' : data[i].id,
-									'content' : data[i].content,
-									'created_at' : data[i].created_at,
-									'type' : data[i].type,
-									'status_id' : data[i].status_id,
-									'user'			: user
-								};
-								// $scope.commentList.$add($commentItem);
-						   }
-						}
-						$scope.isPageBusy = false;
-					});
-				}
+				// 		   		var	$commentItem = {
+				// 					'id' : data[i].id,
+				// 					'content' : data[i].content,
+				// 					'created_at' : data[i].created_at,
+				// 					'type' : data[i].type,
+				// 					'status_id' : data[i].status_id,
+				// 					'user'			: user
+				// 				};
+				// 				// $scope.commentList.$add($commentItem);
+				// 		   }
+				// 		}
+				// 		$scope.isPageBusy = false;
+				// 	});
+				// }
 
 				// get all active users
 				// $scope.users = [];
@@ -526,7 +452,7 @@
 
 				// find an user with id
 				$scope.findUser = function(id) {
-				     var found = $filter('filter')($scope.users, {id: id}, true);
+				     var found = $filter('filter')($scope.sellers, {id: id}, true);
 				     if (found.length) {
 				         return found[0];
 				     } else {
@@ -536,7 +462,7 @@
 
 				// get status by id
 				 $scope.getStatusById = function(statusId){
-				 	var found = $filter('filter')($scope.ordersStatuses, {id: statusId}, true);
+				 	var found = $filter('filter')($scope.statuses, {id: statusId}, true);
 				     if (found.length) {
 				         return found[0];
 				     } else {
@@ -547,9 +473,9 @@
 				// get order status for an Order
 				$scope.getOrderStatusForOrder = function(order){
 					if(!order) return;
-					for (var i =0; i < $scope.ordersStatuses.length; i++) {
-						if(order.status_id == $scope.ordersStatuses[i].id){
-							return $scope.ordersStatuses[i].display_type;
+					for (var i =0; i < $scope.statuses.length; i++) {
+						if(order.status_id == $scope.statuses[i].id){
+							return $scope.statuses[i].display_type;
 						}						
 					}
 				}
@@ -623,16 +549,6 @@
 					if(comment.id == undefined) return;
 					$scope.comments.$remove(comment);
 				};
-
-				// get change order status
-				$scope.changeStatus = function(order, statusId){
-					if(!order) { return false;};
-					var url = 'v3/changeOrderStatus/' + order.id + '/' + statusId;
-					return $http.post(url,{
-						method: 'POST',
-						headers: { 'Content-Type' : 'application/json', 'Accept' : 'application/json' },
-					});
-				}
 
 				// update order status
 				$scope.updateStatus = function(order, $event, status){

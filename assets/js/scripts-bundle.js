@@ -19,15 +19,28 @@
 	    }
 	  ]);
 
+	meovn.config(function($stateProvider, $urlRouterProvider) {
+    
+	    $urlRouterProvider.otherwise('/home');
+	    
+	    $stateProvider
+	        
+	        .state('home', {
+				url        : '/home',
+				controller : 'homeCtrl',
+				templateUrl: 'templates/home.html'
+	        });
+	});
+
 		// old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
 		meovn.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
-			toastr, toastrConfig, $firebaseArray, $copyToClipboard, webNotification, ngAudio){
+			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
 
-			// $scope.audio = ngAudio.load('/sounds/click.mp3');
-			 // $scope.clickSound = ngAudio.load('/sounds/button-2.mp3');
-			 // $scope.getOrderSound = ngAudio.load('/sounds/click.mp3');
-			 // $scope.releaseOrderSound = ngAudio.load('/sounds/button-4.mp3');
-			 // $scope.popupSound = ngAudio.load('/sounds/new-order.mp3');
+			$scope.audio = ngAudio.load('assets/sounds/click.mp3');
+			 $scope.clickSound = ngAudio.load('assets/sounds/button-2.mp3');
+			 $scope.getOrderSound = ngAudio.load('assets/sounds/click.mp3');
+			 $scope.releaseOrderSound = ngAudio.load('assets/sounds/button-4.mp3');
+			 $scope.popupSound = ngAudio.load('assets/sounds/new-order.mp3');
 			
 			var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 			$scope.graphPage = function(pageId) {

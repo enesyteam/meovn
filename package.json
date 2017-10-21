@@ -1,3 +1,6 @@
 {
-    "version": "0.0.1"
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp-serve": "^1.4.0"
+  }
 }
