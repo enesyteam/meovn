@@ -1,20 +1,9 @@
 (function () {
   'use strict';
 
-	var myApp = angular.module('myApp', ['cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
+	var meovn = angular.module('meovn', ['cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
 		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio']);
-
-	myApp.config(function($stateProvider, $urlRouterProvider) {
-	    $stateProvider
-	        
-	        .state('/', {
-				url        : '/',
-				controller : 'OrdersController',
-				templateUrl: 'index.html'
-	        })  
-	});
-
-	myApp.config([
+	meovn.config([
 	    'FacebookProvider',
 	    function(FacebookProvider) {
 	     var myAppId = '1085772744867580';
@@ -30,16 +19,15 @@
 	    }
 	  ]);
 
-	myApp.constant('chunkSize', 2);
 		// old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
-		myApp.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
-			chunkSize, toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
+		meovn.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
+			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
 
 			// $scope.audio = ngAudio.load('/sounds/click.mp3');
-			 $scope.clickSound = ngAudio.load('/sounds/button-2.mp3');
-			 $scope.getOrderSound = ngAudio.load('/sounds/click.mp3');
-			 $scope.releaseOrderSound = ngAudio.load('/sounds/button-4.mp3');
-			 $scope.popupSound = ngAudio.load('/sounds/new-order.mp3');
+			 // $scope.clickSound = ngAudio.load('/sounds/button-2.mp3');
+			 // $scope.getOrderSound = ngAudio.load('/sounds/click.mp3');
+			 // $scope.releaseOrderSound = ngAudio.load('/sounds/button-4.mp3');
+			 // $scope.popupSound = ngAudio.load('/sounds/new-order.mp3');
 			
 			var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 			$scope.graphPage = function(pageId) {
@@ -238,9 +226,9 @@
 
 				$scope.currentUser = null;
 				function getCurrentUser(){
-				 	$http.get('/v3/currentLogedinUser').success(function(data){
-				 		$scope.currentUser = data;
-					});
+				 // 	$http.get('/v3/currentLogedinUser').then(function(data){
+				 // 		$scope.currentUser = data;
+					// });
 				}
 				getCurrentUser();
 
@@ -251,28 +239,28 @@
 				// });
 
 				// Order statuses list
-				$scope.ordersStatuses = [];
-				var url = 'v3/orderStatuses';
-				$http.get(url).success(function(data){
-					for (var i = 0; i < data.length; i++) {
-						$scope.ordersStatuses.push(data[i]);
-					}
-				});
+				// $scope.ordersStatuses = [];
+				// var url = 'v3/orderStatuses';
+				// $http.get(url).then(function(data){
+				// 	for (var i = 0; i < data.length; i++) {
+				// 		$scope.ordersStatuses.push(data[i]);
+				// 	}
+				// });
 				// Order statuses for filter
-				$scope.ordersStatusesForFilter = [];
-				var url = 'v3/orderStatusesForFilter';
-				$http.get(url).success(function(data){
-					for (var i = 0; i < data.length; i++) {
-						$scope.ordersStatusesForFilter.push(data[i]);
-					}
-				});
+				// $scope.ordersStatusesForFilter = [];
+				// var url = 'v3/orderStatusesForFilter';
+				// $http.get(url).then(function(data){
+				// 	for (var i = 0; i < data.length; i++) {
+				// 		$scope.ordersStatusesForFilter.push(data[i]);
+				// 	}
+				// });
 
 				$scope.isShowAll = false;
 				$scope.getOrders = function($event, attrs){
 					
 					$scope.isAsideLoading = true;
 					var url = '/v3/getOrders';
-					$http.get(url).success(function(data){
+					$http.get(url).then(function(data){
 						$scope.showMyOrders = false;
 						$scope.activeStatus = null;
 						$scope.isShowAll = true;
@@ -321,7 +309,7 @@
 					else{
 						var url = 'v3/getOrdersByStatus/' + $scope.activeStatus.id + '?page=' + $scope.orders.page;
 					}
-					$http.get(url).success(function(data){
+					$http.get(url).then(function(data){
 
 						if(data.length == 0) {
 							$scope.isLoadingMore = false;
@@ -335,7 +323,7 @@
 							$scope.isLoadingMore = false;
 					});
 				}
-				$scope.showAlert = function(title = '', content, alertType = 'info'){
+				$scope.showAlert = function(title, content, alertType){
 					var option = {
 				      autoDismiss: false,
 				      positionClass: 'toast-bottom-center',
@@ -370,7 +358,7 @@
 					$scope.isShowAll = false;
 					$scope.isAsideLoading = true;
 					var url = 'v3/getMyOrders/' + '?page=' + 1;
-					$http.get(url).success(function(data){
+					$http.get(url).then(function(data){
 						$scope.showMyOrders = true;
 						$scope.activeStatus = null;
 						$scope.orders = $firebaseArray(fOrdersRef);
@@ -446,7 +434,7 @@
 					$scope.isShowAll = false;
 					$scope.isAsideLoading = true;
 					var url = 'v3/getOrdersByStatus/' + status.id + '?page=' + 1;
-					$http.get(url).success(function(data){
+					$http.get(url).then(function(data){
 						// $scope.activeStatus = status;
 						$scope.showMyOrders = false;
 						$scope.orders = $firebaseArray(fOrdersRef);
@@ -505,7 +493,7 @@
 				$scope.getComments = function(order){
 					var commentUrl = '/v3/getComments/' + order.id;
 					$scope.isPageBusy = true;
-					$http.get(commentUrl).success(function(data){
+					$http.get(commentUrl).then(function(data){
 						// $scope.commentList = $firebaseArray(fCommentsRef);
 						if(data.length > 0){
 							
@@ -528,13 +516,13 @@
 				}
 
 				// get all active users
-				$scope.users = [];
-				var url = 'v3/getUsers';
-				$http.get(url).success(function(data){
-					for (var i = 0; i < data.length; i++) {
-						$scope.users.push(data[i]);
-					}
-				});
+				// $scope.users = [];
+				// var url = 'v3/getUsers';
+				// $http.get(url).then(function(data){
+				// 	for (var i = 0; i < data.length; i++) {
+				// 		$scope.users.push(data[i]);
+				// 	}
+				// });
 
 				// find an user with id
 				$scope.findUser = function(id) {
@@ -647,7 +635,7 @@
 				}
 
 				// update order status
-				$scope.updateStatus = function(order, $event, status = null){
+				$scope.updateStatus = function(order, $event, status){
 					$scope.clickSound.play();
 					if(!$scope.userCanReleaseOrChangeStatus(order)){
 						$scope.showAlert('', 'Oops! Not allowed to change the order status of others.', 'error');
@@ -680,7 +668,7 @@
 						$scope.showAlert('', 'Oops! Please select an Order befor perform this action.', 'error');
 						return false;
 					}
-					$scope.changeStatus($scope.orders.active, statusId).success(function(data){
+					$scope.changeStatus($scope.orders.active, statusId).then(function(data){
 						// update item in $scope.orders.items collection
 						for (var i = $scope.orders.length - 1; i >= 0; i--) {
 							if($scope.orders[i].id == $scope.orders.active.id){
@@ -739,44 +727,44 @@
 				      $scope.quickUpdateStatus(6);
 				    }
 				  });
-				hotkeys.add({
-				    combo: 'shift+right',
-				    description: 'Chuyển sang đơn hàng kế tiếp trong danh sách',
-				    callback: function() {
-				    if(!$scope.orders){
-						return false;
-					}
-					else if(!$scope.orders.active){
-						$scope.orders.active = $scope.orders[0];
-					}
-				      // alert($scope.orders.active.$index);
-				     var currentIdex = $scope.orders.map((item) => { return item.id;}).indexOf($scope.orders.active.id);
-				     if(currentIdex >= $scope.orders.length -1) { return false };
-				     // active next item
-					     $scope.orders.active = $scope.orders[currentIdex+1];
-						// get comments
-						// $scope.getComments($scope.orders.active);
-				    }
-				  });
-				hotkeys.add({
-				    combo: 'shift+left',
-				    description: 'Chuyển sang đơn hàng trước trong danh sách',
-				    callback: function() {
-				    if(!$scope.orders){
-						return;
-					}
-					else if(!$scope.orders.active){
-						$scope.orders.active = $scope.orders[0];
-					}				    	
-				      // alert($scope.orders.active.$index);
-				     var currentIdex = $scope.orders.map((item) => { return item.id;}).indexOf($scope.orders.active.id);
-				     if(currentIdex == 0) return;
-				     // active next item
-					     $scope.orders.active = $scope.orders[currentIdex-1];
-						// get comments
-						// $scope.getComments($scope.orders.active);
-				    }
-				  });
+				// hotkeys.add({
+				//     combo: 'shift+right',
+				//     description: 'Chuyển sang đơn hàng kế tiếp trong danh sách',
+				//     callback: function() {
+				//     if(!$scope.orders){
+				// 		return false;
+				// 	}
+				// 	else if(!$scope.orders.active){
+				// 		$scope.orders.active = $scope.orders[0];
+				// 	}
+				//       // alert($scope.orders.active.$index);
+				//      var currentIdex = $scope.orders.map((item) => { return item.id;}).indexOf($scope.orders.active.id);
+				//      if(currentIdex >= $scope.orders.length -1) { return false };
+				//      // active next item
+				// 	     $scope.orders.active = $scope.orders[currentIdex+1];
+				// 		// get comments
+				// 		// $scope.getComments($scope.orders.active);
+				//     }
+				//   });
+				// hotkeys.add({
+				//     combo: 'shift+left',
+				//     description: 'Chuyển sang đơn hàng trước trong danh sách',
+				//     callback: function() {
+				//     if(!$scope.orders){
+				// 		return;
+				// 	}
+				// 	else if(!$scope.orders.active){
+				// 		$scope.orders.active = $scope.orders[0];
+				// 	}				    	
+				//       // alert($scope.orders.active.$index);
+				//      var currentIdex = $scope.orders.map((item) => { return item.id;}).indexOf($scope.orders.active.id);
+				//      if(currentIdex == 0) return;
+				//      // active next item
+				// 	     $scope.orders.active = $scope.orders[currentIdex-1];
+				// 		// get comments
+				// 		// $scope.getComments($scope.orders.active);
+				//     }
+				//   });
 
 				hotkeys.add({
 				    combo: 'shift+m',
@@ -931,20 +919,9 @@
 		  };
 		});
 
-		myApp.factory('Orders', function($http) {
-			var Orders = function(){
-				this.items = [];
-				this.busy = false;
-				this.page = 1;
-				this.active = null;
-				this.commentList = [];	
-			};
-			return Orders;
-		});
-
 
 		// user controller
-		myApp.controller('MembersController', function($scope, $http, $filter,  $window){
+		meovn.controller('MembersController', function($scope, $http, $filter,  $window){
 			$scope.showPasswordEditBox = false;
 			$scope.showMeExpand = false;
 
@@ -959,7 +936,7 @@
 			}
 
 			$scope.submitPassword = function(user, $event) {
-				$scope.changePassword(user, $event).success(function(data){
+				$scope.changePassword(user, $event).then(function(data){
 					$scope.showPasswordEditBox = false;
 						$window.location.href = '/logout';
 					});		

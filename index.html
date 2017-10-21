@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="ltr" dir="ltr" ng-app="meovn">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,10 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
 
   <link rel="stylesheet" href="assets/css/styles-bundle.min.css">
-  <script src="assets/js/scripts-vendor.min.js"></script>
+
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="assets/js/scripts-angular.min.js"></script>
 
   <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
   <script>
@@ -31,12 +34,14 @@
   <!-- AngularFire -->
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 
-  <script src="assets/js/scripts-bundle.min.js"></script>
+<script src="assets/js/scripts-vendor.min.js"></script>
+  <!-- <script src="assets/js/scripts-bundle.min.js"></script> -->
+  <script src="src/app/app.js"></script>
 
 </head>
-<body>
+<body ng-controller="OrdersController">
 <div class="body-bg"></div>
-<main ng-if="$pageFinishedLoading" ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
+<main >
 
   <ba-sidebar></ba-sidebar>
   <page-top></page-top>
@@ -64,7 +69,7 @@
   <back-top></back-top>
 </main>
 
-<div id="preloader" ng-show="!$pageFinishedLoading">
+<div id="preloader">
   <div></div>
 </div>
 
