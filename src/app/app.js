@@ -116,35 +116,11 @@
 		        });
 		      };
 
+
+
 		      // store all buyers avatars
 		      $scope.buyersAvatar = [];
-		      $scope.graphAllBuyersAvatar = function(){
-		      	angular.forEach($scope.orders, function(value, key){
-		      		console.log(value.fbId);
-		      		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
-			          /**
-			           * Using $scope.$apply since this happens outside angular framework.
-			           */
-			          	 $scope.$apply(function(){
-			          	 	if(value.fbId){
-			          	 		$scope.buyersAvatar.push({
-					          	 	'fbId': value.fbId,
-					          	 	'avatar': response.data.url
-					          	 });
-			          	 	}
-			          	 	
-			          	 });
-			        });
-		      	});
-
-		        // console.log($scope.buyersAvatar);
-		     }
-		     $scope.getBuyerAvatar = function(order){
-		     	return $scope.buyersAvatar.filter(function(m){
-		     			// console.log(m);
-			          return m.fbid == order.fbid;
-			        })[0];
-		     }
+		     
 
 				// CREATE A FIREBASE REFERENCE
 			    // var fOrdersRef = new Firebase('https://meoorder.firebaseio.com');
@@ -158,7 +134,7 @@
 					}
 					else{
 						// window.location = '/';
-						console.log(firebaseUser);
+						// console.log(firebaseUser);
 					}
 				});
 
@@ -196,7 +172,7 @@
 			    // $scope.orders = $firebaseArray(fOrdersRef.child('orders'));
 			    $scope.orders.$loaded()
 				    .then(function(orders){
-				    	$scope.graphAllBuyersAvatar();
+				    	
 				    	// $scope.orders = orders;
 				    	$scope.isAsideLoading = false;
 				    	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
@@ -204,8 +180,36 @@
 						   // console.log(snapshot.name(), snapshot.val());
 						   $scope.showNotify(snapshot.val());
 						});
-						console.log($scope.buyersAvatar);
+						$scope.buyersAvatar = [];
+						angular.forEach(orders, function(value, key){
+				      		// console.log('value: ' + value.fbId);
+				      		// console.log(value.fbId);
+				      		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
+					          /**
+					           * Using $scope.$apply since this happens outside angular framework.
+					           */
+					          	 	if(value.fbId){
+					          	 		$scope.buyersAvatar.push({
+							          	 	'fbId': value.fbId,
+							          	 	'avatar': response.data.url
+							          	 });
+					          	 	}
+					          	 	
+
+					        });
+				      	});
 				    });
+
+
+			    
+
+			    
+				$scope.getBuyerAvatar = function(order){
+					var newTemp = $filter("filter")($scope.buyersAvatar, {fbId: order.fbId});
+					// console.log(newTemp);
+					return newTemp.avatar;
+			     }
+				// console.log($scope.buyersAvatar);
 
 				$scope.defaultToastrConfig = angular.copy(toastrConfig);
     			$scope.alertTypes = ['success', 'error', 'info', 'warning'];
@@ -249,7 +253,7 @@
 				$scope.currentUser = null;
 				var getCurrentUser = function(){
 					var result = [];
-					ref.child('members').orderByChild('id').equalTo(CURRENT_USER_ID).on('value', function(snap) {
+					ref.child('members').orderByChild('id').equalTo(CURRENT_USER_ID).once('value', function(snap) {
 						snap.forEach(function(item) {
 					        var itemVal = item.val();
 					        result.push(itemVal);
@@ -259,7 +263,7 @@
 				    $scope.currentUser = result;
 				}
 				getCurrentUser();
-				console.log($scope.currentUser);
+				// console.log($scope.currentUser);
 				// $scope.currentUser = $scope.getSeller(CURRENT_USER_ID);
 				// console.log($scope.getSeller(CURRENT_USER_ID));
 
@@ -278,13 +282,27 @@
 				// 	}
 				// });
 				// Order statuses for filter
-				// $scope.ordersStatusesForFilter = [];
-				// var url = 'v3/orderStatusesForFilter';
-				// $http.get(url).then(function(data){
-				// 	for (var i = 0; i < data.length; i++) {
-				// 		$scope.ordersStatusesForFilter.push(data[i]);
-				// 	}
-				// });
+				$scope.ordersStatusesForFilter = [];
+				$scope.ordersStatuses = [];
+				$scope.statuses.$loaded()
+			    .then(function(statuses){
+			    	$scope.ordersStatusesForFilter = [];
+					angular.forEach($scope.statuses, function(value, key){
+						if(value.active == 1 && value.allow_fillter == 1){
+							$scope.ordersStatusesForFilter.push(value);
+						}
+						if(value.active == 1){
+							$scope.ordersStatuses.push(value);
+						}
+			      	});
+			    });
+			    console.log($scope.ordersStatusesForFilter);
+
+				var getStatusList = function(){
+					// var result = $filter('filter')($scope.statuses, {allow_fillter: 1}, true);
+					// console.log($scope.statuses);
+				}
+				getStatusList();
 
 				$scope.isShowAll = false;
 				$scope.getOrders = function($event, attrs){
@@ -513,10 +531,10 @@
 
 				$scope.filterOrdersByStatus = function(status){
 					firebase.database().ref().child('orders').orderByChild("status_id").equalTo(status.id).once("value", function(data) {
-					   console.log('status id: ' + status.id);
+					   // console.log('status id: ' + status.id);
 					   data.forEach(function(item) {
 					        var itemVal = item.val();
-					        console.log(itemVal);
+					        // console.log(itemVal);
 					    });
 					});
 				}
@@ -594,7 +612,7 @@
 						'created_at' : Date.now(),
 						'type' : 1,
 						'status_id' : status.id,
-						'user'			: $scope.findUser(CURRENT_USER_ID),
+						'user'			: $scope.getSeller(CURRENT_USER_ID),
 					};
 					firebase.database().ref().child('comments').push($commentItem);
 					$scope.commentData = {};
@@ -737,7 +755,7 @@
 				    return result;
 				};
 				var getStatus = function(id){
-					console.log(id);
+					// console.log(id);
 					if(!id) return null;
 					var result = [];
 					ref.child('statuses').orderByChild('id').equalTo(id).on('value', function(snap) {

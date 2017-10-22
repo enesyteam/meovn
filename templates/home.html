@@ -38,7 +38,7 @@
                                     <div class="Me-sky"></div>
                                     <swx-avatar class="Me-avatar">
                                         <div role="button" class="Avatar Avatar--size40 Avatar--presence Avatar--more Avatar--defaultAvatar" tabindex="" >
-                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="" style="display: block;">
+                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="public/images/default-avatar-contact.svg" style="display: block;">
                                         </div>
                                     </swx-avatar>
                                     <div class="Me-info">
@@ -64,7 +64,7 @@
                                     <div class="Me-avatarContainer">
                                         <swx-avatar class="Me-avatar Me-avatar--large Avatar--fogTheme">
                                             <div role="button" class="Avatar Avatar--size260 Avatar--presence Avatar--more"  tabindex="">
-                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="{{$big_avatar}}" style="display: block;">
+                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
 
                                             </div>
                                         </swx-avatar>
@@ -214,7 +214,7 @@
                                                                     <swx-avatar class="avatar Avatar--whiteTheme">
                                                                         <div role="button" ng-class="{{getOrderStatusForOrder(order)}}" class="Avatar Avatar--presence 
                                                              Avatar--{{getOrderStatusForOrder(order)}} Avatar--defaultAvatar"  tabindex="">
-                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{getBuyerAvatar(order).avatar}}" style="display: block;">
+                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
                                                                         </div>
                                                                     </swx-avatar>
                                                                     <div class="text">
@@ -236,7 +236,7 @@
                                                                    <!-- ko if: model.displayMessage() -->
                                                                    <div class="message">
                                                                       <p tabindex="-1">
-                                                                        {{order.buyer_mobile + '/' + order.id}}
+                                                                        {{order.buyer_mobile + '/' + order.fbId}}
                                                                       </p>
                                                                    </div>
                                                                    <!-- /ko -->
