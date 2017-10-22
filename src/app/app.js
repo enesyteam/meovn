@@ -174,11 +174,11 @@
 				};
 
 				//sync
-				firebase.database().ref('orders').on('value', function(snapshot) {
-				   // all records after the last continue to invoke this function
-				   // console.log(snapshot.name(), snapshot.val());
-				   console.log(snapshot.val());
-				});
+				// firebase.database().ref('orders').on('value', function(snapshot) {
+				//    // all records after the last continue to invoke this function
+				//    // console.log(snapshot.name(), snapshot.val());
+				//    console.log(snapshot.val());
+				// });
 
 			    // GET TODOS AS AN ARRAY
 			    // $scope.orders = $firebaseArray(fOrdersRef.child('orders'));
@@ -222,12 +222,15 @@
 				$scope.signOut = function(){
 					firebase.auth().signOut();
 				}
+				var logedUser = null;
 				firebase.auth().onAuthStateChanged(function(firebaseUser){
 					if(!firebaseUser){
-						console.log('You are not loged in!');
-						window.location = '#/auth.html';
+						// console.log('You are not loged in!');
+						window.location = '/#/auth';
 					}
 					else{
+						logedUser = firebaseUser;
+						// window.location = '/';
 						console.log(firebaseUser);
 					}
 				});
@@ -243,10 +246,20 @@
 				}
 
 				$scope.currentUser = null;
-				function getCurrentUser(){
-				 $scope.currentUser = $scope.sellers[0];
+				var getCurrentUser = function(){
+					var result = [];
+					ref.child('members').orderByChild('id').equalTo(CURRENT_USER_ID).on('value', function(snap) {
+						snap.forEach(function(item) {
+					        var itemVal = item.val();
+					        result.push(itemVal);
+					    });
+				    });
+				    // console.log(result);
+				    $scope.currentUser = result[0];
 				}
 				getCurrentUser();
+				// $scope.currentUser = $scope.getSeller(CURRENT_USER_ID);
+				// console.log($scope.getSeller(CURRENT_USER_ID));
 
 				// firebase.database().ref().child('orders').on("child_added", function(snapshot, prevChildKey) {
 				//   var newPost = snapshot.val();
@@ -348,7 +361,7 @@
 				$scope.addToFavourite = function(event, $order){
 					event.stopPropagation();
 					if($order.seller_will_call_id){
-							$scope.showAlert('', 'Oops! This Order has belonged to ' + $scope.findUser($order.seller_will_call_id).last_name, 'error');
+							$scope.showAlert('', 'Oops! This Order has belonged to ' + $scope.getSeller($order.seller_will_call_id).last_name, 'error');
 						}
 						else{
 							$order.seller_will_call_id = CURRENT_USER_ID;
@@ -524,20 +537,11 @@
 						'created_at' : Date.now(),
 						'type' : 0,
 						'status_id' : 0,
-						'user'			: $scope.findUser(CURRENT_USER_ID),
+						'user'			: $scope.getSeller(CURRENT_USER_ID),
 					};
 					firebase.database().ref().child('comments').push($commentItem);
 					$scope.commentData = {};
 				}
-				// save comment to database
-				$scope.saveComment = function(commentData, id){
-					return $http({
-						method: 'POST',
-						url: '/v3/comments/post/' + id,
-						headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-						data: $.param(commentData)
-					});
-				};
 
 				// remove item from Comment List
 				$scope.removeComment = function(item) { 
@@ -713,7 +717,7 @@
 					s = getSource(order.order_source_id);
 					p = getPack(order.product_pack_id);
 					st = getStatus(order.status_id);
-					sl = getSeller(order.seller_will_call_id);
+					sl = $scope.getSeller(order.seller_will_call_id);
 					return 'Page:' + '\t\t\t' + s[0].source_name 
 							+ '\nGói sp:'  + '\t\t\t' + p[0].short_title + '/' + p[0].price + 'K'
 							+ '\nTrạng thái:' + '\t\t' + st[0].name  
@@ -753,8 +757,9 @@
 				    });
 				    return result;
 				};
-
-				var getSeller = function(id){
+				
+				$scope.getSeller = function(id){
+					
 					if(!id) return null;
 					var result = [];
 					ref.child('members').orderByChild('id').equalTo(id).on('value', function(snap) {
@@ -763,8 +768,11 @@
 					        result.push(itemVal);
 					    });
 				    });
-				    return result;
+				    // console.log(result);
+				    return result[0];
 				};
+				// $scope.getSeller(73);
+
 				$scope.clibboardCoppyLink = function(e){
 					var textToCopy = getClipboardData($scope.orders.active);
 					$copyToClipboard.copy(textToCopy).then(function () {
