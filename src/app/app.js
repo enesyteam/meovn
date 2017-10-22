@@ -150,6 +150,18 @@
 			    // var fOrdersRef = new Firebase('https://meoorder.firebaseio.com');
 			    // var fCommentsRef = new Firebase('https://meoorder.firebaseio.com');
 
+			    firebase.auth().onAuthStateChanged(function(firebaseUser){
+					if(!firebaseUser){
+						// console.log('You are not loged in!');
+						window.location = '/#/auth';
+						return;
+					}
+					else{
+						// window.location = '/';
+						console.log(firebaseUser);
+					}
+				});
+
 			    var ref = firebase.database().ref();
 			    $scope.orders = $firebaseArray(ref.child('orders'));
 			    $scope.comments = $firebaseArray(ref.child('comments'));
@@ -222,18 +234,7 @@
 				$scope.signOut = function(){
 					firebase.auth().signOut();
 				}
-				var logedUser = null;
-				firebase.auth().onAuthStateChanged(function(firebaseUser){
-					if(!firebaseUser){
-						// console.log('You are not loged in!');
-						window.location = '/#/auth';
-					}
-					else{
-						logedUser = firebaseUser;
-						// window.location = '/';
-						console.log(firebaseUser);
-					}
-				});
+				
 
 				
 
@@ -255,9 +256,10 @@
 					    });
 				    });
 				    // console.log(result);
-				    $scope.currentUser = result[0];
+				    $scope.currentUser = result;
 				}
 				getCurrentUser();
+				console.log($scope.currentUser);
 				// $scope.currentUser = $scope.getSeller(CURRENT_USER_ID);
 				// console.log($scope.getSeller(CURRENT_USER_ID));
 
