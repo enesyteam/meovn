@@ -13,6 +13,7 @@ var serve = require('gulp-serve');
 
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
+var ngAnnotate = require('gulp-ng-annotate');
 
 const versionConfig = {
   'value': '%MDS%',
@@ -78,6 +79,7 @@ gulp.task('appScripts', function() {
         .pipe(concat('scripts-bundle.js'))
         .pipe(gulp.dest(jsDest))
         .pipe(rename('scripts-bundle.min.js'))
+        .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(gulp.dest('./assets/js/'));
 });

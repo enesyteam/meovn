@@ -1,23 +1,26 @@
 (function () {
   'use strict';
 
-	var meovn = angular.module('meovn', ['cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
-		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio']);
-	meovn.config([
-	    'FacebookProvider',
-	    function(FacebookProvider) {
-	     var myAppId = '1085772744867580';
-	     
-	     // You can set appId with setApp method
-	     // FacebookProvider.setAppId('myAppId');
-	     
-	     /**
-	      * After setting appId you need to initialize the module.
-	      * You can pass the appId on the init method as a shortcut too.
-	      */
-	     FacebookProvider.init(myAppId);
-	    }
-	  ]);
+	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
+		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio'])
+	.config(function($stateProvider, $urlRouterProvider, FacebookProvider){
+        $urlRouterProvider.otherwise("/");
+        $stateProvider
+          .state('home',{
+            url: '/',
+            controller : 'OrdersController',
+            templateUrl: "/templates/home.html"
+          })
+          .state('auth',{
+            url: '/auth',
+            controller : 'AuthController',
+            templateUrl: "/templates/auth.html"
+          });
+
+        var myAppId = '1085772744867580';
+            FacebookProvider.init(myAppId);
+    });
+
 
 		// old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
 		meovn.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
@@ -215,6 +218,19 @@
 				$scope.isPostExpanded = false;
 
 				$scope.child = {};
+
+				$scope.signOut = function(){
+					firebase.auth().signOut();
+				}
+				firebase.auth().onAuthStateChanged(function(firebaseUser){
+					if(!firebaseUser){
+						console.log('You are not loged in!');
+						window.location = '#/auth.html';
+					}
+					else{
+						console.log(firebaseUser);
+					}
+				});
 
 				
 
@@ -874,6 +890,32 @@
 
 				$event.preventDefault();
 			}
+		});
+
+		meovn.controller('AuthController', function($scope, $http, hotkeys, $filter, 
+			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
+			$scope.email = '';
+			$scope.password = '';
+			var btnSignin = document.getElementById('btnSignin');
+			var auth = firebase.auth();
+
+			$scope.signIn = function(e){
+				e.preventDefault();
+				console.log($scope.email + $scope.password);
+				var promise = auth.signInWithEmailAndPassword($scope.email, $scope.password);
+				promise.catch(console.log(e.message));
+			}
+
+			firebase.auth().onAuthStateChanged(function(firebaseUser){
+				if(firebaseUser){
+					console.log(firebaseUser);
+					window.location = '/';
+				}
+				else{
+					console.log('You are not loged in!');
+				}
+			});
+
 		});
 
 		
