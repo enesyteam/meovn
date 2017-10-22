@@ -453,9 +453,9 @@
 					// console.log($scope.graphUserAvatar(order.fbId));
 					// only for test
 					$scope.fbContent = [];
-					$scope.fbContent.message = 'Fetching Post content from Facebook...';
+					$scope.fbContent.message = '';
 					$scope.fbPhotos = [];
-					$scope.currentPageName = 'Fetching Page name from Facebook...';
+					$scope.currentPageName = '';
 					$scope.currentPageAvatar = '';
 
 					$scope.orders.active = order;
