@@ -1,92 +1,7 @@
-
-	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
-		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio'])
-	.config(function($stateProvider, $urlRouterProvider, FacebookProvider){
-        $urlRouterProvider.otherwise("/");
-        $stateProvider
-          .state('home',{
-            url: '/',
-            controller : 'OrdersController',
-            templateUrl: "/templates/home.html"
-          })
-          .state('auth',{
-            url: '/auth',
-            controller : 'AuthController',
-            templateUrl: "/templates/auth.html"
-          });
-
-        var myAppId = '1085772744867580';
-            FacebookProvider.init(myAppId);
-    });
-
-
-meovn.controller('AuthController', function($scope, $http, hotkeys, $filter, 
-			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
-			$scope.email = '';
-			$scope.password = '';
-			var btnSignin = document.getElementById('btnSignin');
-			var auth = firebase.auth();
-
-			$scope.signIn = function(e){
-				e.preventDefault();
-				console.log($scope.email + $scope.password);
-				var promise = auth.signInWithEmailAndPassword($scope.email, $scope.password);
-				promise.catch(console.log(e.message));
-			}
-
-			firebase.auth().onAuthStateChanged(function(firebaseUser){
-				if(firebaseUser){
-					console.log(firebaseUser);
-					window.location = '/';
-				}
-				else{
-					console.log('You are not loged in!');
-				}
-			});
-
-		});
-// user controller
-		meovn.controller('MembersController', function($scope, $http, $filter,  $window){
-			$scope.showPasswordEditBox = false;
-			$scope.showMeExpand = false;
-
-			var parentScope = $scope.$parent;
-			parentScope.child = $scope;
-
-			$scope.toggleShowPasswordEditBox = function(){
-				$scope.showPasswordEditBox = !$scope.showPasswordEditBox;
-			}
-			$scope.toggleShowMeExpand = function(){
-				$scope.showMeExpand = !$scope.showMeExpand;
-			}
-
-			$scope.submitPassword = function(user, $event) {
-				$scope.changePassword(user, $event).then(function(data){
-					$scope.showPasswordEditBox = false;
-						$window.location.href = '/logout';
-					});		
-			};
-
-			$scope.changePassword = function(user, $event){
-				if(!user) return;
-				var newPassword = $('input.newPassword').val();
-				if(newPassword.length < 8){
-					alert("Nhập mật khẩu tổi thiểu 8 ký tự!");
-					return;
-				}
-				var url = 'v3/changePassword/' + user.id;
-				return $http.post(url,{
-					method: 'POST',
-					headers: { 'Content-Type' : 'application/json', 'Accept' : 'application/json' },
-					data: newPassword
-				});
-
-				$event.preventDefault();
-			}
-		});
 // old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
-		meovn.controller('OrdersController', function($scope, $http, hotkeys, $filter, 
-			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
+		meovn.controller('OrdersController',
+			 function($scope, $http, hotkeys, $filter, $state, $stateParams,
+			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio, firebaseService){
 
 			var CURRENT_USER_ID = 73;
 
@@ -97,7 +12,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 			 $scope.popupSound = ngAudio.load('assets/sounds/new-order.mp3');
 			
 			var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
-			$scope.graphPage = function(pageId) {
+			function graphPage(pageId) {
 				$scope.isPageBusy = true;
 		        Facebook.api('/' +pageId + '?access_token=' + access_token, function(response) {
 		          /**
@@ -124,7 +39,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 		      };
 		      $scope.userAvatar = null;
 		      $scope.userLink = null;
-		     $scope.graphUser = function(userId){
+		     function graphUser(userId){
 		     	// profile Picture
 		        Facebook.api('/' + userId +'/picture?height=100&width=100', function(response) {
 		          /**
@@ -146,7 +61,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 		     }
 
 		     
-			$scope.graphPost = function(pageId, postId) {
+			function graphPost(pageId, postId) {
 				$scope.isPageBusy = true;
 		        Facebook.api('/' +pageId + '_' + postId + '?access_token=' + access_token, function(response) {
 		          
@@ -201,28 +116,56 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				});
 
 			    var ref = firebase.database().ref();
-			    $scope.orders = $firebaseArray(ref.child('orders'));
-			    $scope.comments = $firebaseArray(ref.child('comments'));
-			    $scope.sources = $firebaseArray(ref.child('sources'));
-			    $scope.statuses = $firebaseArray(ref.child('statuses'));
-			    $scope.sellers = $firebaseArray(ref.child('members'));
-			    $scope.packs = $firebaseArray(ref.child('packs'));
+			    // $scope.orders = $firebaseArray(ref.child('orders'));
+			    // $scope.comments = $firebaseArray(ref.child('comments'));
+			    // $scope.sources = $firebaseArray(ref.child('sources'));
+			    // $scope.statuses = $firebaseArray(ref.child('statuses'));
+			    // $scope.sellers = $firebaseArray(ref.child('members'));
+			    // $scope.packs = $firebaseArray(ref.child('packs'));
 
 			    // GET TODOS AS AN ARRAY
 			    // $scope.orders = $firebaseArray(fOrdersRef.child('orders'));
 			    // test
 			    // sync down from server
-				 function snapshotToArray(snapshot) {
-				    var returnArr = [];
-				    snapshot.forEach(function(childSnapshot) {
-				        var item = childSnapshot.val();
-				        item.key = childSnapshot.key;
-				        returnArr.push(item);
-				    });
 
-				    return returnArr;
-				};
+				$scope.orders = [];
+			 	$scope.comments = $firebaseArray(ref.child('comments'));
+			    $scope.sources = [];
+			    $scope.statuses = $firebaseArray(ref.child('statuses'));
+			    $scope.sellers = $firebaseArray(ref.child('members'));
+			    $scope.packs = [];
 
+			    
+
+
+
+				firebaseService.getAllOrders().then(function(orders){
+					$scope.orders = orders;
+					$scope.isAsideLoading = false;
+
+					firebaseService.getAllSources().then(function(sources){
+						$scope.sources = sources;
+						firebaseService.getAllPacks().then(function(packs){
+							$scope.packs = packs;
+							if($state.current.name == 'home.details'){
+								// console.log(firebaseService.getOrder($stateParams.id));
+								activeOrder(firebaseService.getOrder($stateParams.id));
+								$scope.isPageBusy = false;
+							}
+						});
+					});
+				});
+
+				// console.log($scope.orders);
+				// console.log($scope.oorders);
+				
+
+				$scope.selectedOrder = null;
+
+				function getOrderByID(id){
+					console.log($scope.orders);
+					return $filter("filter")($scope.orders, {id: id});
+			     }
 				//sync
 				// firebase.database().ref('orders').on('value', function(snapshot) {
 				//    // all records after the last continue to invoke this function
@@ -232,38 +175,36 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 
 			    // GET TODOS AS AN ARRAY
 			    // $scope.orders = $firebaseArray(fOrdersRef.child('orders'));
-			    $scope.orders.$loaded()
-				    .then(function(orders){
+
+			   //  $scope.orders.$loaded()
+				  //   .then(function(orders){
 				    	
-				    	// $scope.orders = orders;
-				    	$scope.isAsideLoading = false;
-				    	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
-						   // all records after the last continue to invoke this function
-						   // console.log(snapshot.name(), snapshot.val());
-						   $scope.showNotify(snapshot.val());
-						});
-						$scope.buyersAvatar = [];
-						angular.forEach(orders, function(value, key){
-				      		// console.log('value: ' + value.fbId);
-				      		// console.log(value.fbId);
-				      		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
-					          /**
-					           * Using $scope.$apply since this happens outside angular framework.
-					           */
-					          	 	if(value.fbId){
-					          	 		$scope.buyersAvatar.push({
-							          	 	'fbId': value.fbId,
-							          	 	'avatar': response.data.url
-							          	 });
-					          	 	}
+				  //   	// $scope.orders = orders;
+				  //   	$scope.isAsideLoading = false;
+				  //   	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
+						//    // all records after the last continue to invoke this function
+						//    // console.log(snapshot.name(), snapshot.val());
+						//    $scope.showNotify(snapshot.val());
+						// });
+						// $scope.buyersAvatar = [];
+						// angular.forEach(orders, function(value, key){
+				  //     		// console.log('value: ' + value.fbId);
+				  //     		// console.log(value.fbId);
+				  //     		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
+					 //          /**
+					 //           * Using $scope.$apply since this happens outside angular framework.
+					 //           */
+					 //          	 	if(value.fbId){
+					 //          	 		$scope.buyersAvatar.push({
+						// 	          	 	'fbId': value.fbId,
+						// 	          	 	'avatar': response.data.url
+						// 	          	 });
+					 //          	 	}
 					          	 	
 
-					        });
-				      	});
-				    });
-
-
-			    
+					 //        });
+				  //     	});
+				  //   });
 
 			    
 				$scope.getBuyerAvatar = function(order){
@@ -279,7 +220,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				$scope.showSearchbox = true;
 				$scope.isSeaching = false;
 				$scope.searchText = '';
-				$scope.isPageBusy = false;
+				$scope.isPageBusy = true;
 				$scope.isAsideLoading = true;
 				$scope.isPostingComment = false;
 				$scope.activeStatus = null;
@@ -300,8 +241,6 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				$scope.signOut = function(){
 					firebase.auth().signOut();
 				}
-				
-
 				
 
 				$scope.newDate =function(dateString){
@@ -325,25 +264,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				    $scope.currentUser = result;
 				}
 				getCurrentUser();
-				// console.log($scope.currentUser);
-				// $scope.currentUser = $scope.getSeller(CURRENT_USER_ID);
-				// console.log($scope.getSeller(CURRENT_USER_ID));
 
-				// firebase.database().ref().child('orders').on("child_added", function(snapshot, prevChildKey) {
-				//   var newPost = snapshot.val();
-				//   console.log("Add" + snapshot.val() + '||' + prevChildKey);
-				//   $scope.showNotify(snapshot.val());
-				// });
-
-				// Order statuses list
-				// $scope.ordersStatuses = [];
-				// var url = 'v3/orderStatuses';
-				// $http.get(url).then(function(data){
-				// 	for (var i = 0; i < data.length; i++) {
-				// 		$scope.ordersStatuses.push(data[i]);
-				// 	}
-				// });
-				// Order statuses for filter
 				$scope.ordersStatusesForFilter = [];
 				$scope.ordersStatuses = [];
 				$scope.statuses.$loaded()
@@ -447,15 +368,16 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 						}
 						else{
 							$order.seller_will_call_id = CURRENT_USER_ID;
-				          	$scope.orders.$save($order);
+							firebaseService.updateOrder($order).then(function(response){
+								// console.log(response);
+							},function(err){
+								$scope.showAlert('', 'Oops! ' + err, 'error');
+							});
+				          	// $scope.orders.$save($order);
 				          	$scope.getOrderSound.play();
 						}
 				}
-
-				
-
-				// $scope.currentUser = null;
-
+				// ?????? need to rewrite
 				$scope.userCanReleaseOrChangeStatus = function(order){
 					return true;// ($scope.currentUser.is_admin == 1) || ($scope.currentUser.id == order.seller_will_call_id);
 				}
@@ -465,7 +387,11 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 						return false;
 					}
 					order.seller_will_call_id = null;
-		          	$scope.orders.$save(order);
+		          	// $scope.orders.$save(order);
+		          	firebaseService.updateOrder(order).then(function(response){
+						},function(err){
+							$scope.showAlert('', 'Oops! ' + err, 'error');
+						});
 		          	$scope.releaseOrderSound.play();
 				}
 				$scope.resetSearch = function(){
@@ -489,7 +415,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 					
 				}
 
-				$scope.getPageIdFromOrder = function(order){
+				function getPageIdFromOrder(order){
 					var found = $filter('filter')($scope.sources, {id: order.order_source_id}, true);
 			         if (found.length) {
 			             return found[0].page_id;
@@ -497,7 +423,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 			             return null;
 			         }
 				}
-				$scope.getPostIdFromOrder = function(order){
+				function getPostIdFromOrder(order){
 					var found = $filter('filter')($scope.packs, {id: order.product_pack_id}, true);
 			         if (found.length) {
 			             return found[0].post_id;
@@ -507,11 +433,11 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				}
 
 				// Select Order from List
-				$scope.active = function(order, $event){
+				function activeOrder(order){
 					$scope.isPageBusy = true;
 					$scope.clickSound.play();
 					$scope.isPostExpanded = false;
-					$scope.graphUser(order.fbId);
+					graphUser(order.fbId);
 					// console.log($scope.graphUserAvatar(order.fbId));
 					// only for test
 					$scope.fbContent = [];
@@ -520,46 +446,14 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 					$scope.currentPageName = '';
 					$scope.currentPageAvatar = '';
 
-					$scope.orders.active = order;
-					$scope.graphPage($scope.getPageIdFromOrder(order));
-					$scope.graphPost($scope.getPageIdFromOrder(order), $scope.getPostIdFromOrder(order));
+					$scope.selectedOrder = order;
+					graphPage(getPageIdFromOrder(order));
+					graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
+				}
+				$scope.active = function(order){
+					activeOrder(order);
 					// $scope.fbContent = $scope.graphPost('262405144260528', '292495281251514');
 				}
-
-				// get all comment for an Order
-				// $scope.getComments = function(order){
-				// 	var commentUrl = '/v3/getComments/' + order.id;
-				// 	$scope.isPageBusy = true;
-				// 	$http.get(commentUrl).then(function(data){
-				// 		// $scope.commentList = $firebaseArray(fCommentsRef);
-				// 		if(data.length > 0){
-							
-				// 		   for (var i = 0; i < data.length; i++) {
-   	// 							var user = $scope.findUser(data[i].user_id);
-
-				// 		   		var	$commentItem = {
-				// 					'id' : data[i].id,
-				// 					'content' : data[i].content,
-				// 					'created_at' : data[i].created_at,
-				// 					'type' : data[i].type,
-				// 					'status_id' : data[i].status_id,
-				// 					'user'			: user
-				// 				};
-				// 				// $scope.commentList.$add($commentItem);
-				// 		   }
-				// 		}
-				// 		$scope.isPageBusy = false;
-				// 	});
-				// }
-
-				// get all active users
-				// $scope.users = [];
-				// var url = 'v3/getUsers';
-				// $http.get(url).then(function(data){
-				// 	for (var i = 0; i < data.length; i++) {
-				// 		$scope.users.push(data[i]);
-				// 	}
-				// });
 
 				// find an user with id
 				$scope.findUser = function(id) {
@@ -663,8 +557,13 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 					// $scope.isPageBusy = true;
 					var val = angular.element($event.target).attr("data-status-id");
 					order.status_id = val;
-					$scope.orders.$save(order);	
-					$scope.orders.active = order;
+					// $scope.orders.$save(order);	
+					firebaseService.updateOrder(order).then(function(response){
+								// console.log(response);
+							},function(err){
+								$scope.showAlert('', 'Oops! ' + err, 'error');
+							});
+					// $scope.orders.active = order;
 
 					var newCommentKey = firebase.database().ref().child('comments').push().key;
 					var	$commentItem = {
@@ -682,14 +581,14 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 
 				// Quick update status for active order
 				$scope.quickUpdateStatus = function(statusId){
-					if(!$scope.orders.active){
+					if(!$scope.selectedOrder){
 						$scope.showAlert('', 'Oops! Please select an Order befor perform this action.', 'error');
 						return false;
 					}
-					$scope.changeStatus($scope.orders.active, statusId).then(function(data){
+					$scope.changeStatus($scope.selectedOrder, statusId).then(function(data){
 						// update item in $scope.orders.items collection
 						for (var i = $scope.orders.length - 1; i >= 0; i--) {
-							if($scope.orders[i].id == $scope.orders.active.id){
+							if($scope.orders[i].id == $scope.selectedOrder.id){
 								$scope.orders[i].status_id = statusId;
 							}
 						}
@@ -856,7 +755,7 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				// $scope.getSeller(73);
 
 				$scope.clibboardCoppyLink = function(e){
-					var textToCopy = getClipboardData($scope.orders.active);
+					var textToCopy = getClipboardData($scope.selectedOrder);
 					$copyToClipboard.copy(textToCopy).then(function () {
 		                $scope.showAlert('', 'Order has been copied. Press Ctrl+V to paste.', 'info');
 		            });
@@ -896,48 +795,4 @@ meovn.controller('AuthController', function($scope, $http, hotkeys, $filter,
 				// init();
 
 
-		});
-meovn.directive('myEnter', function () {
-		    return function (scope, element, attrs) {
-		    	scope.isPageBusy = true;
-		        element.bind("keydown keypress", function (event) {
-		            if(event.which === 13) {
-		                scope.$apply(function (){
-		                    scope.$eval(attrs.myEnter);
-		                    scope.submitComment(scope.orders.active);
-		                    scope.isPageBusy = false;
-		                });
-		                event.preventDefault();
-		            }
-		        });
-		    };
-		}).filter('my_filter', function () {
-		  return function (items, scope) {
-		    return items.filter(function (item) {
-		    	// console.log('filtering...');
-		    	// search
-		    	if(scope.searchText.length > 0){
-		    		return item.buyer_mobile.indexOf(scope.searchText) !== -1 || item.buyer_name.toUpperCase().indexOf(scope.searchText.toUpperCase()) !== -1;
-		    	}
-		    	// we need to filter orders by created_date
-		    	// since we only want to show orders that created_at today or yesterday
-		    	var today = Date.now();
-		    	var yesterday = Date.now()-1;
-
-		    	if(scope.showMyOrders && scope.activeStatus){
-		    		return (item.seller_will_call_id == scope.currentUser.id) 
-		    				&& (item.status_id == scope.activeStatus.id);
-
-		    	}
-		    	else if(scope.activeStatus){
-		    		return item.status_id == scope.activeStatus.id;
-		    	}
-		    	else if(scope.showMyOrders){
-		    		return item.seller_will_call_id == scope.currentUser.id;
-		    	}
-		    	else{
-		    		return item.created_at <= Date.now();
-		    	}
-		    });
-		  };
 		});

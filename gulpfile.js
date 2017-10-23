@@ -34,6 +34,11 @@ gulp.task('styles', function() {
 
 var jsAppFiles = [
 	'src/app/app.js',
+  'src/app/controller/AuthController.js',
+  'src/app/controller/MembersController.js',
+  'src/app/controller/OrdersController.js',
+  'src/app/directive/myEnter.directive.js',
+  'src/app/directive/orderFilter.directive.js',
 ];
 
 

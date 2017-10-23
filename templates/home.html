@@ -205,12 +205,12 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%">
+                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.$id, seller: order.seller_will_call_id || 'not-asigned'})" ui-sref-active="order">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->
                                                             <swx-recent-item role="group" class="list-selectable">
-                                                                <a ng-class="{active: order == orders.active}" class="recent Avatar-whiteThemeHover message read" ng-click="active(order, $event)" role="menuitem">
+                                                                <a ng-class="{active: order == selectedOrder}" class="recent Avatar-whiteThemeHover message read" ng-click="active(order)" role="menuitem">
                                                                     <swx-avatar class="avatar Avatar--whiteTheme">
                                                                         <div role="button" ng-class="{{getOrderStatusForOrder(order)}}" class="Avatar Avatar--presence 
                                                              Avatar--{{getOrderStatusForOrder(order)}} Avatar--defaultAvatar"  tabindex="">
@@ -291,14 +291,14 @@
                         </div>
                     </div>
                 </aside>
-                <div class="no-order-select" ng-hide="orders.active">
+                <div class="no-order-select" ng-hide="selectedOrder">
                     <div class="no-order-message">
                         <span>
                             No Order selected.
                         </span>
                     </div>
                 </div>
-                <div class="chatContainer" ng-show="orders.active">
+                <div class="chatContainer" ng-show="selectedOrder">
                     <div class="chatComponentContainer swx" id="chatComponent" dir="ltr">
                         <div id="swxContent1" class="swxContent">
                             <swx-navigation>
@@ -309,7 +309,7 @@
                                                 <div class="roster">
                                                     <div class="grid group">
                                                         <swx-avatar role="button" class="avatar Avatar--fogTheme">
-                                                            <div role="button" class="Avatar Avatar--presence Avatar--{{getOrderStatusForOrder(orders.active)}} Avatar--defaultAvatar Avatar--absolute" tabindex="">
+                                                            <div role="button" class="Avatar Avatar--presence Avatar--{{getOrderStatusForOrder(selectedOrder)}} Avatar--defaultAvatar Avatar--absolute" tabindex="">
                                                                 <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{userAvatar}}" style="display: block;">
                                                             </div>
                                                         </swx-avatar>
@@ -328,7 +328,7 @@
                                                                         </span>
                                                                         <span class="hoverWrap">
                                                                             
-                                                                               <span aria-label="Customer Name." tabindex="0" class="detail-customer-name"><a href="//facebook.com/{{orders.active.fbId}}" target="_blank"> {{orders.active.buyer_name}} </a></span> 
+                                                                               <span aria-label="Customer Name." tabindex="0" class="detail-customer-name"><a href="//facebook.com/{{selectedOrder.fbId}}" target="_blank"> {{selectedOrder.buyer_name}} </a></span> 
                                                                             
                                                                         </span>
                                                                         <button class="iconfont edit hide" type="button" aria-label="Rename conversation" title="Rename conversation">
@@ -339,7 +339,7 @@
                                                                 <span class="tileMessage presence circle">
                                                                     <div class="message fixSmall">
                                                                         <div class="displayMessage">
-                                                                            <span class="iconfont groupParticipantsLabel fontSize-p" title="11 participants">{{orders.active.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                                            <span class="iconfont groupParticipantsLabel fontSize-p" title="11 participants">{{selectedOrder.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
                                                                             </span>
                                                                             <span class="fontSize-p divider">|</span>
                                                                             <swx-conversation-share-link class="conversation-share-link conversation-share-link-header">
@@ -369,14 +369,14 @@
                                                             </span>
                                                         </span>
                                                         <span href="#" role="menuitem" class="headerCustomerMobile" style="" tabindex="-1">
-                                                         <h2>{{orders.active.buyer_mobile}}</h2>
+                                                         <h2>{{selectedOrder.buyer_mobile}}</h2>
                                                         </span>
 
                                                         <!-- ko if: headerControlsEnabled() -->
                                                         <div class="headerControls newConversationV2">
                                                             <div class="buttonRow">
                                                                 <swx-button ng-repeat="status in ordersStatuses">
-                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: orders.active.status_id == status.id}" title="{{status.name + ' [Shift+' + status.id + ']'}}" aria-label="{{status.name}}" ng-click='updateStatus(orders.active, $event, status)' data-status-id="{{status.id}}">
+                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" title="{{status.name + ' [Shift+' + status.id + ']'}}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' data-status-id="{{status.id}}">
                                                                             <span class="iconfont {{status.icon_class}}">{{status.name + ' [Shift+' + status.id + ']'}}</span>
                                                                             <!-- ko if: showMenuOptions -->
                                                                             <!-- /ko -->
@@ -409,7 +409,8 @@
                                                         <!-- ko if: showIntroText -->
                                                         <!-- /ko -->
                                                         <div class="messageHistory largeAllowed visible" role="list" data-swx-testid="messageHistory" tabindex="0">
-                                                            <div ng-include="'templates/order-details.html'"></div>
+                                                            <!-- <div ng-include="'templates/order-details.html'"></div> -->
+                                                                <ui-view></ui-view>
                                                             <div class="comments-log">
                                                                 <swx-message   ng-show="comments" role="listitem" class="message showName their last read participant" tabindex="-1" aria-relevant="all" data-id="1505910544476">
                                                                     <div class="bubble">
@@ -424,7 +425,7 @@
                                                                 <!-- {{-- Begin comment --}} -->
                                                                
                                                                     
-                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{comment.user.is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments | filter:{order_id: orders.active.id}">
+                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{comment.user.is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments | filter:{order_id: selectedOrder.id}">
                                                                     <div class="callAction" ng-show="comment.type==1">
                                                                         <div class="iconfont {{getStatusById(comment.status_id).icon_class}}"></div>
                                                                     </div>
@@ -590,7 +591,7 @@
                                                                     <div id="chatInputContainer" class="container" style="height: 39px;">
                                                                         <!-- ko if: quotedMessageXML().length > 0 -->
                                                                         <!-- /ko -->
-                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(orders.active)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
+                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
                                                                         </textarea>
                                                                         <!-- {{--
                                                                         <button type="submit" class="btn primary small circle">Send</button> --}} -->
@@ -654,7 +655,7 @@
                                                             <!-- /ko -->
                                                             <div class="send-button-holder">
                                                                 <swx-button>
-                                                                    <button ng-click="submitComment(orders.active)" class="btn swx-chat-input-send-btn circle send-button large" title="Send" aria-label="Send" type="submit">
+                                                                    <button ng-click="submitComment(selectedOrder)" class="btn swx-chat-input-send-btn circle send-button large" title="Send" aria-label="Send" type="submit">
                                                                         <span class="iconfont send"></span>
                                                                         <!-- ko if: showMenuOptions -->
                                                                         <!-- /ko -->
