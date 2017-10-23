@@ -20,18 +20,8 @@
                                         <span class="iconfont chevronDown"></span>
                                     </button>
                                 </div>
-                                <swx-me-presence-popup class="Me-presencePopup">
-                                    <div class="PresencePopup popup popup-select arrow up" style="display: none;">
-                                        <ul role="menu" class="PresencePopup-statusContainer" tabindex="0">
-                                            <li role="menuitem" class="PresencePopup-status popup-select-option PresencePopup-status--online" tabindex="-1">Online</li>
-                                            <li role="menuitem" class="PresencePopup-status popup-select-option PresencePopup-status--idle" tabindex="-1">Away</li>
-                                            <li role="menuitem" class="PresencePopup-status popup-select-option PresencePopup-status--dnd" tabindex="-1">Do not disturb</li>
-                                            <li role="menuitem" class="PresencePopup-status popup-select-option PresencePopup-status--hidden popup-select-option--selected" tabindex="-1">Invisible</li>
-                                        </ul>
-                                    </div>
-                                </swx-me-presence-popup>
                                 <div id="expandMeProfileLabel" class="offScreen">
-                                    <span>{{currentUser.first_name + ' ' + currentUser.last_name}}</span>
+                                    <span>User Name<!-- {{currentUser.first_name + ' ' + currentUser.last_name}} --></span>
                                     <span>Expand profile</span>
                                 </div>
                                 <div class="Me-skyContainer">
@@ -43,7 +33,7 @@
                                     </swx-avatar>
                                     <div class="Me-info">
                                         <span class="Me-displayNameContainer">
-                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()">{{currentUser.first_name + ' ' + currentUser.last_name}}</p>
+                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->User Name</p>
                                          <!-- ko if:displayBalance() --><!-- /ko -->
                                       </span>
                                         <p class="Me-moodMessage" role="button" tabindex="0">Telesale</p>
@@ -181,7 +171,7 @@
                                                 <div class="iconfont search"></div>
                                             </div>
                                             <input role="search" type="text" maxlength="250" searchbox-Enter="search($event)" value="" name="query" class="inputField fontSize-h4" placeholder="Enter mobile or name..." aria-label="Search orders. Type name or mobile number." style="" id="order-search-box" ng-model="searchText">
-                                            <button type="button" class="btn primary circle small transparent searchReset" aria-label="Clear search" ng-show="searchText && searchText > 0" ng-click="resetSearch()">
+                                            <button type="button" class="btn primary circle small transparent searchReset" aria-label="Clear search" ng-show="searchText && searchText >= 0" ng-click="resetSearch()">
                                                 <span class="iconfont cross"></span>
                                             </button>
                                         </div>
@@ -576,14 +566,7 @@
                                         <label class="input swx-chat-input">
                                             <div class="tc">
                                                 <div class="form-holder mediabarV2enabled">
-                                                    <div class="smsInfoHolder">
-                                                        <!-- ko if: canSendSms() -->
-                                                        <div class="messageDestinationHolder">
-                                                            <swx-message-destination-picker>
-                                                            </swx-message-destination-picker>
-                                                        </div>
-                                                        <!-- /ko -->
-                                                    </div>
+
                                                     <div class="upper-row-form">
                                                         <div class="form">
                                                                 <form>
@@ -591,77 +574,13 @@
                                                                     <div id="chatInputContainer" class="container" style="height: 39px;">
                                                                         <!-- ko if: quotedMessageXML().length > 0 -->
                                                                         <!-- /ko -->
-                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
+                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here & press Enter to send" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
                                                                         </textarea>
                                                                         <!-- {{--
                                                                         <button type="submit" class="btn primary small circle">Send</button> --}} -->
                                                                     </div>
                                                                 </swx-textarea>
                                                                 </form>
-                                                        </div>
-                                                        
-                                                        <div class="buttonRow">
-                                                            <!-- ko if: !isFooterMediaBarVisible() -->
-                                                            <!-- ko if: isMediaBarEnabled() -->
-                                                            <swx-chat-input-action-picker>
-                                                                <div class="chatInputActionPicker collapsible collapsed">
-                                                                    <swx-button>
-
-                                                                        <swx-loading-animation class="spinner fog  ng-hide" style="width: 2.5em;height: 2.5em;display: block;    margin: 0 auto;" ng-show="loading">
-                                                                            <div class="circle one">
-                                                                                <div class="rotate">
-                                                                                    <div class="position">
-                                                                                        <div class="scale">
-                                                                                            <div class="shape"></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="circle two">
-                                                                                <div class="rotate">
-                                                                                    <div class="position">
-                                                                                        <div class="scale">
-                                                                                            <div class="shape"></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="circle three">
-                                                                                <div class="rotate">
-                                                                                    <div class="position">
-                                                                                        <div class="scale">
-                                                                                            <div class="shape"></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="circle four">
-                                                                                <div class="rotate">
-                                                                                    <div class="position">
-                                                                                        <div class="scale">
-                                                                                            <div class="shape"></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </swx-loading-animation>
-                                                                    </swx-button>
-
-                                                                    <!-- ko if: isPollsFeatureEnabled -->
-                                                                    <!-- /ko -->
-                                                                </div>
-                                                            </swx-chat-input-action-picker>
-                                                            <!-- /ko -->
-                                                            <!-- /ko -->
-                                                            <div class="send-button-holder">
-                                                                <swx-button>
-                                                                    <button ng-click="submitComment(selectedOrder)" class="btn swx-chat-input-send-btn circle send-button large" title="Send" aria-label="Send" type="submit">
-                                                                        <span class="iconfont send"></span>
-                                                                        <!-- ko if: showMenuOptions -->
-                                                                        <!-- /ko -->
-                                                                    </button>
-                                                                </swx-button>
-                                                            </div>
                                                         </div>
                                                         
                                                     </div>

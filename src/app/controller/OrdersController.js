@@ -135,13 +135,28 @@
 			    $scope.sellers = $firebaseArray(ref.child('members'));
 			    $scope.packs = [];
 
-			    
-
-
 
 				firebaseService.getAllOrders().then(function(orders){
 					$scope.orders = orders;
 					$scope.isAsideLoading = false;
+
+					$scope.buyersAvatar = [];
+						angular.forEach(orders, function(value, key){
+				      		// console.log('value: ' + value.fbId);
+				      		// console.log(value.fbId);
+				      		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
+					          /**
+					           * Using $scope.$apply since this happens outside angular framework.
+					           */
+					          	 	if(value.fbId){
+					          	 		$scope.buyersAvatar.push({
+							          	 	'fbId': value.fbId,
+							          	 	'avatar': response.data.url
+							          	 });
+					          	 	}
+					        });
+				      	});
+				    
 
 					firebaseService.getAllSources().then(function(sources){
 						$scope.sources = sources;
@@ -155,6 +170,21 @@
 						});
 					});
 				});
+
+				$scope.ordersStatusesForFilter = [];
+				$scope.ordersStatuses = [];
+				$scope.statuses.$loaded()
+			    .then(function(statuses){
+			    	$scope.ordersStatusesForFilter = [];
+					angular.forEach($scope.statuses, function(value, key){
+						if(value.active == 1 && value.allow_fillter == 1){
+							$scope.ordersStatusesForFilter.push(value);
+						}
+						if(value.active == 1){
+							$scope.ordersStatuses.push(value);
+						}
+			      	});
+			    });
 
 				// console.log($scope.orders);
 				// console.log($scope.oorders);
@@ -209,7 +239,6 @@
 			    
 				$scope.getBuyerAvatar = function(order){
 					var newTemp = $filter("filter")($scope.buyersAvatar, {fbId: order.fbId});
-					// console.log(newTemp);
 					return newTemp.avatar;
 			     }
 				// console.log($scope.buyersAvatar);
@@ -265,63 +294,41 @@
 				}
 				getCurrentUser();
 
-				$scope.ordersStatusesForFilter = [];
-				$scope.ordersStatuses = [];
-				$scope.statuses.$loaded()
-			    .then(function(statuses){
-			    	$scope.ordersStatusesForFilter = [];
-					angular.forEach($scope.statuses, function(value, key){
-						if(value.active == 1 && value.allow_fillter == 1){
-							$scope.ordersStatusesForFilter.push(value);
-						}
-						if(value.active == 1){
-							$scope.ordersStatuses.push(value);
-						}
-			      	});
-			    });
-			    console.log($scope.ordersStatusesForFilter);
-
-				var getStatusList = function(){
-					// var result = $filter('filter')($scope.statuses, {allow_fillter: 1}, true);
-					// console.log($scope.statuses);
-				}
-				getStatusList();
-
 				$scope.isShowAll = false;
-				$scope.getOrders = function($event, attrs){
+				// $scope.getOrders = function($event, attrs){
 					
-					$scope.isAsideLoading = true;
-					var url = '/v3/getOrders';
-					$http.get(url).then(function(data){
-						$scope.showMyOrders = false;
-						$scope.activeStatus = null;
-						$scope.isShowAll = true;
-						// $scope.orders = $firebaseArray(fOrdersRef);
-						for (var i =  0; i < data.length; i++) {
-								// $scope.orders.$add(data[i]);
-								fOrdersRef.child('orders').push({
-									'buyer_mobile' : data[i].buyer_mobile ,
-									'buyer_name' : data[i].buyer_name ,
-									'created_at' : data[i].created_at ,
-									'id' : data[i].id ,
-									'lock' : data[i].lock ,
-									'order_source_id' : data[i].order_source_id ,
-									'product_pack_id' : data[i].product_pack_id ,
-									'seller_will_call_id' : data[i].seller_will_call_id || null,
-									'status_id' : data[i].status_id ,
-									'sticky' : data[i].sticky 
-								});
-							}
-							$scope.orders.page++;
-							$scope.isAsideLoading = false;
+				// 	$scope.isAsideLoading = true;
+				// 	var url = '/v3/getOrders';
+				// 	$http.get(url).then(function(data){
+				// 		$scope.showMyOrders = false;
+				// 		$scope.activeStatus = null;
+				// 		$scope.isShowAll = true;
+				// 		// $scope.orders = $firebaseArray(fOrdersRef);
+				// 		for (var i =  0; i < data.length; i++) {
+				// 				// $scope.orders.$add(data[i]);
+				// 				fOrdersRef.child('orders').push({
+				// 					'buyer_mobile' : data[i].buyer_mobile ,
+				// 					'buyer_name' : data[i].buyer_name ,
+				// 					'created_at' : data[i].created_at ,
+				// 					'id' : data[i].id ,
+				// 					'lock' : data[i].lock ,
+				// 					'order_source_id' : data[i].order_source_id ,
+				// 					'product_pack_id' : data[i].product_pack_id ,
+				// 					'seller_will_call_id' : data[i].seller_will_call_id || null,
+				// 					'status_id' : data[i].status_id ,
+				// 					'sticky' : data[i].sticky 
+				// 				});
+				// 			}
+				// 			$scope.orders.page++;
+				// 			$scope.isAsideLoading = false;
 
-							// if orders.items not null => active first item
-							if($scope.orders.length > 0){
-							     // active first item
-							     $scope.active($scope.orders[0]);
-							}
-					});
-				};
+				// 			// if orders.items not null => active first item
+				// 			if($scope.orders.length > 0){
+				// 			     // active first item
+				// 			     $scope.active($scope.orders[0]);
+				// 			}
+				// 	});
+				// };
 
 				$scope.showAlert = function(title, content, alertType){
 					var option = {
@@ -399,7 +406,6 @@
 				};
 
 				$scope.toggleShowAll = function(){
-					// $scope.isShowAll = !$scope.isShowAll;
 					$scope.activeStatus = null;
 					$scope.showMyOrders = false;
 					$scope.searchText = '';
@@ -438,21 +444,18 @@
 					$scope.clickSound.play();
 					$scope.isPostExpanded = false;
 					graphUser(order.fbId);
-					// console.log($scope.graphUserAvatar(order.fbId));
-					// only for test
 					$scope.fbContent = [];
 					$scope.fbContent.message = '';
 					$scope.fbPhotos = [];
 					$scope.currentPageName = '';
 					$scope.currentPageAvatar = '';
-
-					$scope.selectedOrder = order;
 					graphPage(getPageIdFromOrder(order));
 					graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
+					$scope.selectedOrder = order;
+					
 				}
 				$scope.active = function(order){
 					activeOrder(order);
-					// $scope.fbContent = $scope.graphPost('262405144260528', '292495281251514');
 				}
 
 				// find an user with id
@@ -535,11 +538,6 @@
 				     }
 				 }
 
-
-				// get delete comment
-				$scope.getDeleteComment = function(id){
-					return $http.delete('v3/deleteComment/' + id);
-				}
 				// destroy comment
 				$scope.deleteComment = function(comment) {
 					if(comment.id == undefined) return;
@@ -595,43 +593,6 @@
 					});					
 				}
 
-				// when user change order status, we want to create a comment about this
-				// $scope.createStatusComment = function(order, user, status){
-
-				// }
-				// save comment to database
-				$scope.saveStatusComment = function(commentParams, order){
-					if(!order) { return false; };
-					var url = '/v3/comments/postStatus/' + order.id;
-					return $http.post(url,{
-						method: 'POST',
-						headers: { 'Content-Type' : 'application/json', 'Accept' : 'application/json' },
-						data: commentParams
-					});
-				};
-
-				$scope.querySearch = {
-					text: '',
-				}
-
-				$scope.resetSearch = function(){
-					$scope.querySearch = {};
-                	// $scope.orders.items = $scope.orderListBeforeSearch.orders;
-                	// $scope.orders.active = $scope.orderListBeforeSearch.active;
-                	// $scope.getOrders();
-				};
-
-				$scope.searchQueryChange = function(){
-					if(!$scope.querySearch.text || $scope.querySearch.text.length == 0){
-						$scope.resetSearch();
-					}
-				}
-
-				// we want to save Order list before raise search action to reset it
-				$scope.orderListBeforeSearch = {
-					orders: {},
-					active: null
-				}
 				$scope.toggleShowSearchBox = function(){
 					$scope.showSearchbox = !$scope.showSearchbox;
 				}
@@ -786,13 +747,5 @@
 		                }
 		            });
 				}
-
-				var init = function () {
-				   $scope.getOrders();
-
-				};
-				// and fire it after definition
-				// init();
-
 
 		});
