@@ -54,26 +54,18 @@
                                     <div class="Me-avatarContainer">
                                         <swx-avatar class="Me-avatar Me-avatar--large Avatar--fogTheme">
                                             <div role="button" class="Avatar Avatar--size260 Avatar--presence Avatar--more"  tabindex="">
-                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
+                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{photoUrl}}" style="display: block;">
 
                                             </div>
                                         </swx-avatar>
-                                        
-                                        <swx-avatar-file-picker class="Me-avatarFilePicker">
-                                            <div>
-                                                <input type="file" accept="image/*" class="avatarFilePickerInput">
-
-                                            <div class="field-fileupload style-image-multi is-sortable is-multi   is-populated" >
-                                              {!! Form::open(['route' => 'upload-profile-image', 'method'    =>  'POST','class' => 'dropzone upload-button iconfont picture dz-clickable', 'files'=>true, 'id'=>'real-dropzone']) !!}
-                                              <div class="fallback">
-                                                  <input name="file" type="file" />
-                                              </div>
-                                              {!! Form::close() !!}
-                                                
-                                              </div>
-                                                
-                                                
-                                            </div>
+                                        <swx-avatar-file-picker class="Me-avatarFilePicker"><div data-bind="visible: avatarUploadSupported">
+                                            <button class="avatarOpenFilePickerInput" title="Upload a profile picture" aria-label="Upload avatar" data-focusmanager="1" ng-click="updateAvatar()"></button>
+                                            <span class="avatarFilePickerButton">
+                                                <span class="btn primary circle protected picturePickerBtn">
+                                                    <span class="iconfont picturePicker picture"></span>
+                                                </span>
+                                            </span>
+                                        </div>
                                         </swx-avatar-file-picker>
 
                                         <div class="Me-accountInfoWrapper">
@@ -90,19 +82,10 @@
                                             <span class="fontSize-h3 Me-linkText">Change Password</span>
                                         </a>
                                         <div class="Me-link changePasswordBox" ng-show="showPasswordEditBox">
-                                            {!! Form::open([
-                                            'url'       => URL::route('changePassword', 1),
-                                            'method'    =>  'POST',
-                                            'id'        =>  'changePasswordForm',
-                                            'style'     =>  'width:100%',
-                                            'accept-charset'    =>  'UTF-8',
-                                            'enctype'   =>  'multipart/form-data',
-                                            'ng-submit' =>  'submitPassword(currentUser, $event)'
-                                            ]) !!}
+
                                             <input class="newPassword" maxlength="18" type="password" placeholder="Mật khẩu mới">
                                             <a href="#" class="iconfont ok" role="button" aria-label="Confirm" ng-click="submitPassword(currentUser, $event)"></a>
                                             <a href="#" class="iconfont cancel" role="button" aria-label="Cancel" ng-click="toggleShowPasswordEditBox()"></a>
-                                             {!! Form::close() !!}
                                         </div>
                                         <a class="Me-link" ng-click="signOut()" aria-label="Sign out">
                                             <span class="iconfont signOut Me-linkIcon"></span>

@@ -7,6 +7,11 @@ concat = require('gulp-concat'),
 path = require('path'),
 cleanCSS = require('gulp-clean-css'),
 minify = require('gulp-minify-css'),
+rev = require('gulp-rev'),
+inject = require('gulp-inject'),
+useref = require('gulp-useref'),
+htmlmin = require('gulp-htmlmin'),
+clean = require('gulp-rimraf'),
 $ = require('gulp-load-plugins')();
 
 var serve = require('gulp-serve');
@@ -15,25 +20,49 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 
-const versionConfig = {
-  'value': '%MDS%',
-  'append': {
-    'key': 'v',
-    'to': ['css', 'js'],
-  },
-};
+
+gulp.task('build', function () {
+  var target = gulp.src('./src/index.html');
+  // It's not necessary to read the files (will speed up things), we're only after their paths:
+  var sources = gulp.src(['./assets/js/scripts-vendor.min.js',
+  './assets/js/scripts-bundle-*.js',
+   './assets/css/styles-vendor*.css',
+   './assets/css/styles-bundle*.css'], {read: false});
+
+  return target.pipe(inject(sources))
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('./'));
+
+});
+
+var vendorCssFiles = [
+  'src/vendor/blueimp/css/blueimp-gallery.css',
+  'src/vendor/angular-toast/angular-toastr.css',
+];
+
+gulp.task('vendorStyles', function() {
+    gulp.src(vendorCssFiles)
+      .pipe(concat('styles-vendor.css'))
+      .pipe(rename('styles-vendor.min.css'))
+      .pipe(sass().on('error', sass.logError))
+      .pipe(cleanCSS())
+      .pipe(rev())
+      .pipe(gulp.dest('./assets/css/'));
+});
 
 gulp.task('styles', function() {
     gulp.src('src/sass/*.scss')
     	.pipe(concat('styles.css'))
     	.pipe(rename('styles-bundle.min.css'))
-        .pipe(sass().on('error', sass.logError))
-        .pipe(cleanCSS())
-        .pipe(gulp.dest('./assets/css/'));
+      .pipe(sass().on('error', sass.logError))
+      .pipe(cleanCSS())
+      .pipe(rev())
+      .pipe(gulp.dest('./assets/css/'));
 });
 
 var jsAppFiles = [
 	'src/app/app.js',
+  'src/app/service/firebase.service.js',
   'src/app/controller/AuthController.js',
   'src/app/controller/MembersController.js',
   'src/app/controller/OrdersController.js',
@@ -63,50 +92,48 @@ jsDest = 'assets/js';
 
 gulp.task('angularScripts', function() {
     return gulp.src(jsAngularFiles)
-        .pipe(concat('scripts-angular.js'))
+        .pipe(concat('scripts-angular.min.js'))
         .pipe(gulp.dest(jsDest))
-        .pipe(rename('scripts-angular.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./assets/js/'));
 });
 
 gulp.task('vendorScripts', function() {
     return gulp.src(jsVendorFiles)
-        .pipe(concat('scripts-vendor.js'))
+        .pipe(concat('scripts-vendor.min.js'))
         .pipe(gulp.dest(jsDest))
-        .pipe(rename('scripts-vendor.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./assets/js/'));
 });
 
 gulp.task('appScripts', function() {
     return gulp.src(jsAppFiles)
-        .pipe(concat('scripts-bundle.js'))
+        .pipe(concat('scripts-bundle.min.js'))
         .pipe(gulp.dest(jsDest))
-        .pipe(rename('scripts-bundle.min.js'))
         .pipe(ngAnnotate())
         .pipe(uglify())
+        .pipe(rev())
         .pipe(gulp.dest('./assets/js/'));
 });
 
+
+gulp.task('clean', [], function() {
+  console.log("Clean all files in build folder");
+  return gulp.src(["./assets/js/", "./assets/css/"], { read: false }).pipe(clean());
+});
 
 /**
  *  Default task clean temporaries directories and launch the
  *  main optimization build task
  */
-gulp.task('default', function () {
+gulp.task('default', ['clean'], function () {
   gulp.start('styles');
+  gulp.start('vendorStyles');
   gulp.start('angularScripts');
   gulp.start('vendorScripts');
   gulp.start('appScripts');
-  // gulp.start('html');
 });
 
-gulp.task('html', function(){
-    return gulp.src(path.join(__dirname, '*.html'))
-          .pipe($.versionAppend(['html', 'js', 'css'], {appendType: 'guid', versionFile: 'version.json'}))
-          .pipe($.minifyHtml());
-});
 
 
 gulp.task('serve', serve(''));
