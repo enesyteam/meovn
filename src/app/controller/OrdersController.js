@@ -166,9 +166,9 @@
 			$scope.firebaseUser = firebase.auth().currentUser;
 			// $scope.photoUrl;
 
-			if ($scope.firebaseUser != null) {
-			  $scope.photoUrl = $scope.firebaseUser.photoURL;
-			}
+			// if ($scope.firebaseUser != null) {
+			//   $scope.photoUrl = $scope.firebaseUser.photoURL;
+			// }
 
 			$scope.updateFirebaseUser = function(newAvatar, newName){
 				var user = firebase.auth().currentUser;
@@ -805,7 +805,7 @@
 		        * me 
 		        */
 		        $scope.me = function() {
-		        	$scope.IntentLogin();
+		        	// $scope.IntentLogin();
 		          Facebook.api('/me', function(response) {
 		            /**
 		             * Using $scope.$apply since this happens outside angular framework.
