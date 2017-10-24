@@ -206,31 +206,35 @@
 			  //   .then(function(orders){
 			    	
 			  //   	// $scope.orders = orders;
-			  //   	$scope.isAsideLoading = false;
-			  //   	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
-					//    // all records after the last continue to invoke this function
-					//    // console.log(snapshot.name(), snapshot.val());
-					//    $scope.showNotify(snapshot.val());
-					// });
-					// $scope.buyersAvatar = [];
-					// angular.forEach(orders, function(value, key){
-			  //     		// console.log('value: ' + value.fbId);
-			  //     		// console.log(value.fbId);
-			  //     		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
-				 //          /**
-				 //           * Using $scope.$apply since this happens outside angular framework.
-				 //           */
-				 //          	 	if(value.fbId){
-				 //          	 		$scope.buyersAvatar.push({
-					// 	          	 	'fbId': value.fbId,
-					// 	          	 	'avatar': response.data.url
-					// 	          	 });
-				 //          	 	}
-				          	 	
+	    	// $scope.isAsideLoading = false;
+	    	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
+			   $scope.showNotify(snapshot.val());
+			   Facebook.api('/' + snapshot.val().fbId +'/picture?height=100&width=100', function(response) {
+		        	if(!response || response.error){
+		        		alert('error!');
+		        	}
+		            $scope.$apply(function() {
+		              $scope.newAvatar = response.data.url;
+		            });
+		        });
+			});
+			// $scope.buyersAvatar = [];
+			// angular.forEach(orders, function(value, key){
+	  //     		// console.log('value: ' + value.fbId);
+	  //     		// console.log(value.fbId);
+	  //     		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
 
-				 //        });
-			  //     	});
-			  //   });
+		 //          	 	if(value.fbId){
+		 //          	 		$scope.buyersAvatar.push({
+			// 	          	 	'fbId': value.fbId,
+			// 	          	 	'avatar': response.data.url
+			// 	          	 });
+		 //          	 	}
+		          	 	
+
+		 //        });
+	  //     	});
+
 
 		    
 			$scope.getBuyerAvatar = function(order){
@@ -724,7 +728,7 @@
 	                icon: $scope.newAvatar,
 	                onClick: function onNotificationClicked() {
 	                    // $scope.orders.active = order;
-	                    $scope.active(order, null);
+	                    $scope.active(order);
 	                },
 	                autoClose: 5000 //auto close the notification after 4 seconds (you can manually close it via hide function)
 	            }, function onShow(error, hide) {
