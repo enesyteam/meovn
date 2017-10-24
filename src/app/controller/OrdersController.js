@@ -800,6 +800,7 @@
 		        * me 
 		        */
 		        $scope.me = function() {
+		        	$scope.IntentLogin();
 		          Facebook.api('/me', function(response) {
 		            /**
 		             * Using $scope.$apply since this happens outside angular framework.
