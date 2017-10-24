@@ -852,12 +852,12 @@
 		        console.log('Status: ', data);
 		        if (data.status == 'connected') {
 		          $scope.$apply(function() {
-		          	$scope.getMyAvatar();
 		            $scope.salutation = true;
 		            $scope.byebye     = false;    
 		          });
 		        } else {
 		          $scope.$apply(function() {
+		          	$scope.getMyAvatar();
 		            $scope.salutation = false;
 		            $scope.byebye     = true;
 		            

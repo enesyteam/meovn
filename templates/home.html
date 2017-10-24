@@ -33,7 +33,7 @@
                                     </swx-avatar>
                                     <div class="Me-info">
                                         <span class="Me-displayNameContainer">
-                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{user.name}}</p>
+                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{firebaseUser.displayName}}</p>
                                          <!-- ko if:displayBalance() --><!-- /ko -->
                                       </span>
                                         <p class="Me-moodMessage" role="button" tabindex="0">{{user.id}}</p>
@@ -47,8 +47,8 @@
                                     <button class="btn secondary circle Me-collapseBtn" type="button" ng-click="toggleShowMeExpand()" aria-label="Collapse profile">
                                         <span class="iconfont chevronUp">Collapse profile</span>
                                     </button>
-                                    <p class="Me-displayName fontSize-h3 strong" ng-click="toggleShowMeExpand()">{{currentUser.first_name + ' ' + currentUser.last_name}}</p>
-                                    <p class="Me-availability">Invisible</p>
+                                    <p class="Me-displayName fontSize-h3 strong" ng-click="toggleShowMeExpand()">{{firebaseUser.displayName}}</p>
+                                    <p class="Me-availability">{{firebaseUser.email}}</p>
                                 </div>
                                 <div class="Me-content">
                                     <div class="Me-avatarContainer">
