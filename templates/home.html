@@ -28,7 +28,7 @@
                                     <div class="Me-sky"></div>
                                     <swx-avatar class="Me-avatar">
                                         <div role="button" class="Avatar Avatar--size40 Avatar--presence Avatar--more Avatar--defaultAvatar" tabindex="" >
-                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="{{aaa}}" style="display: block;">
+                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="{{myAvatar}}" style="display: block;">
                                         </div>
                                     </swx-avatar>
                                     <div class="Me-info">
@@ -54,12 +54,12 @@
                                     <div class="Me-avatarContainer">
                                         <swx-avatar class="Me-avatar Me-avatar--large Avatar--fogTheme">
                                             <div role="button" class="Avatar Avatar--size260 Avatar--presence Avatar--more"  tabindex="">
-                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{aaa}}" style="display: block;">
+                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{myAvatar}}" style="display: block;">
 
                                             </div>
                                         </swx-avatar>
                                         <swx-avatar-file-picker class="Me-avatarFilePicker"><div data-bind="visible: avatarUploadSupported">
-                                            <button class="avatarOpenFilePickerInput" title="Upload a profile picture" aria-label="Upload avatar" data-focusmanager="1" ng-click="IntentLogin()"></button>
+                                            <button class="avatarOpenFilePickerInput" title="Upload a profile picture" aria-label="Upload avatar" data-focusmanager="1" ng-click="getMyAvatar()"></button>
                                             <span class="avatarFilePickerButton">
                                                 <span class="btn primary circle protected picturePickerBtn">
                                                     <span class="iconfont picturePicker picture"></span>

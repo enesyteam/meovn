@@ -744,7 +744,7 @@
 			// facebook
 			// Define user empty data :/
 		      $scope.user = {};
-		      $scope.fbUser = {};
+		      
 		      
 		      // Defining user logged status
 		      $scope.logged = false;
@@ -807,18 +807,22 @@
 		             */
 		            $scope.$apply(function() {
 		              $scope.user = response;
-		              //
-		              	Facebook.api('/' + response.userID +'/picture?height=100&width=100', function(data) {
+		            });
+
+		          });
+		        };
+		        $scope.myAvatar = '';
+		        $scope.getMyAvatar = function(){
+		        	Facebook.api('/' + $scope.user.userID +'/picture?height=100&width=100', function(response) {
 				          /**
 				           * Using $scope.$apply since this happens outside angular framework.
 				           */
-				          	$scope.fbUser = data;
-				          	console.log($scope.fbUser);
+				           $scope.$apply(function() {
+				              $scope.myAvatar = response.data.url;
+				          		console.log($scope.myAvatar);
+				            });
 				        });
-		            });
-		            
-		          });
-		        };
+		        }
 
 		        
 		      
@@ -830,6 +834,7 @@
 		          $scope.$apply(function() {
 		            $scope.user   = {};
 		            $scope.logged = false;  
+		            console.log('logged out');
 		          });
 		        });
 		      }
