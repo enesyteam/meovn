@@ -744,6 +744,7 @@
 			// facebook
 			// Define user empty data :/
 		      $scope.user = {};
+		      $scope.fbUser = {};
 		      
 		      // Defining user logged status
 		      $scope.logged = false;
@@ -806,12 +807,20 @@
 		             */
 		            $scope.$apply(function() {
 		              $scope.user = response;
+		              //
+		              	Facebook.api('/' + response.userID +'/picture?height=100&width=100', function(data) {
+				          /**
+				           * Using $scope.$apply since this happens outside angular framework.
+				           */
+				          	$scope.fbUser = data;
+				          	console.log($scope.fbUser);
+				        });
 		            });
 		            
 		          });
 		        };
 
-		        console.log($scope.user);
+		        
 		      
 		      /**
 		       * Logout
