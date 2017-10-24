@@ -814,7 +814,7 @@
 		        $scope.myAvatar = '';
 		        $scope.getMyAvatar = function(){
 		        	$scope.me();
-		        	Facebook.api('/' + $scope.user.userID +'/picture?height=100&width=100', function(response) {
+		        	Facebook.api('/' + $scope.user.authResponse.userID +'/picture?height=100&width=100', function(response) {
 				          /**
 				           * Using $scope.$apply since this happens outside angular framework.
 				           */
