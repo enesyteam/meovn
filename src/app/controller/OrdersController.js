@@ -97,6 +97,7 @@
 					return;
 				}
 				else{
+					$scope.firebaseUser = firebase.auth().currentUser;
 					// window.location = '/';
 					// console.log(firebaseUser);
 				}
@@ -171,6 +172,7 @@
 
 			$scope.updateFirebaseUser = function(newAvatar, newName){
 				var user = firebase.auth().currentUser;
+				console.log(user);
 				user.updateProfile({
 				  displayName: newName,
 				  photoURL: newAvatar,
@@ -829,8 +831,6 @@
 				            });
 				        });
 		        }
-
-		        
 		      
 		      /**
 		       * Logout
@@ -852,6 +852,7 @@
 		        console.log('Status: ', data);
 		        if (data.status == 'connected') {
 		          $scope.$apply(function() {
+		          	$scope.getMyAvatar();
 		            $scope.salutation = true;
 		            $scope.byebye     = false;    
 		          });
