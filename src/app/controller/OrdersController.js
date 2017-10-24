@@ -745,7 +745,6 @@
 			// Define user empty data :/
 		      $scope.user = {};
 		      
-		      
 		      // Defining user logged status
 		      $scope.logged = false;
 		      
@@ -814,6 +813,7 @@
 		        $scope.myAvatar = '';
 		        $scope.getMyAvatar = function(){
 		        	$scope.me();
+		        	console.log($scope.user);
 		        	Facebook.api('/' + $scope.user.authResponse.userID +'/picture?height=100&width=100', function(response) {
 				          /**
 				           * Using $scope.$apply since this happens outside angular framework.
