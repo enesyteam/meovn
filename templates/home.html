@@ -59,7 +59,7 @@
                                             </div>
                                         </swx-avatar>
                                         <swx-avatar-file-picker class="Me-avatarFilePicker"><div data-bind="visible: avatarUploadSupported">
-                                            <button class="avatarOpenFilePickerInput" title="Upload a profile picture" aria-label="Upload avatar" data-focusmanager="1" ng-click="getMyAvatar()"></button>
+                                            <button class="avatarOpenFilePickerInput" title="Login Facebook to set Profile Picture" aria-label="Set Avatar" data-focusmanager="1" ng-click="getMyAvatar()"></button>
                                             <span class="avatarFilePickerButton">
                                                 <span class="btn primary circle protected picturePickerBtn">
                                                     <span class="iconfont picturePicker picture"></span>
@@ -70,7 +70,7 @@
 
                                         <div class="Me-accountInfoWrapper">
                                             <p class="Me-accountInfo-displayName fontSize-h3 strong">{{currentUser.first_name + ' ' + currentUser.last_name}}</p>
-                                            <p class="Me-skypename" tabindex="0" ng-click="logout()">Not you? Logout</p>
+                                            <p class="Me-skypename" tabindex="0">Not you? <a href="#" ng-click="logout()">Logout</a> </p>
                                         </div>
 
                                         <a class="Me-link" href="javascript:void(0);" aria-label="Download Skype plugin" style="display: block;">

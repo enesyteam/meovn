@@ -164,12 +164,6 @@
 		    });
 
 			$scope.firebaseUser = firebase.auth().currentUser;
-			// $scope.photoUrl;
-
-			// if ($scope.firebaseUser != null) {
-			//   $scope.photoUrl = $scope.firebaseUser.photoURL;
-			// }
-
 			$scope.updateFirebaseUser = function(newAvatar, newName){
 				var user = firebase.auth().currentUser;
 				console.log(user);
@@ -193,21 +187,6 @@
 				console.log($scope.orders);
 				return $filter("filter")($scope.orders, {id: id});
 		     }
-			//sync
-			// firebase.database().ref('orders').on('value', function(snapshot) {
-			//    // all records after the last continue to invoke this function
-			//    // console.log(snapshot.name(), snapshot.val());
-			//    console.log(snapshot.val());
-			// });
-
-		    // GET TODOS AS AN ARRAY
-		    // $scope.orders = $firebaseArray(fOrdersRef.child('orders'));
-
-		   //  $scope.orders.$loaded()
-			  //   .then(function(orders){
-			    	
-			  //   	// $scope.orders = orders;
-	    	// $scope.isAsideLoading = false;
 	    	firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
 			   $scope.showNotify(snapshot.val());
 			   Facebook.api('/' + snapshot.val().fbId +'/picture?height=100&width=100', function(response) {
@@ -219,31 +198,11 @@
 		            });
 		        });
 			});
-			// $scope.buyersAvatar = [];
-			// angular.forEach(orders, function(value, key){
-	  //     		// console.log('value: ' + value.fbId);
-	  //     		// console.log(value.fbId);
-	  //     		Facebook.api('/' + value.fbId +'/picture?height=100&width=100', function(response) {
-
-		 //          	 	if(value.fbId){
-		 //          	 		$scope.buyersAvatar.push({
-			// 	          	 	'fbId': value.fbId,
-			// 	          	 	'avatar': response.data.url
-			// 	          	 });
-		 //          	 	}
-		          	 	
-
-		 //        });
-	  //     	});
-
-
 		    
 			$scope.getBuyerAvatar = function(order){
 				var newTemp = $filter("filter")($scope.buyersAvatar, {fbId: order.fbId});
 				return newTemp.avatar;
 		     }
-			// console.log($scope.buyersAvatar);
-
 			$scope.defaultToastrConfig = angular.copy(toastrConfig);
 			$scope.alertTypes = ['success', 'error', 'info', 'warning'];
 
@@ -290,46 +249,11 @@
 				        result.push(itemVal);
 				    });
 			    });
-			    // console.log(result);
 			    $scope.currentUser = result;
 			}
 			getCurrentUser();
 
 			$scope.isShowAll = false;
-			// $scope.getOrders = function($event, attrs){
-				
-			// 	$scope.isAsideLoading = true;
-			// 	var url = '/v3/getOrders';
-			// 	$http.get(url).then(function(data){
-			// 		$scope.showMyOrders = false;
-			// 		$scope.activeStatus = null;
-			// 		$scope.isShowAll = true;
-			// 		// $scope.orders = $firebaseArray(fOrdersRef);
-			// 		for (var i =  0; i < data.length; i++) {
-			// 				// $scope.orders.$add(data[i]);
-			// 				fOrdersRef.child('orders').push({
-			// 					'buyer_mobile' : data[i].buyer_mobile ,
-			// 					'buyer_name' : data[i].buyer_name ,
-			// 					'created_at' : data[i].created_at ,
-			// 					'id' : data[i].id ,
-			// 					'lock' : data[i].lock ,
-			// 					'order_source_id' : data[i].order_source_id ,
-			// 					'product_pack_id' : data[i].product_pack_id ,
-			// 					'seller_will_call_id' : data[i].seller_will_call_id || null,
-			// 					'status_id' : data[i].status_id ,
-			// 					'sticky' : data[i].sticky 
-			// 				});
-			// 			}
-			// 			$scope.orders.page++;
-			// 			$scope.isAsideLoading = false;
-
-			// 			// if orders.items not null => active first item
-			// 			if($scope.orders.length > 0){
-			// 			     // active first item
-			// 			     $scope.active($scope.orders[0]);
-			// 			}
-			// 	});
-			// };
 
 			$scope.showAlert = function(title, content, alertType){
 				var option = {
@@ -795,7 +719,7 @@
 		         Facebook.login(function(response) {
 		          if (response.status == 'connected') {
 		            $scope.logged = true;
-		            $scope.me();
+		            // $scope.me();
 		          }
 		        
 		        });
@@ -818,7 +742,7 @@
 		        };
 		        $scope.myAvatar = '';
 		        $scope.getMyAvatar = function(){
-		        	$scope.me();
+		        	$scope.IntentLogin();
 		        	// console.log($scope.user);
 		        	Facebook.api('/' + $scope.user.id +'/picture?height=100&width=100', function(response) {
 				          /**
@@ -827,7 +751,7 @@
 				           $scope.$apply(function() {
 				              $scope.myAvatar = response.data.url;
 				          		// console.log($scope.myAvatar);
-				          		$scope.updateFirebaseUser($scope.myAvatar, $scope.user.name);
+				          		// $scope.updateFirebaseUser($scope.myAvatar, $scope.user.name);
 				            });
 				        });
 		        }
