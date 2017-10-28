@@ -202,7 +202,7 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.$id, seller: order.seller_will_call_id || 'not-asigned'})" ui-sref-active="order">
+                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.$id, seller: order.seller_will_call_id || 'not-asigned'})">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->
@@ -291,7 +291,7 @@
                 <div class="no-order-select" ng-hide="selectedOrder">
                     <div class="no-order-message">
                         <span>
-                            No Order selected.
+                            {{pleaseWaitMessage}}
                         </span>
                     </div>
                 </div>
@@ -430,7 +430,7 @@
                                                                     </div>
                                                                     <a role="button" aria-label="{{comment.user.last_name}}" title="{{comment.user.last_name}}" ng-show="comment.user.is_admin != 1 && comment.type!=1">
                                                                             <swx-avatar class="clickable"><div role="button" class="Avatar Avatar--absolute">
-                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{comment.user.avatar != null ? 'public/images/profile_thumbnail'+ '/' + comment.user.avatar : 'public/images/default-avatar-contact.svg'}}" style="display: block;">
+                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
                                                                         </div>
                                                                         </swx-avatar>
                                                                         </a>
@@ -488,7 +488,7 @@
                                                                 <swx-message role="listitem" class="message showName their first last showTimestamp showBottomTimestamp read text swx-in-viewport isTyping" tabindex="-1" ng-show="commentData.content">
                                                                     <a role="button">
                                                                             <swx-avatar class="clickable"><div role="button" class="Avatar Avatar--absolute">
-                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{currentUser.avatar != null ? 'public/images/profile_thumbnail'+ '/' + currentUser.avatar : 'public/images/default-avatar-contact.svg'}}" style="display: block;">
+                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
                                                                         </div>
                                                                         </swx-avatar>
                                                                         </a>

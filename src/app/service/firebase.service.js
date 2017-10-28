@@ -102,14 +102,8 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 			});
 	}
 
-	var init = function(){
-		getAllOrders();
-		getAllSources();
-		getAllPacks();
-	};
 
 	return{
-		init			: init,
 		getAllOrders    : getAllOrders,
 		getAllComments	: getAllComments,
 		addComment		: addComment,

@@ -92,6 +92,38 @@ meovn.controller('OrdersController',
         // store all buyers avatars
         $scope.buyersAvatar = [];
 
+        firebaseService.getAllOrders().then(function(orders) {
+            $scope.orders = orders;
+            
+
+            // $scope.buyersAvatar = [];
+            // angular.forEach(orders, function(value, key) {
+            //     Facebook.api('/' + value.fbId + '/picture?height=100&width=100', function(response) {
+            //         if (value.fbId) {
+            //             $scope.buyersAvatar.push({
+            //                 'fbId': value.fbId,
+            //                 'avatar': response.data.url
+            //             });
+            //         }
+            //     });
+            // });
+
+
+            firebaseService.getAllSources().then(function(sources) {
+                $scope.sources = sources;
+                firebaseService.getAllPacks().then(function(packs) {
+                    $scope.packs = packs;
+                    if ($state.current.name == 'home.details') {
+                        $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
+                        activeOrder(firebaseService.getOrder($stateParams.id));
+                        $scope.isPageBusy = false;
+                    }
+
+                    $scope.isAsideLoading = false;
+                });
+            });
+        });
+
         $scope.currentMember = null;
         firebase.auth().onAuthStateChanged(function(firebaseUser) {
             if (!firebaseUser) {
@@ -121,35 +153,7 @@ meovn.controller('OrdersController',
         $scope.packs = [];
 
 
-        firebaseService.getAllOrders().then(function(orders) {
-            $scope.orders = orders;
-            $scope.isAsideLoading = false;
 
-            // $scope.buyersAvatar = [];
-            // angular.forEach(orders, function(value, key) {
-            //     Facebook.api('/' + value.fbId + '/picture?height=100&width=100', function(response) {
-            //         if (value.fbId) {
-            //             $scope.buyersAvatar.push({
-            //                 'fbId': value.fbId,
-            //                 'avatar': response.data.url
-            //             });
-            //         }
-            //     });
-            // });
-
-
-            firebaseService.getAllSources().then(function(sources) {
-                $scope.sources = sources;
-                firebaseService.getAllPacks().then(function(packs) {
-                    $scope.packs = packs;
-                    if ($state.current.name == 'home.details') {
-                        // console.log(firebaseService.getOrder($stateParams.id));
-                        activeOrder(firebaseService.getOrder($stateParams.id));
-                        $scope.isPageBusy = false;
-                    }
-                });
-            });
-        });
         firebaseService.getAllMembers().then(function(members) {
             $scope.sellers = members;
 
@@ -386,6 +390,7 @@ meovn.controller('OrdersController',
         }
 
         // Select Order from List
+        $scope.pleaseWaitMessage = 'Select an order to display';
         function activeOrder(order) {
             $scope.isPageBusy = true;
             $scope.clickSound.play();
@@ -402,6 +407,7 @@ meovn.controller('OrdersController',
 
         }
         $scope.active = function(order) {
+        	$scope.pleaseWaitMessage = 'Please wait...';
             activeOrder(order);
         }
 
@@ -839,6 +845,14 @@ meovn.controller('OrdersController',
         });
 
         // ##########################CHART
+
+        /*Preparing data for chart*/
+        var preparingChartData = function(){
+        	// count orders called by me:
+
+        }
+
+        /*Define chart*/
         $scope.chartTypes = [
 		    {"id": "line", "title": "Line"},
 		    {"id": "spline", "title": "Smooth line"},
@@ -865,6 +879,7 @@ meovn.controller('OrdersController',
 		  ];
 
 		  $scope.chartSeries = [
+		  	{"name": "Đã gọi", "data": [80, 115, 46, 72, 39, 55, 80], id: 's1', "dashStyle":"ShortDash","color":"#888","lineWidthPlus":"1", "lineWidth":"1"},
 		    {"name": "Đã chốt", "data": [25, 50, 30, 10, 55, 66, 78], color: '#8bbc21', borderColor: '#8bbc21', type: "column", id: 's3'},
 		    {"name": "Thất bại", "data": [14, 16, 18, 11, 22, 45, 23], color: 'rgb(170,25,25)', borderColor: 'rgb(170,25,25)', type: "column", id: 's4'},
 		    {"name": "Báo xấu", "data": [9, 15, 25, 1, 22, 10, 8], color: 'rgb(38,60,83)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
@@ -967,10 +982,14 @@ meovn.controller('OrdersController',
 		    },
 		    plotOptions: {
 		      series: {
-		        stacking: ''
-		      },
-		      column: {
-		            dataLabels: {
+		        stacking: '',
+		         states: {
+		                hover: {
+		                    lineWidthPlus: 1,
+		                    lineWidth: 1
+		                }
+		            },
+		        dataLabels: {
 		                enabled: true,
 		                crop: false,
 		                overflow: 'none',
@@ -979,14 +998,15 @@ meovn.controller('OrdersController',
 		                    color: '#FFFFFF',
 		                }
 		            }
-		        }
+		      }
 		    },
 		    series: $scope.chartSeries,
 		    title: {
 		      text: 'My Data in recent 7 days',
 		      style: {
 		            color: '#fff',
-		            fontWeight: 'bold'
+		            fontWeight: '300',
+		            fontSize: '24px'
 		        }
 		    },
 		    yAxis: {

@@ -5,7 +5,7 @@ body::before {
     height: 100%;
     top: 0;
     left: 0;
-    background: url(../img/blur-bg.jpg) center center no-repeat;
+    background-color: rgb(31, 31, 31);
     background-size: cover;
     will-change: transform;
     z-index: -1;
