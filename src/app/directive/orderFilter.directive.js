@@ -12,7 +12,7 @@ meovn.filter('my_filter', function () {
     	var yesterday = Date.now()-1;
 
     	if(scope.showMyOrders && scope.activeStatus){
-    		return (item.seller_will_call_id == scope.currentUser.id) 
+    		return (item.seller_will_call_id == scope.currentMember.id) 
     				&& (item.status_id == scope.activeStatus.id);
 
     	}
@@ -20,7 +20,7 @@ meovn.filter('my_filter', function () {
     		return item.status_id == scope.activeStatus.id;
     	}
     	else if(scope.showMyOrders){
-    		return item.seller_will_call_id == scope.currentUser.id;
+    		return item.seller_will_call_id == scope.currentMember.id;
     	}
     	else{
     		return item.created_at <= Date.now();

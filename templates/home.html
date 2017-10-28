@@ -1,7 +1,7 @@
 <div class="shell notifications" id="notifications" aria-live="polite" aria-atomic="true" style="display: none;">
             <div class="notification warning" role="alert" data-notification-id="1">
                 <div class="iconfont"></div>
-                <p> <a href="javascript:void(0);" class="strong" role="button">Microphone not found</a>
+                <p> <a href="javascript:void(0);" class="strong" role="button">Notification Messages</a>
                 </p>
                 <div class="close">
                     <button class="btn transparent circle" type="btn" data-dismiss-id="1"><span class="iconfont cross" data-dismiss-id="1">Dismiss notification</span>
@@ -33,7 +33,7 @@
                                     </swx-avatar>
                                     <div class="Me-info">
                                         <span class="Me-displayNameContainer">
-                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{firebaseUser.displayName}}</p>
+                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{currentMember.first_name + ' ' + currentMember.last_name}}</p>
                                          <!-- ko if:displayBalance() --><!-- /ko -->
                                       </span>
                                         <p class="Me-moodMessage" role="button" tabindex="0">{{user.id}}</p>
@@ -47,8 +47,8 @@
                                     <button class="btn secondary circle Me-collapseBtn" type="button" ng-click="toggleShowMeExpand()" aria-label="Collapse profile">
                                         <span class="iconfont chevronUp">Collapse profile</span>
                                     </button>
-                                    <p class="Me-displayName fontSize-h3 strong" ng-click="toggleShowMeExpand()">{{firebaseUser.displayName}}</p>
-                                    <p class="Me-availability">{{firebaseUser.email}}</p>
+                                    <p class="Me-displayName fontSize-h3 strong" ng-click="toggleShowMeExpand()">{{currentMember.first_name + ' ' + currentMember.last_name}}</p>
+                                    <p class="Me-availability">{{currentMember.email}}</p>
                                 </div>
                                 <div class="Me-content">
                                     <div class="Me-avatarContainer">
@@ -58,7 +58,7 @@
 
                                             </div>
                                         </swx-avatar>
-                                        <swx-avatar-file-picker class="Me-avatarFilePicker"><div data-bind="visible: avatarUploadSupported">
+                                        <swx-avatar-file-picker class="Me-avatarFilePicker"><div data-bind="visible: avatarUploadSupported" style="max-height: 50%">
                                             <button class="avatarOpenFilePickerInput" title="Login Facebook to set Profile Picture" aria-label="Set Avatar" data-focusmanager="1" ng-click="getMyAvatar()"></button>
                                             <span class="avatarFilePickerButton">
                                                 <span class="btn primary circle protected picturePickerBtn">
@@ -89,7 +89,7 @@
                                         </div>
                                         <a class="Me-link" ng-click="signOut()" aria-label="Sign out">
                                             <span class="iconfont signOut Me-linkIcon"></span>
-                                            <span class="fontSize-h3 Me-linkText">Sign out</span>
+                                            <span class="fontSize-h3 Me-linkText">Sign out {{currentMember.last_name}}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -433,7 +433,7 @@
 
                                                                             <!-- ko if: isCopySelectionAsQuoteEnabled -->
                                                                             <p ng-hide="comment.type==1">{{comment.content}}</p>
-                                                                                <button type="submit" ng-show="{{currentUser.is_admin == 1 || currentUser.id == comment.user.id && comment.type!=1}}" class="btn primary circle small transparent" aria-label="Delete" style="    position: absolute;right: 5px;top: 5px;" ng-click="deleteComment(comment)" title="Xóa"> 
+                                                                                <button type="submit" ng-show="{{currentMember.is_admin == 1 || currentMember.id == comment.user.id && comment.type!=1}}" class="btn primary circle small transparent" aria-label="Delete" style="    position: absolute;right: 5px;top: 5px;" ng-click="deleteComment(comment)" title="Xóa"> 
                                                                                     <span class="iconfont delete" style="    display: table-cell;"></span>
                                                                                     </button>
                                                                         </div>
