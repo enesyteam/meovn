@@ -52,7 +52,7 @@ meovn.controller('OrdersController',
                 if (!response || response.error) {
                     alert('error!');
                 }
-                $scope.newAvatar = response.data.url;
+            	$scope.newAvatar = response.data.url;
             });
         }
 
@@ -125,22 +125,17 @@ meovn.controller('OrdersController',
             $scope.orders = orders;
             $scope.isAsideLoading = false;
 
-            $scope.buyersAvatar = [];
-            angular.forEach(orders, function(value, key) {
-                // console.log('value: ' + value.fbId);
-                // console.log(value.fbId);
-                Facebook.api('/' + value.fbId + '/picture?height=100&width=100', function(response) {
-                    /**
-                     * Using $scope.$apply since this happens outside angular framework.
-                     */
-                    if (value.fbId) {
-                        $scope.buyersAvatar.push({
-                            'fbId': value.fbId,
-                            'avatar': response.data.url
-                        });
-                    }
-                });
-            });
+            // $scope.buyersAvatar = [];
+            // angular.forEach(orders, function(value, key) {
+            //     Facebook.api('/' + value.fbId + '/picture?height=100&width=100', function(response) {
+            //         if (value.fbId) {
+            //             $scope.buyersAvatar.push({
+            //                 'fbId': value.fbId,
+            //                 'avatar': response.data.url
+            //             });
+            //         }
+            //     });
+            // });
 
 
             firebaseService.getAllSources().then(function(sources) {
@@ -317,22 +312,22 @@ meovn.controller('OrdersController',
                 })[0];
             },
 
-            $scope.addToFavourite = function(event, $order) {
-                event.stopPropagation();
-                if ($order.seller_will_call_id) {
-                    $scope.showAlert('', 'Oops! This Order has belonged to ' + $scope.getSeller($order.seller_will_call_id).last_name, 'error');
-                } else {
-                    $order.seller_will_call_id = $scope.currentMember.id;
-                    firebaseService.updateOrder($order).then(function(response) {
-                        // console.log(response);
-                    }, function(err) {
-                        $scope.showAlert('', 'Oops! ' + err, 'error');
-                    });
-                    // $scope.orders.$save($order);
-                    $scope.getOrderSound.play();
-                }
+        $scope.addToFavourite = function(event, $order) {
+            event.stopPropagation();
+            if ($order.seller_will_call_id) {
+                $scope.showAlert('', 'Oops! This Order has belonged to ' + $scope.getSeller($order.seller_will_call_id).last_name, 'error');
+            } else {
+                $order.seller_will_call_id = $scope.currentMember.id;
+                firebaseService.updateOrder($order).then(function(response) {
+                    // console.log(response);
+                }, function(err) {
+                    $scope.showAlert('', 'Oops! ' + err, 'error');
+                });
+                // $scope.orders.$save($order);
+                $scope.getOrderSound.play();
             }
-        // ?????? need to rewrite
+        }
+
         $scope.userCanReleaseOrChangeStatus = function(order) {
         	if(!$scope.currentMember) return null;
             return ($scope.currentMember.is_admin == 1) || ($scope.currentMember.id == order.seller_will_call_id);
@@ -696,8 +691,8 @@ meovn.controller('OrdersController',
         // web notification
         $scope.showNotify = function(order) {
             $scope.graphUserAvatar(order.fbId);
-            var content = (order && order.buyer_name) ? order.buyer_name + order.buyer_mobile : 'No name';
-            webNotification.showNotification('New Order Notification', {
+            var content = (order && order.buyer_name) ? order.buyer_name + '/' + order.buyer_mobile : 'No name';
+            webNotification.showNotification('Newest Order!', {
                 body: content,
                 icon: $scope.newAvatar,
                 onClick: function onNotificationClicked() {
@@ -842,6 +837,180 @@ meovn.controller('OrdersController',
             }
 
         });
+
+        // ##########################CHART
+        $scope.chartTypes = [
+		    {"id": "line", "title": "Line"},
+		    {"id": "spline", "title": "Smooth line"},
+		    {"id": "area", "title": "Area"},
+		    {"id": "areaspline", "title": "Smooth area"},
+		    {"id": "column", "title": "Column"},
+		    {"id": "bar", "title": "Bar"},
+		    {"id": "pie", "title": "Pie"},
+		    {"id": "scatter", "title": "Scatter"}
+		  ];
+
+		  $scope.dashStyles = [
+		    {"id": "Solid", "title": "Solid"},
+		    {"id": "ShortDash", "title": "ShortDash"},
+		    {"id": "ShortDot", "title": "ShortDot"},
+		    {"id": "ShortDashDot", "title": "ShortDashDot"},
+		    {"id": "ShortDashDotDot", "title": "ShortDashDotDot"},
+		    {"id": "Dot", "title": "Dot"},
+		    {"id": "Dash", "title": "Dash"},
+		    {"id": "LongDash", "title": "LongDash"},
+		    {"id": "DashDot", "title": "DashDot"},
+		    {"id": "LongDashDot", "title": "LongDashDot"},
+		    {"id": "LongDashDotDot", "title": "LongDashDotDot"}
+		  ];
+
+		  $scope.chartSeries = [
+		    {"name": "Đã chốt", "data": [25, 50, 30, 10, 55, 66, 78], color: '#8bbc21', borderColor: '#8bbc21', type: "column", id: 's3'},
+		    {"name": "Thất bại", "data": [14, 16, 18, 11, 22, 45, 23], color: 'rgb(170,25,25)', borderColor: 'rgb(170,25,25)', type: "column", id: 's4'},
+		    {"name": "Báo xấu", "data": [9, 15, 25, 1, 22, 10, 8], color: 'rgb(38,60,83)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
+		    {"name": "Khác", "data": [25, 35, 18, 9, 20, 11, 15], color: 'rgb(72,151,241)', borderColor: 'rgb(72,151,241)', type: "column", id: 's6'}
+		  ];
+
+		  $scope.chartStack = [
+		    {"id": '', "title": "No"},
+		    {"id": "normal", "title": "Normal"},
+		    {"id": "percent", "title": "Percent"}
+		  ];
+
+		  $scope.addPoints = function () {
+		    var seriesArray = $scope.chartConfig.series;
+		    var rndIdx = Math.floor(Math.random() * seriesArray.length);
+		    seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20]);
+		  };
+
+		  var seriesId = 0;
+		  var yAxisId = 0;
+		  var xAxisId = 0;
+
+		$scope.addAxis = function(xy) {
+		  /*
+		      Adds a Y Axis
+		  */
+		  var id;
+		  var axis;
+		  if (xy==='y') {
+		    yAxisId += 1;
+		    id = yAxisId;
+		    axis = 'yAxis';
+		  } else {
+		    xAxisId += 1;
+		    id = xAxisId;
+		    axis = 'xAxis';
+		  }
+
+
+		  var rnd = [];
+		  for (var i = 0; i < 10; i++) {
+		      rnd.push(Math.floor(Math.random() * 20) + 1);
+		  }
+		  if (!$scope.chartConfig[axis]) {
+		    $scope.chartConfig[axis] = [];
+		  }
+		  $scope.chartConfig[axis].push({
+		      min: Math.min.apply(null, rnd),
+		      max: Math.max.apply(null, rnd),
+		      title: {
+		          text: xy + "-Axis" + id.toString()
+		      },
+		      id: xy + 'Axis_' + id
+		  });
+		};
+
+
+		  $scope.addSeries = function () {
+		    var rnd = []
+		    for (var i = 0; i < 10; i++) {
+		      rnd.push(Math.floor(Math.random() * 20) + 1)
+		    }
+		    var sId = '__series' + seriesId++;
+		    $scope.chartConfig.series.push({
+		      data: rnd,
+		      id: sId
+		    });
+		  };
+
+		  $scope.removeRandomSeries = function () {
+		    var seriesArray = $scope.chartConfig.series;
+		    var rndIdx = Math.floor(Math.random() * seriesArray.length);
+		    seriesArray.splice(rndIdx, 1);
+		  };
+
+		  $scope.removeSeries = function (id) {
+		    var seriesArray = $scope.chartConfig.series;
+		    seriesArray.splice(id, 1);
+		  };
+
+		  $scope.toggleHighCharts = function () {
+		    this.chartConfig.useHighStocks = !this.chartConfig.useHighStocks;
+		  };
+
+		  $scope.replaceAllSeries = function () {
+		    var data = [
+		      { name: "first", data: [10], id: 'a' },
+		      { name: "second", data: [3], id: 'b' },
+		      { name: "third", data: [13], id: 'c' }
+		    ];
+		    $scope.chartConfig.series = data;
+		  };
+
+		  $scope.chartConfig = {
+
+		    chart: {
+		      height: 500,
+		      width: 600,
+		      type: 'line'
+		    },
+		    plotOptions: {
+		      series: {
+		        stacking: ''
+		      },
+		      column: {
+		            dataLabels: {
+		                enabled: true,
+		                crop: false,
+		                overflow: 'none',
+		                style: {
+		                    fontWeight: '300',
+		                    color: '#FFFFFF',
+		                }
+		            }
+		        }
+		    },
+		    series: $scope.chartSeries,
+		    title: {
+		      text: 'My Data in recent 7 days',
+		      style: {
+		            color: '#fff',
+		            fontWeight: 'bold'
+		        }
+		    },
+		    yAxis: {
+	            gridLineColor: '#393939',
+	            labels: {
+	            	style: {
+	            		color: '#fff'
+	            	}
+	            }
+	        },
+	        xAxis: {
+	        	categories: ['25/10', '26/10', '27/10', '28/10', '29/10', '30/10', '31/10'],
+	            gridLineColor: '#393939',
+	            labels: {
+	            	style: {
+	            		color: '#fff'
+	            	}
+	            }
+	        },
+		  }
+
+		  $scope.reflow = function () {
+		    $scope.$broadcast('highchartsng.reflow');
+		  };
 
 
     });

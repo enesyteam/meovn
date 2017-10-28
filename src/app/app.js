@@ -1,6 +1,6 @@
 
 	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
-		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio'])
+		'facebook', 'CopyToClipboard', 'angular-web-notification', 'ngAudio', '720kb.tooltips', 'highcharts-ng'])
 	.config(function($stateProvider, $urlRouterProvider, FacebookProvider){
         $urlRouterProvider.otherwise("/");
         $stateProvider

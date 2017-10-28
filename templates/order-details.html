@@ -79,13 +79,13 @@
     </div>
     <!-- ko if: showSpacesCTA -->
     <div class="ctas">
-    <div class="cta clickable" tabindex="-1">
+    <div class="cta clickable" ng-show="{{selectedOrder.customer_message}}">
     <div class="title fontSize-h3 iconfont messageUnread">Customer Notes</div>
-    <div class="description fontSize-p">Make your conversation unique</div>
+    <div class="description fontSize-p">{{selectedOrder.customer_message}}</div>
     </div>
-    <div class="cta clickable" tabindex="-1">
+    <div class="cta clickable" ng-show="{{selectedOrder.admin_note}}">
     <div class="title fontSize-h3 iconfont warning">Admin Notes</div>
-    <div class="description fontSize-p">Manage your conversation</div>
+    <div class="description fontSize-p">{{selectedOrder.admin_note}}</div>
     </div>
     </div>
     <!-- /ko -->

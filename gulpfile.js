@@ -25,6 +25,8 @@ var ngAnnotate = require('gulp-ng-annotate');
 var vendorCssFiles = [
   'src/vendor/blueimp/css/blueimp-gallery.css',
   'src/vendor/angular-toast/angular-toastr.css',
+  'src/vendor/angular-tooltip/angular-tooltips.css',
+  'src/vendor/angular-highchart/highcharts-ng.css',
 ];
 
 gulp.task('vendorStyles', function() {
@@ -74,6 +76,9 @@ jsVendorFiles =  [
 	'src/vendor/ngclibboard/ngclipboard.js',
 	'src/vendor/ngaudio/angular.audio.js',
 	'src/vendor/blueimp/js/blueimp-gallery.min.js',
+  'src/vendor/angular-tooltip/angular-tooltips.js',
+  'src/vendor/angular-highchart/highstock.src.js',
+  'src/vendor/angular-highchart/highcharts-ng.js',
 ],
 jsDest = 'assets/js';
 
@@ -81,7 +86,6 @@ gulp.task('angularScripts', function() {
     return gulp.src(jsAngularFiles)
         .pipe(concat('scripts-angular.min.js'))
         .pipe(gulp.dest(jsDest))
-        .pipe(uglify())
         .pipe(gulp.dest('./assets/js/'));
 });
 
@@ -147,6 +151,12 @@ gulp.task('test', function () {
     /*css*/
     './assets/css/styles-vendor*.css',
    './assets/css/styles-bundle*.css',
+    /*angular*/
+    // 'src/vendor/angular/angular.min.js',
+    'src/vendor/angular/angular-animate.min.js',
+    'src/vendor/angular/angular-resource.min.js',
+    'src/vendor/angular/angular-route.js',
+    'src/vendor/angular/angular-ui-router.js',
     /*vendor*/
     'src/vendor/angularhotkeys/hotkeys.min.js',
     'src/vendor/angular-web-notification/web-notification.js',
@@ -156,12 +166,9 @@ gulp.task('test', function () {
     'src/vendor/ngclibboard/ngclipboard.js',
     'src/vendor/ngaudio/angular.audio.js',
     'src/vendor/blueimp/js/blueimp-gallery.min.js',
-    /*angular*/
-    // 'src/vendor/angular/angular.min.js',
-    'src/vendor/angular/angular-animate.min.js',
-    'src/vendor/angular/angular-resource.min.js',
-    'src/vendor/angular/angular-route.js',
-    'src/vendor/angular/angular-ui-router.js',
+    'src/vendor/angular-tooltip/angular-tooltips.js',
+    'src/vendor/angular-highchart/highstock.src.js',
+    'src/vendor/angular-highchart/highcharts-ng.js',
     /*app*/
     'src/app/app.js',
     'src/app/service/firebase.service.js',

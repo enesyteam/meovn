@@ -9,14 +9,27 @@
                 </div>
             </div>
         </div>
-        <div class="shell mainStage" id="shellMainStage">
-            <div class="shell meComponent swx" id="meComponent">
+        <!-- Preload -->
+        <div class="pre-loading" style="background-color: #1f1f1f;width:100%;height:100%; position: absolute;top: 0; bottom: 0; left: 0; right: 0" ng-show="isAsideLoading">
+            <div class="is-loading" style="height: 100%">
+                <div class="loading-container" style="height: 100%">
+                    <div class="loader" ng-show="isAsideLoading" ng-hide style="width: 100%;height: 20px;padding-top: 30px;margin-top: 15px;">
+                        <svg class="circular" viewBox="25 25 50 50" style="margin:0 auto">
+                          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                        </svg>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Preload -->
+        <div class="shell mainStage" id="shellMainStage" ng-hide="isAsideLoading">
+            <div class="shell meComponent swx" id="meComponent" ng-hide="isAsideLoading">
                 <div class="swxMe" ng-controller="MembersController">
                     <swx-me-area>
                         <div class="Me" ng-class="showMeExpand==true ? 'Me--expanded' : ''">
                             <div class="Me-small">
-                                <div class="Me-presenceStatus" tabindex="0">
-                                    <button class="btn secondary circle Me-openPresencePopup" type="button" ng-click="toggleShowMeExpand()">
+                                <div class="Me-presenceStatus" tabindex="0" ng-click="toggleShowMeExpand()">
+                                    <button class="btn secondary circle Me-openPresencePopup" type="button">
                                         <span class="iconfont chevronDown"></span>
                                     </button>
                                 </div>
@@ -24,7 +37,7 @@
                                     <span>User Name<!-- {{currentUser.first_name + ' ' + currentUser.last_name}} --></span>
                                     <span>Expand profile</span>
                                 </div>
-                                <div class="Me-skyContainer">
+                                <div class="Me-skyContainer" ng-click="toggleShowMeExpand()">
                                     <div class="Me-sky"></div>
                                     <swx-avatar class="Me-avatar">
                                         <div role="button" class="Avatar Avatar--size40 Avatar--presence Avatar--more Avatar--defaultAvatar" tabindex="" >
@@ -33,10 +46,10 @@
                                     </swx-avatar>
                                     <div class="Me-info">
                                         <span class="Me-displayNameContainer">
-                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0" ng-click="toggleShowMeExpand()"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{currentMember.first_name + ' ' + currentMember.last_name}}</p>
+                                         <p aria-labelledby="expandMeProfileLabel" class="Me-displayName fontSize-h3 strong" role="button" tabindex="0"><!-- {{currentUser.first_name + ' ' + currentUser.last_name}} -->{{currentMember.first_name + ' ' + currentMember.last_name}}</p>
                                          <!-- ko if:displayBalance() --><!-- /ko -->
                                       </span>
-                                        <p class="Me-moodMessage" role="button" tabindex="0">{{user.id}}</p>
+                                        <p class="Me-moodMessage" role="button" tabindex="0">{{currentMember.email}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +83,7 @@
 
                                         <div class="Me-accountInfoWrapper">
                                             <p class="Me-accountInfo-displayName fontSize-h3 strong">{{currentUser.first_name + ' ' + currentUser.last_name}}</p>
-                                            <p class="Me-skypename" tabindex="0">Not you? <a href="#" ng-click="logout()">Logout</a> </p>
+                                            <p class="Me-skypename" tabindex="0">Your profile picture was taken from ... Not ...? <a href="#" ng-click="logout()">Logout</a> and login as difference account to set it.</p>
                                         </div>
 
                                         <a class="Me-link" href="javascript:void(0);" aria-label="Download Skype plugin" style="display: block;">
@@ -92,6 +105,17 @@
                                             <span class="fontSize-h3 Me-linkText">Sign out {{currentMember.last_name}}</span>
                                         </a>
                                     </div>
+                                    <!-- Chart -->
+                                    <div class="Me-chartarea">
+                                        <highchart id="chart1" config="chartConfig" class="span9" ></highchart>
+                                        <div class="cc-credit">
+                                            <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
+                                                <span class="iconfont heart"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Chart -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -100,17 +124,17 @@
             </div>
             <div class="shell main" id="chatServiceContainer">
                 <aside class="sideContainer">
-                    <div class="timelineComponentContainer swx" id="timelineComponent" dir="ltr">
+                    <div class="timelineComponentContainer swx" id="timelineComponent" dir="ltr" ng-style="isAsideLoading && {'top': '0'}">
                         <div class="side themeWhite slideLeftToRight inactive">
                             <swx-sidebar>
 
                                 <!-- {{-- Toolbar --}} -->
-                                <div class="navigation afterSearch">
+                                <div class="navigation afterSearch"  ng-hide="isAsideLoading">
                                     <div role="menubar" class="navigationMenuIcons">
                                         <swx-menu-item role="presentation">
                                             <a href="javascript:void(0);" role="menuitem" class="navItem icon" ng-class="{active: isShowAll}" aria-label="Settings" id="menuItem-userSettings" style="" tabindex="-1" ng-click="toggleShowAll()">
                                                 <span class="icon">
-                                                    <span class="iconfont menu" title="Tất cả">
+                                                    <span class="iconfont menu">
                                                     </span>
                                                 </span>
                                                 <span class="text">
@@ -132,7 +156,7 @@
                                         <swx-menu-item role="presentation">
                                             <a role="menuitem" class="navItem icon" aria-label="Settings" id="menuItem-userSettings" ng-class="showMyOrders ? 'active' : ''" style="" tabindex="-1" ng-click="toggleShowMyOrders()">
                                                 <span class="icon">
-                                                    <span class="iconfont heart" title="Order của tôi">
+                                                    <span class="iconfont heart" title="Show My Orders">
                                                         
                                                     </span>
                                                 </span>
@@ -145,9 +169,9 @@
                                     </div>
                                   
                                 </div>
-                                <div class="asideSplitter"></div>
+                                <div class="asideSplitter"  ng-hide="isAsideLoading"></div>
                                 <!-- {{-- /Toolbar --}} -->
-                                <div class="search beforeMenuItems" ng-show="showSearchbox">
+                                <div class="search beforeMenuItems"  ng-hide="isAsideLoading">
                                     <swx-search-input>
                                         <div class="input">
                                             <div class="icon">
@@ -283,7 +307,9 @@
                                                     <div class="grid group">
                                                         <swx-avatar role="button" class="avatar Avatar--fogTheme">
                                                             <div role="button" class="Avatar Avatar--presence Avatar--{{getOrderStatusForOrder(selectedOrder)}} Avatar--defaultAvatar Avatar--absolute" tabindex="">
-                                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{userAvatar}}" style="display: block;">
+                                                                <a href="//facebook.com/{{selectedOrder.fbId}}" target="_blank">
+                                                                    <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{userAvatar}}" style="display: block;">
+                                                                </a>
                                                             </div>
                                                         </swx-avatar>
                                                         <swx-button class="hideProfile hide">
@@ -318,7 +344,7 @@
                                                                             <swx-conversation-share-link class="conversation-share-link conversation-share-link-header">
                                                                                 <div class="conversationShareLink">
                                                                                     <swx-button>
-                                                                                        <button type="button" role="button" class="btn shareButton circle classicShare" data-ng-click="clibboardCoppyLink($event)">
+                                                                                        <button type="button" role="button" class="btn shareButton circle classicShare" data-ng-click="clibboardCoppyLink($event)" tooltips tooltip-template="Click to get link" tooltip-side="bottom">
                                                                                                 <span class="iconfont link">Get link</span>
                                                                                                 <!-- ko if: showMenuOptions -->
                                                                                                 <!-- /ko -->
@@ -349,7 +375,7 @@
                                                         <div class="headerControls newConversationV2">
                                                             <div class="buttonRow">
                                                                 <swx-button ng-repeat="status in ordersStatuses">
-                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" title="{{status.name + ' [Shift+' + status.id + ']'}}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' data-status-id="{{status.id}}">
+                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' data-status-id="{{status.id}}" tooltips tooltip-template="{{status.name + ' [Shift+' + status.id + ']'}}" tooltip-side="bottom">
                                                                             <span class="iconfont {{status.icon_class}}">{{status.name + ' [Shift+' + status.id + ']'}}</span>
                                                                             <!-- ko if: showMenuOptions -->
                                                                             <!-- /ko -->

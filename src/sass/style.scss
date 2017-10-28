@@ -36288,7 +36288,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     top: 0;
     right: 0;
     left: 0;
-    height: 90%;
+    height: 100%;
     width: 100%;
     max-width: 100%;
     background-color: #F5F9FC;
@@ -36297,9 +36297,9 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     -ms-transform: translateY(-100%);
     -o-transform: translateY(-100%);
     transform: translateY(-100%);
-    -webkit-transition: 0.5s ease-out;
-    -o-transition: 0.5s ease-out;
-    transition: 0.5s ease-out;
+    -webkit-transition: 0.3s ease-out;
+    -o-transition: 0.3s ease-out;
+    transition: 0.3s ease-out;
     z-index: 21;
     cursor: default
 }

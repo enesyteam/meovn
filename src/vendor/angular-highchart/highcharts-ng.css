@@ -1,0 +1,33 @@
+highchart {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.Me-chartarea{
+	position: absolute;
+    width: calc(100% - 375px);
+    top: 70px;
+    right: 15px;
+    margin: 0 auto;
+    text-align: center;
+    height: calc(100% - 70px);
+}
+.highcharts-background{
+    background-color: #1f1f1f;
+}
+.cc-credit{
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    font-size: 13px !important;
+    font-weight: 300 !important;
+    color: #667486;
+    line-height: 28px !important;
+}
+.cc-credit .iconfont{
+    font-size: 22px !important;
+    line-height: 28px !important;
+    vertical-align: middle !important;
+    color: #e85656;
+}
