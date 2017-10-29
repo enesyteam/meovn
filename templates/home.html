@@ -23,8 +23,8 @@
         </div>
         <!-- /Preload -->
         <div class="shell mainStage" id="shellMainStage" ng-hide="isAsideLoading">
-            <div class="shell meComponent swx" id="meComponent" ng-hide="isAsideLoading">
-                <div class="swxMe" ng-controller="MembersController">
+            <div class="shell meComponent swx" id="meComponent">
+                <div class="swxMe">
                     <swx-me-area>
                         <div class="Me" ng-class="showMeExpand==true ? 'Me--expanded' : ''">
                             <div class="Me-small">
@@ -105,9 +105,11 @@
                                             <span class="fontSize-h3 Me-linkText">Sign out {{currentMember.last_name}}</span>
                                         </a>
                                     </div>
+                                    <button ng-click="testChangeData()">change</button>
                                     <!-- Chart -->
                                     <div class="Me-chartarea">
-                                        <highchart id="chart1" config="chartConfig" class="span9" ></highchart>
+                                        <highchart config="chartConfig"></highchart>
+                                        <div class="row-fluid"><label><input type="checkbox" ng-model="chartConfig.credits.enabled"> credits</label></div>
                                         <div class="cc-credit">
                                             <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
                                                 <span class="iconfont heart"></span>

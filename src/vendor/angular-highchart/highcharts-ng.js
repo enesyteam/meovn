@@ -14,8 +14,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
   ) {
         Highcharts = require('highcharts');
   }
-
-
   angular.module('highcharts-ng', [])
     .component('highchart', {
       bindings: {

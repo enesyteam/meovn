@@ -1,5 +1,5 @@
 meovn.controller('AuthController', function($scope, $http, hotkeys, $filter, 
-			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, ngAudio){
+			 toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification){
 			$scope.email = '';
 			$scope.password = '';
 			var btnSignin = document.getElementById('btnSignin');
