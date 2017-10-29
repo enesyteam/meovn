@@ -129,10 +129,21 @@ meovn.controller('OrdersController',
         firebase.auth().onAuthStateChanged(function(firebaseUser) {
             if (!firebaseUser) {
                 // console.log('You are not loged in!');
-                window.location = '/#/auth';
-                return;
+                $state.go('auth');
             } else {
                 $scope.firebaseUser = firebase.auth().currentUser;
+                firebaseService.getAllMembers().then(function(members) {
+		            $scope.sellers = members;
+
+					angular.forEach($scope.sellers, function(value) {
+						if(value.email == $scope.firebaseUser.email){
+							$scope.currentMember = value;
+						}
+					});
+					// $scope.isAsideLoading = false;
+					// console.log($scope.currentMember);
+
+		        });
 
                 // $scope.$apply(function() {
                 //     firebaseService.getMemberByEmail($scope.firebaseUser.email);
@@ -153,19 +164,6 @@ meovn.controller('OrdersController',
         $scope.sellers = [];
         $scope.packs = [];
 
-
-
-        firebaseService.getAllMembers().then(function(members) {
-            $scope.sellers = members;
-
-			angular.forEach($scope.sellers, function(value) {
-				if(value.email == $scope.firebaseUser.email){
-					$scope.currentMember = value;
-				}
-			})
-			console.log($scope.currentMember);
-
-        });
         $scope.ordersStatusesForFilter = [];
         $scope.ordersStatuses = [];
         firebaseService.getAllStatuses().then(function(statuses) {
@@ -210,7 +208,7 @@ meovn.controller('OrdersController',
             });
         }
         firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
-            $scope.showNotify(snapshot.val());
+            showNotify(snapshot.val());
             Facebook.api('/' + snapshot.val().fbId + '/picture?height=100&width=100', function(response) {
                 if (!response || response.error) {
                     alert('error!');
@@ -706,7 +704,7 @@ meovn.controller('OrdersController',
         }
 
         // web notification
-        $scope.showNotify = function(order) {
+        function showNotify(order) {
             $scope.graphUserAvatar(order.fbId);
             var content = (order && order.buyer_name) ? order.buyer_name + '/' + order.buyer_mobile : 'No name';
             webNotification.showNotification('Newest Order!', {

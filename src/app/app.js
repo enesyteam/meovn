@@ -1,7 +1,8 @@
 
 	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
 		'facebook', 'CopyToClipboard', 'angular-web-notification', '720kb.tooltips', 'highcharts-ng'])
-	.config(function($stateProvider, $urlRouterProvider, FacebookProvider){
+	.config(function($stateProvider,$locationProvider, $urlRouterProvider, FacebookProvider){
+        $locationProvider.hashPrefix('');
         $urlRouterProvider.otherwise("/");
         $stateProvider
           .state('home',{
