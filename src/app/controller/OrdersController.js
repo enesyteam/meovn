@@ -119,14 +119,20 @@ meovn.controller('OrdersController',
                     if ($state.current.name == 'home.details') {
                         $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
 
-                        ref.child('orders').orderByChild('id')
-                        .equalTo($stateParams.id)
-                        .once('value', function(snap) {
-                            var res = [];
-                            snap.forEach(function(item){
-                                    res.push(item.val());
-                               });
-                            activeOrder(res[0]);
+                        // ref.child('orders').orderByChild('id')
+                        // .equalTo($stateParams.id)
+                        // .once('value', function(snap) {
+                        //     var res = [];
+                        //     snap.forEach(function(item){
+                        //             res.push(item.val());
+                        //        });
+                        //     activeOrder(res[0]);
+                        // });
+
+                        angular.forEach($scope.tt, function(o, i) {
+                          if (o.id === $stateParams.id ) {
+                            activeOrder($scope.tt[i]);
+                          }
                         });
 
                         $scope.isPageBusy = false;
@@ -446,15 +452,15 @@ meovn.controller('OrdersController',
             }
         }
 
-        $scope.filterOrdersByStatus = function(status) {
-            firebase.database().ref().child('orders').orderByChild("status_id").equalTo(status.id).once("value", function(data) {
-                // console.log('status id: ' + status.id);
-                data.forEach(function(item) {
-                    var itemVal = item.val();
-                    // console.log(itemVal);
-                });
-            });
-        }
+        // $scope.filterOrdersByStatus = function(status) {
+        //     firebase.database().ref().child('orders').orderByChild("status_id").equalTo(status.id).once("value", function(data) {
+        //         // console.log('status id: ' + status.id);
+        //         data.forEach(function(item) {
+        //             var itemVal = item.val();
+        //             // console.log(itemVal);
+        //         });
+        //     });
+        // }
 
         // object to hold all the data for the new comment form
         $scope.commentData = {};
@@ -634,63 +640,63 @@ meovn.controller('OrdersController',
 
         // Clibboard
         // getClipboard data
-        var getClipboardData = function(order) {
-            var m, n, s, p, st, sl;
-            s = getSource(order.order_source_id);
-            p = getPack(order.product_pack_id);
-            st = getStatus(order.status_id);
-            sl = $scope.getSeller(order.seller_will_call_id);
-            return 'Page:' + '\t\t\t' + s[0].source_name +
-                '\nGói sp:' + '\t\t\t' + p[0].short_title + '/' + p[0].price + 'K' +
-                '\nTrạng thái:' + '\t\t' + st[0].name +
-                '\nNgười gọi:' + '\t\t' + (sl ? sl[0].last_name : 'Chưa có');
-        }
-        var getSource = function(id) {
-            if (!id) return null;
-            var result = [];
-            ref.child('sources').orderByChild('id').equalTo(id).on('value', function(snap) {
-                snap.forEach(function(item) {
-                    var itemVal = item.val();
-                    result.push(itemVal);
-                });
-            });
-            return result;
-        };
-        var getStatus = function(id) {
-            // console.log(id);
-            if (!id) return null;
-            var result = [];
-            ref.child('statuses').orderByChild('id').equalTo(id).on('value', function(snap) {
-                snap.forEach(function(item) {
-                    var itemVal = item.val();
-                    result.push(itemVal);
-                });
-            });
-            return result;
-        };
-        var getPack = function(id) {
-            if (!id) return null;
-            var result = [];
-            ref.child('packs').orderByChild('id').equalTo(id).on('value', function(snap) {
-                snap.forEach(function(item) {
-                    var itemVal = item.val();
-                    result.push(itemVal);
-                });
-            });
-            return result;
-        };
+        // var getClipboardData = function(order) {
+        //     var m, n, s, p, st, sl;
+        //     s = getSource(order.order_source_id);
+        //     p = getPack(order.product_pack_id);
+        //     st = getStatus(order.status_id);
+        //     sl = $scope.getSeller(order.seller_will_call_id);
+        //     return 'Page:' + '\t\t\t' + s[0].source_name +
+        //         '\nGói sp:' + '\t\t\t' + p[0].short_title + '/' + p[0].price + 'K' +
+        //         '\nTrạng thái:' + '\t\t' + st[0].name +
+        //         '\nNgười gọi:' + '\t\t' + (sl ? sl[0].last_name : 'Chưa có');
+        // }
+        // var getSource = function(id) {
+        //     if (!id) return null;
+        //     var result = [];
+        //     ref.child('sources').orderByChild('id').equalTo(id).once('value', function(snap) {
+        //         snap.forEach(function(item) {
+        //             var itemVal = item.val();
+        //             result.push(itemVal);
+        //         });
+        //     });
+        //     return result;
+        // };
+        // var getStatus = function(id) {
+        //     // console.log(id);
+        //     if (!id) return null;
+        //     var result = [];
+        //     ref.child('statuses').orderByChild('id').equalTo(id).once('value', function(snap) {
+        //         snap.forEach(function(item) {
+        //             var itemVal = item.val();
+        //             result.push(itemVal);
+        //         });
+        //     });
+        //     return result;
+        // };
+        // var getPack = function(id) {
+        //     if (!id) return null;
+        //     var result = [];
+        //     ref.child('packs').orderByChild('id').equalTo(id).once('value', function(snap) {
+        //         snap.forEach(function(item) {
+        //             var itemVal = item.val();
+        //             result.push(itemVal);
+        //         });
+        //     });
+        //     return result;
+        // };
 
-        $scope.getSeller = function(id) {
-            if (!id) return null;
-            var result = [];
-            ref.child('members').orderByChild('id').equalTo(id).on('value', function(snap) {
-                snap.forEach(function(item) {
-                    var itemVal = item.val();
-                    result.push(itemVal);
-                });
-            });
-            return result[0];
-        };
+        // $scope.getSeller = function(id) {
+        //     if (!id) return null;
+        //     var result = [];
+        //     ref.child('members').orderByChild('id').equalTo(id).once('value', function(snap) {
+        //         snap.forEach(function(item) {
+        //             var itemVal = item.val();
+        //             result.push(itemVal);
+        //         });
+        //     });
+        //     return result[0];
+        // };
 
         $scope.clibboardCoppyLink = function(e) {
             var textToCopy = $state.href($state.current.name, $state.params, {
@@ -916,19 +922,19 @@ meovn.controller('OrdersController',
 
         $scope.currentOrder = null;
 
-        function getOrderById(id){
-            ref.child('orders').orderByChild('id')
-                .equalTo(id)
-                .once('value', function(snap) {
-                    var res = [];
-                    snap.forEach(function(item){
-                            res.push(item.val());
-                       });
-                    console.log('found: ');
-                    console.log(res[0]);
-                    return res[0];
-                });
-        }
+        // function getOrderById(id){
+        //     ref.child('orders').orderByChild('id')
+        //         .equalTo(id)
+        //         .once('value', function(snap) {
+        //             var res = [];
+        //             snap.forEach(function(item){
+        //                     res.push(item.val());
+        //                });
+        //             console.log('found: ');
+        //             console.log(res[0]);
+        //             return res[0];
+        //         });
+        // }
 
         function getAvailableOrders(dates){
             if(!dates) dates = 2;
@@ -936,7 +942,7 @@ meovn.controller('OrdersController',
             var startTime = new Date(); // yesterday
             startTime.setDate(startTime.getDate() - dates);
             endTime.setDate(endTime.getDate());
-            console.log('get orders from: ' + startTime + ' to ' + endTime);
+            // console.log('get orders from: ' + startTime + ' to ' + endTime);
             startTime = startTime.getTime();
             endTime = endTime.getTime();
 
@@ -950,7 +956,7 @@ meovn.controller('OrdersController',
                snap.forEach(function(item){
                     res.push(item.val());
                });
-
+               console.log(res);
                 $scope.tt = res;
 
                // return res;
@@ -961,7 +967,28 @@ meovn.controller('OrdersController',
         ref.child('orders').limitToLast(1)
             .on('child_added', function(snap) {
                 $scope.tt.push(snap.val());
-                console.log($scope.tt);
+            });
+        ref.child('orders')
+            .on('child_changed', function(snap) {
+                var changedPost = snap.val();
+                // var o = getOrderByID(snap.val().id);
+                // var index = $scope.tt.indexOf(snap.val());
+                // $scope.tt.splice(index, 1);
+                // $scope.tt.splice(index, 0, changedPost);
+
+                angular.forEach($scope.tt, function(o, i) {
+                  if (o.id === snap.val().id ) {
+                    //what to update?
+                    // $scope.tt[i].seller_will_call_id = snap.val().seller_will_call_id;
+                    // $scope.tt[i].status_id = snap.val().status_id;
+                    angular.copy(snap.val(), $scope.tt[i]);
+                  }
+                });
+
+
+
+                // o = snap.val();
+                console.log(changedPost);
             });
 
 		 $scope.addSeries = function () {

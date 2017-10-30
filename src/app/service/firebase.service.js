@@ -56,7 +56,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
 
 	var updateOrder = function(order){
-		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
 	        	child.ref.update({
 	        		seller_will_call_id : order.seller_will_call_id
@@ -65,16 +65,16 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	 });
 	};
 	var updateOrderSellerWillCall = function(order){
-		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
-	        	child.ref.update({
+	        	return child.ref.update({
 	        		seller_will_call_id : order.seller_will_call_id
 	        	});
 	    });
 	 });
 	};
 	var updateOrderStatus = function(order){
-		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
 	        	child.ref.update({
 	        		status_id : order.status_id
