@@ -956,17 +956,17 @@ meovn.controller('OrdersController',
                snap.forEach(function(item){
                     res.push(item.val());
                });
-               console.log(res);
-                $scope.tt = res;
+               // console.log(res);
+                $scope.tt = res.reverse();
 
                // return res;
             });
         }
         getAvailableOrders(10);
-        console.log($scope.tt);
+        // console.log($scope.tt);
         ref.child('orders').limitToLast(1)
             .on('child_added', function(snap) {
-                $scope.tt.push(snap.val());
+                $scope.tt.unshift(snap.val());
             });
         ref.child('orders')
             .on('child_changed', function(snap) {
@@ -1152,5 +1152,41 @@ meovn.controller('OrdersController',
 		    $scope.$broadcast('highchartsng.reflow');
 		  };
 
+
+          // quick comment
+          $scope.quickComments = ['Khách hẹn gọi lại vào lúc ...', 'Khách yêu cầu gửi ...', 'Khách đang bận, gọi lại sau ..', 'Khách bận, mai gọi lại'];
+          $scope.selectQuickComment = function(comment){
+            if(comment){
+                $scope.commentData.content = comment;
+                $scope.showQuickComment = false;
+            }
+          }
+          $scope.showQuickComment = false;
+          $scope.toggleShowQuickComment = function(){
+            $scope.showQuickComment = !$scope.showQuickComment;
+          }
+          $scope.hideQuickComment = function(){
+            $scope.showQuickComment = false;
+          }
+          $scope.clearCommentData = function(){
+            $scope.commentData.content = '';
+          }
+
+          // help
+          $scope.isShowOverlay = false;
+          $scope.isShowHelpPanel = false;
+          $scope.showHelpPanel = function(){
+            $scope.isShowHelpPanel = true;
+            $scope.isShowOverlay = true;
+          }
+          $scope.closeHelpPanel = function(){
+            $scope.isShowHelpPanel = false;
+            $scope.isShowOverlay = false;
+          }
+          $scope.hideAllModals = function(){
+            if($scope.isShowHelpPanel){
+                $scope.closeHelpPanel();
+            }
+          }
 
     });

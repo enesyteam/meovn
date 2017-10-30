@@ -11887,16 +11887,111 @@ only screen and (min-resolution: 2dppx) {
     flex: 1
 }
 
+:root .swx .showHelpPanelActions{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
 :root .swx .suggested-actions {
-    transform: translateY(36px);
-    max-height: 0;
-    opacity: 0;
-    position: relative;
+    display: none;
     align-items: center;
-    transition: all .25s ease;
-    margin: 8px 0;
+    justify-content: space-between;
+    background: #262626;
+    height: 100%;
+    width: 455px !important;
+    box-shadow: -2px 0 4px 0 rgba(0,0,0,.2);
+    display: block !important;
+    z-index: 1001;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all 0.35s ease;
+    -moz-transition: all 0.35s ease;
+    -ms-transition: all 0.35s ease;
+    -o-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+    right: -465px;
+}
+:root .swx .suggested-actions.active{
+    display: block;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.35s ease;
+    right: 0;
+}
+:root .swx .suggested-actions .suggest-header{
+    position: relative;
+    height: 60px;
+    background: #191919;
+}
+:root .swx .suggested-actions .suggest-header .header-item{
+    position: relative;
+    margin: 10px 5px;
+    display: inline-block !important;
+}
+:root .swx .suggested-actions .suggest-header .header-title{
+    font-size: 22px;
+    line-height: 40px;
+    font-weight: 300;
+    color: #fff;
+    margin-left: 30px;
+}
+:root .swx .suggested-actions .suggest-header .header-item.closeAction{
+    float: right
+}
+:root .swx .suggested-actions .typing-area{
+        position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    width: 95%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
-    justify-content: space-between
+    -webkit-justify-content: left;
+    justify-content: left;
+    -ms-flex-pack: left;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    padding: .8em 0 .25em 1em;
+    max-height: 5.6em;
+    min-height: 2em;
+    overflow-x: visible;
+    border-top: 1px solid #393939;
+}
+
+:root .swx .suggested-actions .typing-area input{
+    -webkit-box-flex: 1 1 120px;
+    -moz-box-flex: 1 1 120px;
+    -webkit-flex: 1 1 120px;
+    -ms-flex: 1 1 120px;
+    flex: 1 1 120px;
+    margin-bottom: .6em;
+    display: inline-block;
+    position: relative;
+    top: -.15em;
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: #fff;
+    margin-left: .1em;
+    padding: .5em;
+    padding-top: .35em;
+    font-size: 15px;
+    font-weight: 300;
+}
+:root .swx .suggested-actions .typing-area input::-ms-clear {
+    display: none
 }
 
 :root .swx .suggested-actions .navBtnWrapper {
@@ -19345,7 +19440,7 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .chat .input .emoticon-picker-button span,
 :root .swx .chat .input .send-button span {
-    padding-left: 0;
+    padding-left: 5px;
     padding-right: 0;
     line-height: 100%;
     font-size: 40px !important
@@ -23534,6 +23629,15 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx swx-expression-picker .bubble.active {
     display: block
+}
+:root .swx swx-expression-picker .bubble .quick-reply-item{
+    font-size: 14px;
+    font-weight: 300;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+:root .swx swx-expression-picker .bubble .quick-reply-item:hover{
+    background: #333;
 }
 
 :root .swx swx-expression-picker .bubble div.info {
@@ -38535,4 +38639,95 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     color: #888;
     font-weight: 300;
     font-size: 16px;
+}
+
+:root .swx .body-fade{
+    background: #191919;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    display: none;
+    opacity: 0.8;
+    animation: fadeout 0.35s;
+    -moz-animation: fadeout 0.35s; /* Firefox */
+    -webkit-animation: fadeout 0.35s; /* Safari and Chrome */
+    -o-animation: fadeout 0.35s; /* Opera */
+}
+:root .swx .show-overlay .body-fade{
+    display: block;
+    animation: fadein 0.35s;
+    -moz-animation: fadein 0.35s; /* Firefox */
+    -webkit-animation: fadein 0.35s; /* Safari and Chrome */
+    -o-animation: fadein 0.35s; /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:0.8;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:0.8;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:0.8;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        opacity:0.8;
+    }
+    to {
+        opacity:0;
+    }
+}
+@-moz-keyframes fadeout { /* Firefox */
+    from {
+        opacity:0.8;
+    }
+    to {
+        opacity:0;
+    }
+}
+@-webkit-keyframes fadeout { /* Safari and Chrome */
+    from {
+        opacity:0.8;
+    }
+    to {
+        opacity:0;
+    }
+}
+@-o-keyframes fadeout { /* Opera */
+    from {
+        opacity:0.8;
+    }
+    to {
+        opacity: 0;
+    }
 }

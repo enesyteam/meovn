@@ -1,16 +1,16 @@
 meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($firebaseArray, $filter) { 
 
 	var ref = firebase.database().ref();
-    ordersArr = $firebaseArray(ref.child('orders'));
+    // ordersArr = $firebaseArray(ref.child('orders'));
     commentsArr = $firebaseArray(ref.child('comments'));
     sourcesArr = $firebaseArray(ref.child('sources'));
     statusesArr = $firebaseArray(ref.child('statuses'));
     membersArr = $firebaseArray(ref.child('members'));
     packsArr = $firebaseArray(ref.child('packs'));
 
-    var getAllOrders = function(){
-		return ordersArr.$loaded();
-	};
+ //    var getAllOrders = function(){
+	// 	return ordersArr.$loaded();
+	// };
 	var getAllComments = function(){
 		return commentsArr.$loaded();
 	};
@@ -27,9 +27,9 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		return membersArr.$loaded();
 	};
 
-	var getOrder = function(id){
-		return ordersArr.$getRecord(id);
-	}
+	// var getOrder = function(id){
+	// 	return ordersArr.$getRecord(id);
+	// }
 	
 
 	var getMember = function(id){
@@ -130,12 +130,12 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
 
 	return{
-		getAllOrders    : getAllOrders,
+		// getAllOrders    : getAllOrders,
 		getAllComments	: getAllComments,
 		addComment		: addComment,
 		updateComment	: updateComment,
 		removeComment	: removeComment,
-		getOrder    	: getOrder,
+		// getOrder    	: getOrder,
 		getAllStatuses	: getAllStatuses,
 		updateOrder		: updateOrder,
 		updateOrderStatus: updateOrderStatus,

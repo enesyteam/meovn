@@ -22,6 +22,9 @@
             </div>
         </div>
         <!-- /Preload -->
+        <!-- Body fade -->
+        <div class="body-fade" ng-click="hideAllModals()"></div>
+        <!-- /Body fade -->
         <div class="shell mainStage" id="shellMainStage" ng-hide="isAsideLoading">
             <div class="shell meComponent swx" id="meComponent">
                 <div class="swxMe">
@@ -507,7 +510,7 @@
                                                                             <span class="tile idle">
                                                                             <span class="tileName">
                                                                             <h4>
-                                                                              #{{commentList.length + 1}} bởi {{currentUser.last_name}}
+                                                                              #{{commentList.length + 1}} bởi {{currentMember.last_name}}
                                                                            </h4>
                                                                             </span>
                                                                             </span>
@@ -550,25 +553,29 @@
 
                                                         <!-- {{-- // END COMMENTS --}} -->
                                                        
-                                                        <!-- ko if: suggestedActionsEnabled -->
-                                                        <div class="suggested-actions" >
-                                                            <div class="navBtnWrapper disabled">
-                                                                <span class="button prev iconfont" role="button" tabindex="0"></span>
-                                                            </div>
-                                                            <div id="chatlog-suggestedActionsArea" class="actionItems">
-                                                                <!-- ko if: showBotDetails -->
-                                                                <!-- /ko -->
-                                                                <!-- ko foreach: suggestedActions -->
-                                                                <!-- /ko -->
-                                                            </div>
-                                                            <div class="navBtnWrapper disabled">
-                                                                <span class="button next iconfont" role="button" tabindex="0"></span>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /ko -->
                                                     </div>
                                                 </div>
                                                 
+                                            </div>
+                                            <div class="showHelpPanelActions">
+                                                <button type="button" role="button" class="btn circle closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()">
+                                                        <span class="iconfont flash"></span>
+                                                    </button>
+                                            </div>
+
+                                            <div class="suggested-actions" ng-class="isShowHelpPanel==true ? 'active' : ''">         
+                                                <div class="suggest-header">
+                                                    <button type="button" role="button" class="header-item btn transparent circle actionButton closeAction" title="Close" aria-haspopup="true" ng-click="closeHelpPanel()">
+                                                        <span class="iconfont cross"></span>
+                                                    </button>
+                                                    <span class="header-item header-title">Support Center</span>
+                                                    
+                                                </div>
+                                                <!-- Typing -->
+                                                <div class="typing-area">
+                                                    <input class="typing-box" type="text" name="" placeholder="Type something here...">
+                                                </div>
+                                                <!-- /Typing -->
                                             </div>
                                             
                                         </swx-chat-log>
@@ -587,11 +594,30 @@
                                                                         <!-- /ko -->
                                                                         <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here & press Enter to send" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
                                                                         </textarea>
-                                                                        <!-- {{--
-                                                                        <button type="submit" class="btn primary small circle">Send</button> --}} -->
                                                                     </div>
                                                                 </swx-textarea>
                                                                 </form>
+                                                        </div>
+                                                        <div class="buttonRow">
+                                                            <swx-button >
+                                                                <button type="button" role="button" class="btn transparent circle actionButton" title="Clear comment data" aria-haspopup="true" ng-show="commentData.content.length > 0" ng-click="clearCommentData()">
+                                                                <span class="iconfont cross"></span>
+                                                                </button>
+                                                            </swx-button>
+                                                           <swx-expression-picker  class="expressionPicker">
+                                                              <div class="wrapper swx-expression-picker">
+                                                                 <swx-button >
+                                                                    <button type="button" role="button" class="btn swx-expression-picker-btn transparent circle emoticon-picker-button large" title="Quick Comment" ng-click="toggleShowQuickComment()">
+                                                                       <span class="iconfont message"></span>
+                                                                    </button>
+                                                                 </swx-button>
+                                                                 <div class="bubble popup arrow down active" ng-show="showQuickComment">
+                                                                    <div class="quick-reply-item" ng-repeat="item in quickComments" ng-click="selectQuickComment(item)">
+                                                                        <span class="quick-reply-item-content">{{item}}</span>
+                                                                    </div>
+                                                                </div>
+                                                              </div>
+                                                           </swx-expression-picker>
                                                         </div>
                                                         
                                                     </div>
