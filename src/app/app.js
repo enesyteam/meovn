@@ -11,8 +11,8 @@
             templateUrl: "/templates/home.html"
           })
           .state('home.details', {
-				url        : 'order/:id/seller=:seller',
-				params     : { id : null, seller: null},
+				url        : 'order/:id/:mobile/seller=:seller',
+				params     : { id : null,mobile: null, seller: null},
 				templateUrl: 'templates/order-details.html'
 			})
           .state('auth',{

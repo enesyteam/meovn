@@ -30,6 +30,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	var getOrder = function(id){
 		return ordersArr.$getRecord(id);
 	}
+	
 
 	var getMember = function(id){
 		return membersArr.$getRecord(id);
@@ -53,8 +54,33 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	//     });
 	// });
 
+
 	var updateOrder = function(order){
-		return ordersArr.$save(order);
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 	snapshot.forEach(function(child) {
+	        	child.ref.update({
+	        		seller_will_call_id : order.seller_will_call_id
+	        	});
+	    });
+	 });
+	};
+	var updateOrderSellerWillCall = function(order){
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 	snapshot.forEach(function(child) {
+	        	child.ref.update({
+	        		seller_will_call_id : order.seller_will_call_id
+	        	});
+	    });
+	 });
+	};
+	var updateOrderStatus = function(order){
+		 return	ref.child('orders').orderByChild('id').equalTo(order.id).on('value', function(snapshot){
+		 	snapshot.forEach(function(child) {
+	        	child.ref.update({
+	        		status_id : order.status_id
+	        	});
+	    });
+	 });
 	};
 	var addComment = function(comment){
 		return commentsArr.$add(comment);
@@ -112,6 +138,8 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		getOrder    	: getOrder,
 		getAllStatuses	: getAllStatuses,
 		updateOrder		: updateOrder,
+		updateOrderStatus: updateOrderStatus,
+		updateOrderSellerWillCall: updateOrderSellerWillCall,
 		getAllSources	: getAllSources,
 		getAllPacks		: getAllPacks,
 		getAllMembers	: getAllMembers,

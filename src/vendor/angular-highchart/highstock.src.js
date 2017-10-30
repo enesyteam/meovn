@@ -4440,8 +4440,7 @@
             getStyle: function(style) {
                 this.style = extend({
 
-                    fontFamily: '"Lucida Grande", "Lucida Sans Unicode", ' +
-                        'Arial, Helvetica, sans-serif',
+                    fontFamily: '"Segoe UI Local", "Segoe WP", "Segoe UI Web", SkypeUISymbol, Tahoma, "Helvetica Neue", Helvetica, "Meiryo UI", Meiryo, "Arial Unicode MS", sans-serif',
                     fontSize: '12px'
 
                 }, style);

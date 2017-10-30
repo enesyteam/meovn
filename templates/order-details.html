@@ -79,11 +79,11 @@
     </div>
     <!-- ko if: showSpacesCTA -->
     <div class="ctas">
-    <div class="cta clickable" ng-show="{{selectedOrder.customer_message}}">
+    <div class="cta clickable" ng-show="{{selectedOrder && selectedOrder.customer_message}}">
     <div class="title fontSize-h3 iconfont messageUnread">Customer Notes</div>
     <div class="description fontSize-p">{{selectedOrder.customer_message}}</div>
     </div>
-    <div class="cta clickable" ng-show="{{selectedOrder.admin_note}}">
+    <div class="cta clickable" ng-show="{{selectedOrder && selectedOrder.admin_note}}">
     <div class="title fontSize-h3 iconfont warning">Admin Notes</div>
     <div class="description fontSize-p">{{selectedOrder.admin_note}}</div>
     </div>

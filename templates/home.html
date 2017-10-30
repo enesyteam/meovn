@@ -204,7 +204,7 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.$id, seller: order.seller_will_call_id || 'not-asigned'})">
+                                                        <div class="order" ng-repeat="order in tt | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned'})">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->
