@@ -20,6 +20,27 @@ meovn.directive('myEnter', function () {
     };
 });
 
+meovn.directive('requestEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.requestEnter);
+                    scope.submitRequest();
+                    scope.isPageBusy = false;
+                });
+                event.preventDefault();
+            }
+            else if(event.which === 27){
+                scope.$apply(function (){
+                    scope.$eval(attrs.requestEnter);
+                    scope.requestContent = '';
+                });
+            }
+        });
+    };
+});
+
 meovn.directive('clickOutside', function ($document) {
         return {
            restrict: 'A',

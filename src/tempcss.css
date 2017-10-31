@@ -1,0 +1,192 @@
+:root .swx .suggested-actions .suggest-header{
+    position: relative;
+    height: 60px;
+    background: #191919;
+}
+:root .swx .suggested-actions .suggest-header .header-item{
+    position: relative;
+    margin: 10px 5px;
+    display: inline-block !important;
+}
+:root .swx .suggested-actions .suggest-header .header-title{
+    font-size: 22px;
+    line-height: 40px;
+    font-weight: 300;
+    color: #fff;
+    margin-left: 20px;
+}
+:root .swx .suggested-actions .support-wellcome-message{
+	font-size: 13px;
+	font-weight: 300;
+
+}
+
+:root .swx.desktop.dark .ContactsPage-hint{
+	font-size: 13px;
+	float: left;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+:root .swx .suggested-actions .support-container{
+    padding: 10px 0;
+    height: calc(100% - 150px);
+    display: block;
+    position: relative;
+    /* bottom: 75px; */
+    top: 60px;
+}
+:root .swx .suggested-actions .suggest-header{
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    background: #333;
+    z-index: 12;
+}
+:root .swx .suggested-actions .suggest-header .header-title{
+    font-weight: 300;
+    font-size: 18px;
+}
+:root .swx .suggested-actions .support-container .support-items{
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    position: absolute;
+    display: block;
+    overflow-y: auto;
+    top: 0;
+    z-index: 1;
+    bottom: 0;
+    padding: 0;
+    height: 100%;
+}
+:root .swx .suggested-actions .support-container .report-title{
+	font-weight: 300;
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 60px;
+}
+:root .swx .suggested-actions .support-container .support-items .s-item{
+    display: block;
+    border-bottom: 1px solid #393939;
+    padding: 10px 10px 10px 20px;
+}
+:root .swx .suggested-actions .support-container .support-items .s-item .s-content{
+    display: inline-block;
+    line-height: 30px;
+    color: #888;
+    width: 85%;
+}
+
+:root .swx .suggested-actions .support-container .support-items .s-item.resolved .s-status{
+	color: #7fba00
+} 
+:root .swx .suggested-actions .support-container .support-items .s-item.rejected .s-content{
+	text-decoration: line-through;
+} 
+:root .swx .suggested-actions .support-container .support-items .s-item.rejected .s-status{
+	color: #e81123
+} 
+:root .swx .suggested-actions .support-container .support-items .s-item .s-status{
+    width: 30px;
+    height: 30px;
+    bottom: 0;
+    display: inline-block;
+    float: right;
+    margin-right: 10px;
+    font-size: 29px;
+}
+:root .swx .suggested-actions .support-container .support-items .s-item .s-header{
+	display: block;
+	font-size: 12px;
+	font-weight: 300;
+	color: #00AFF0
+}
+:root .swx .suggested-actions .support-container .support-items .s-item .response-content{
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+    color: #888;
+}
+:root .swx .suggested-actions .support-container .support-items .s-item .response-content:before{
+    font-family: SkypeUISymbol;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    display: inline-block;
+    vertical-align: text-top;
+    font-size: 21px;
+}
+:root .swx.desktop.dark .btn.closeAction:before{
+    background-color: #222b29;
+}
+
+:root .swx .showHelpPanelActions .closeAction.notify:after{
+    display: block;
+    width: 10px;
+    height: 10px;
+    font-size: 0;
+    position: absolute;
+    border: 3px solid #ff8c00;
+    background-color: #ff8c00;
+    z-index: 2;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    bottom: 0;
+    top: 4px;
+    left: 1px;
+}
+:root .swx .suggested-actions .suggest-header .header-item.closeAction{
+    float: right
+}
+:root .swx .suggested-actions .typing-area{
+        position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    background: #262626;
+    width: 95%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: left;
+    justify-content: left;
+    -ms-flex-pack: left;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    padding: .8em 0 .25em 1em;
+    overflow-x: visible;
+    border-top: 1px solid #393939;
+    z-index: 10
+}
+
+:root .swx .suggested-actions .typing-area input{
+    -webkit-box-flex: 1 1 120px;
+    -moz-box-flex: 1 1 120px;
+    -webkit-flex: 1 1 120px;
+    -ms-flex: 1 1 120px;
+    flex: 1 1 120px;
+    margin-bottom: .6em;
+    display: inline-block;
+    position: relative;
+    top: -.15em;
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: #fff;
+    margin-left: .1em;
+    padding: .5em;
+    padding-top: .35em;
+    font-size: 15px;
+    font-weight: 300;
+}
+:root .swx .suggested-actions .typing-area input::-ms-clear {
+    display: none
+}

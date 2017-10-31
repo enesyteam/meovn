@@ -40,7 +40,7 @@ gulp.task('vendorStyles', function() {
 });
 
 gulp.task('styles', function() {
-    gulp.src('src/sass/*.scss')
+    gulp.src(['src/sass/*.scss', 'src/tempcss.css'])
     	.pipe(concat('styles.css'))
     	.pipe(rename('styles-bundle.min.css'))
       .pipe(sass().on('error', sass.logError))
@@ -55,6 +55,7 @@ var jsAppFiles = [
   'src/app/controller/AuthController.js',
   'src/app/controller/MembersController.js',
   'src/app/controller/OrdersController.js',
+  'src/app/controller/SupportController.js',
   'src/app/directive/myEnter.directive.js',
   'src/app/directive/orderFilter.directive.js',
 ];
@@ -151,6 +152,7 @@ gulp.task('test', function () {
     /*css*/
     './assets/css/styles-vendor*.css',
    './assets/css/styles-bundle*.css',
+   'src/tempcss.css',
     /*angular*/
     // 'src/vendor/angular/angular.min.js',
     // 'src/vendor/angular/angular-animate.min.js',
@@ -175,6 +177,7 @@ gulp.task('test', function () {
     'src/app/controller/AuthController.js',
     'src/app/controller/MembersController.js',
     'src/app/controller/OrdersController.js',
+    'src/app/controller/SupportController.js',
     'src/app/directive/myEnter.directive.js',
     'src/app/directive/orderFilter.directive.js',
   ], {read: false});

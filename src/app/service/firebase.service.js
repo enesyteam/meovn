@@ -54,7 +54,20 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	//     });
 	// });
 
+	
 
+	var getCommentForOrder = function(order){
+		var comments = [];
+		ref.child('comments').orderByChild('order_id').equalTo(order.id).once('value', function(snapshot){
+			// console.log(snapshot.val());
+			angular.forEach(snapshot.val(), function(value, key){
+				comments.push(value);
+				// console.log(value);
+			});
+		 	// return res;
+		 });
+		return comments;
+	}
 	var updateOrder = function(order){
 		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
@@ -132,6 +145,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	return{
 		// getAllOrders    : getAllOrders,
 		getAllComments	: getAllComments,
+		getCommentForOrder: getCommentForOrder,
 		addComment		: addComment,
 		updateComment	: updateComment,
 		removeComment	: removeComment,

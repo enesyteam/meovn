@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" class="ltr" dir="ltr" ng-app="meovn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MEO ORDERS V3.0.1 - FRONTEND</title>
+
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/styles-vendor-c02482cd98.min.css">
+  <link rel="stylesheet" href="/assets/css/styles-bundle-98d61f22d9.min.css">
+  <link rel="stylesheet" href="/src/tempcss.css">
+  <!-- endinject -->
+
+</head>
+<body class="swx desktop dark">
+<div class="icons" style="font-size: 60px;height: 100%; overflow-y: scroll;">
+	<span class="icon">
+        <span class="iconfont add large" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    </span>
+    <span class="iconfont callStart" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callEnd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont video" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont videoOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dialpad" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dialpadOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont microphone" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont microphoneOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont more" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont screenshare" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont videoFront" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont videoRear" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callMissed" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callIn" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callOut" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callBlocked" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callError" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callForward" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont favourite" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callerId" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont clock" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont skypeNumber" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont landlineAdd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont videoOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont microphoneOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont userVideoOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callReverse" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callTransfer" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont landline" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont tvOn" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont shareTo" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont tvOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont iOSShare" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont wifi" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont clippy" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont display" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont shareFrom" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont landlineSettings" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAdd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callOk" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callDisabledStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presentation" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont viewSwitcher" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont gvcFocus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont gvcFocusDown" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont gvcGrid" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contact" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactAdd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactOk" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont skypeAddressBook" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont phoneAddressBook" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactBlocked" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactDelete" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactSend" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactIncoming" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactCard" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupAdd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroup" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupDelete" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont blockNotification" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont blockNotificationLarge" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont skypeManager" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont skypeManager" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupOk" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupVideo" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupCall" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupScreenshare" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupPair" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactCrowd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont contactGroupPairSmall" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont bot" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont botAdd" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont botAddSmall" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont message" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobile" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont emoticon" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont birthday" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont voicemail" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont file" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont fileIn" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont fileOut" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont fileSearch" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont menuList" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont menu" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont emoticonStroke" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont reply" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont videomailOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont circleSmall" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont switchCamera" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont badge" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont messageWithBadge" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont msWord" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont doc" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont docx" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont msExcel" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont xls" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont xlsx" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont xlsm" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chatOk" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chatOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont quoteClose" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont media" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chatDeleted" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont send" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont share" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont moreVertical" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont happy" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont hash" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont quickLook" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont sad" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont messageUnread" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont messageRead" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont undo" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont keyboard" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chatFilter" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chatFavourite" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont skypeTranslator" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont quoteOpen" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont volumeMax" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont volumeMid" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont volumeMin" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont volumeOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont fullscreen" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont fullscreenOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont search" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont headset" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont headsetOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont bluetooth" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont favouriteOn" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont favouriteOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont camera" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont edit" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont play" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pause" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont stop" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont email" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont tick" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont cancel" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont remove" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont plus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont down" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont up" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont left" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont right" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chevronDown" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chevronUp" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chevronLeft" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont chevronRight" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont picture" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont earpiece" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont backspaceStroke" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont navigationBack" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont addText" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont deleteElement" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pointer" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont placeImage" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont delete" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont minimise" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont maximise" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont heart" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont heartBroken" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dropdownIconBg" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dropdownIconArrow" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dropdownIconBadge" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont navigationForward" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dropdownList" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont dropdown" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont eraser" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont move" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont screenCapture" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont navigationBackCenter" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont navigationForwardCenter" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flash" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flashOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont heartOutline" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont subscription" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont meeting" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont calendar" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont globe" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont subscriptionCountry" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont subscriptionRegion" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont subscriptionWorld" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont subscriptionPremium" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont currencySterling" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont currencyDollar" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont currencyEuro" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont error" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont warning" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont info" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont question" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont host" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont reload" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont errorSad" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont home" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont privacy" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont settings" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobile" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont office" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont signOut" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont notification" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont notificationOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont location" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont informationStroke" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont link" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont linkBroken" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont hostOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont hostOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont settingsAudio" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pin" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pinOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pinOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+        <span class="iconfont shield" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont reload" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont devices" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont magicWand" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont pcSpeakers" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont microphoneUsb" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont poll" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont questionnaire" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont locationTarget" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont agentCertification" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont alert" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont alertOff" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont alertOffStatus" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont illustrationCalling" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont notificationOutline" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnim1" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnim2" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnim3" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnim4" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnimSmall1" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnimSmall2" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnimSmall3" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont callAnimSmall4" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobileOk" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobileSettings" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobileSms" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont mobileError" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont circleLarge" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont testGlyph" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presenceOfflineXS" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presenceAwayXS" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presenceBusyXS" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presenceOfflineXXS" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont presenceOnline" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont hexagon" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont avatarBotCertifiedStroke" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont qikLogoSmall" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont qikContactGroup" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont qikBullet" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont qikIcon" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flikMore" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flikMore" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flikRecent" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flik" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+    <span class="iconfont flikPrevious" data-bind="css: icon, attr: { title: getTitleText() }" title="New Chat"></span>
+
+</div>
+</body>
+</html>

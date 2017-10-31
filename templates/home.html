@@ -182,7 +182,7 @@
                                             <div class="icon">
                                                 <div class="iconfont search"></div>
                                             </div>
-                                            <input role="search" type="text" maxlength="250" searchbox-Enter="search($event)" value="" name="query" class="inputField fontSize-h4" placeholder="Enter mobile or name..." aria-label="Search orders. Type name or mobile number." style="" id="order-search-box" ng-model="searchText">
+                                            <input role="search" type="text" maxlength="250" value="" name="query" class="inputField fontSize-h4" placeholder="Enter mobile or name..." aria-label="Search orders. Type name or mobile number." style="" id="order-search-box" ng-model="searchText">
                                             <button type="button" class="btn primary circle small transparent searchReset" aria-label="Clear search" ng-show="searchText && searchText >= 0" ng-click="resetSearch()">
                                                 <span class="iconfont cross"></span>
                                             </button>
@@ -429,7 +429,7 @@
                                                                 <!-- {{-- Begin comment --}} -->
                                                                
                                                                     
-                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{comment.user.is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments | filter:{order_id: selectedOrder.id}">
+                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{comment.user.is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments">
                                                                     <div class="callAction" ng-show="comment.type==1">
                                                                         <div class="iconfont {{getStatusById(comment.status_id).icon_class}}"></div>
                                                                     </div>
@@ -557,27 +557,6 @@
                                                 </div>
                                                 
                                             </div>
-                                            <div class="showHelpPanelActions">
-                                                <button type="button" role="button" class="btn circle closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()">
-                                                        <span class="iconfont flash"></span>
-                                                    </button>
-                                            </div>
-
-                                            <div class="suggested-actions" ng-class="isShowHelpPanel==true ? 'active' : ''">         
-                                                <div class="suggest-header">
-                                                    <button type="button" role="button" class="header-item btn transparent circle actionButton closeAction" title="Close" aria-haspopup="true" ng-click="closeHelpPanel()">
-                                                        <span class="iconfont cross"></span>
-                                                    </button>
-                                                    <span class="header-item header-title">Support Center</span>
-                                                    
-                                                </div>
-                                                <!-- Typing -->
-                                                <div class="typing-area">
-                                                    <input class="typing-box" type="text" name="" placeholder="Type something here...">
-                                                </div>
-                                                <!-- /Typing -->
-                                            </div>
-                                            
                                         </swx-chat-log>
 
                                         <!-- {{-- /Chat log --}} {{-- Typing box --}} -->
@@ -632,6 +611,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="showHelpPanelActions">
+                <button type="button" role="button" class="btn circle closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()" tooltips tooltip-template="Get supported from Adsministrators" tooltip-side="left">
+                        <span class="iconfont flashOff"></span>
+                    </button>
+            </div>
+
+            <div class="suggested-actions" ng-class="isShowHelpPanel==true ? 'active' : ''">         
+                <div class="suggest-header">
+                    <button type="button" role="button" class="header-item btn transparent circle actionButton closeAction" title="Close" aria-haspopup="true" ng-click="closeHelpPanel()">
+                        <span class="iconfont cross"></span>
+                    </button>
+                    <span class="header-item header-title">Support Center</span>
+                    
+                </div>
+                <div class="support-container">
+                    <!-- <div class="report-title">Your requests today</div> -->
+                    <div class="support-items">
+                        <div class="s-item resolved" ng-repeat="r in requests track by $index">
+                            <div class="s-header">Hiếu send a request on {{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            <div class="s-content">{{r.content}}</div>
+                            <div class="s-status">
+                                <span class="iconfont tick" tooltips tooltip-template="Resolved" tooltip-side="left"></span>
+                            </div>
+                        </div>
+                        
+                         <p class="ContactsPage-hint">{{ selectedOrder ? 'Get supported for: ' + selectedOrder.buyer_name : 'To get supported you must select an order'}} 
+                            <span style="color: #00AFF0">{{selectedOrder.buyer_mobile}}</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- Typing -->
+                <div class="typing-area">
+                    <input class="typing-box" type="text" name="" ng-model="requestContent" placeholder="Type something here..." request-enter="request()">
+                </div>
+                <!-- /Typing -->
             </div>
             <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
                 <div class="slides"></div>

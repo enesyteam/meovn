@@ -195,9 +195,10 @@ meovn.controller('OrdersController',
                 }
             });
         });
-        firebaseService.getAllComments().then(function(comments) {
-            $scope.comments = comments;
-        });
+        // firebaseService.getAllComments().then(function(comments) {
+        //     $scope.comments = comments;
+        // });
+
         // $scope.firebaseUser = firebase.auth().currentUser;
         // var email = firebaseService.getMemberByEmail(firebase.auth().currentUser.email);
         // 		alert(email);
@@ -224,7 +225,14 @@ meovn.controller('OrdersController',
                 id: id
             });
         }
+
+        // ref.child('orders').limitToLast(1)
+        //     .on('child_added', function(snap) {
+        //         $scope.tt.unshift(snap.val());
+        //     });
+
         firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
+            $scope.tt.unshift(snapshot.val());
             showNotify(snapshot.val());
             Facebook.api('/' + snapshot.val().fbId + '/picture?height=100&width=100', function(response) {
                 if (!response || response.error) {
@@ -402,6 +410,7 @@ meovn.controller('OrdersController',
             $scope.isPageBusy = true;
             // $scope.clickSound.play();
             $scope.isPostExpanded = false;
+            $scope.comments = firebaseService.getCommentForOrder(order);
             graphUser(order.fbId);
             $scope.fbContent = [];
             $scope.fbContent.message = '';
@@ -484,6 +493,7 @@ meovn.controller('OrdersController',
             };
             // firebase.database().ref().child('comments').push($commentItem);
             firebaseService.addComment($commentItem).then(function(response) {
+                $scope.comments.push($commentItem);
                 // console.log(response);
             }, function(err) {
                 $scope.showAlert('', 'Oops! ' + err, 'error');
@@ -547,6 +557,7 @@ meovn.controller('OrdersController',
             // firebase.database().ref().child('comments').push($commentItem);
             firebaseService.addComment($commentItem).then(function(response) {
                 // console.log(response);
+                $scope.comments.push($commentItem);
             }, function(err) {
                 $scope.showAlert('', 'Oops! ' + err, 'error');
             });
@@ -635,6 +646,14 @@ meovn.controller('OrdersController',
 				$scope.initChart();
 			}
 		}
+
+        hotkeys.add({
+            combo: 'esc',
+            description: 'Thoát',
+            callback: function() {
+                $scope.hideAllModals();
+            }
+        });
 
         
 
@@ -964,10 +983,10 @@ meovn.controller('OrdersController',
         }
         getAvailableOrders(10);
         // console.log($scope.tt);
-        ref.child('orders').limitToLast(1)
-            .on('child_added', function(snap) {
-                $scope.tt.unshift(snap.val());
-            });
+        // ref.child('orders').limitToLast(1)
+        //     .on('child_added', function(snap) {
+        //         $scope.tt.unshift(snap.val());
+        //     });
         ref.child('orders')
             .on('child_changed', function(snap) {
                 var changedPost = snap.val();
@@ -1188,5 +1207,33 @@ meovn.controller('OrdersController',
                 $scope.closeHelpPanel();
             }
           }
+
+          /*List request for current order*/
+          var requestStatuses = ['1', '2', '3']; // 1 : pending; 2: resolved; 3: rejected
+          $scope.requests = [];
+          $scope.requestContent = '';
+          var requestData = {
+            fromSeller      : '73',
+            created_at      : null,
+            type            : '1',
+            status          : '1',
+            forOrder        : 'xxx',
+            content         : '',
+            response        : '',
+          }
+          function validationRequest(requestData){
+            requestData.content = $scope.requestContent;
+            if(requestData.content.length < 3){
+                return false;
+            }
+            return true;
+          }
+          $scope.submitRequest = function(){
+            if(validationRequest(requestData)){
+                requestData.created_at = new Date();
+                $scope.requests.push(requestData);
+            }
+          }
+
 
     });
