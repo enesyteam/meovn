@@ -92,8 +92,8 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	        	child.ref.update({
 	        		status_id : order.status_id
 	        	});
-	    });
-	 });
+		    });
+		 });
 	};
 	var addComment = function(comment){
 		return commentsArr.$add(comment);
@@ -102,7 +102,11 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		return commentsArr.$save(comment);
 	};
 	var removeComment = function(comment){
-		return commentsArr.$remove(comment);
+		return	ref.child('comments').orderByChild('id').equalTo(comment.id).once('value', function(snapshot){
+		 	snapshot.forEach(function(child) {
+	        	child.ref.remove();
+		    });
+		 });
 	};
 
 	// user manager

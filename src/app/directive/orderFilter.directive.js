@@ -8,8 +8,6 @@ meovn.filter('my_filter', function () {
     	}
     	// we need to filter orders by created_date
     	// since we only want to show orders that created_at today or yesterday
-    	var today = Date.now();
-    	var yesterday = Date.now()-1;
 
     	if(scope.showMyOrders && scope.activeStatus){
     		return (item.seller_will_call_id == scope.currentMember.id) 
