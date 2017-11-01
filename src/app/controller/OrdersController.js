@@ -194,9 +194,13 @@ meovn.controller('OrdersController',
         });
 
         firebase.database().ref('comments').limitToLast(1).on('child_added', function(snapshot) {
-                console.log(snapshot.val());
+                // console.log(snapshot.val());
                 // if($scope.selectedOrder && (snapshot.val().order_id == $scope.selectedOrder.id)){
-                //     $scope.comments.push(snapshot.val());
+                //     $timeout(function () {
+                //         $scope.comments.push(snapshot.val());
+                //         $scope.$apply();
+                //     }, 10);
+                //     return;
                 // }
 
         });
@@ -363,6 +367,7 @@ meovn.controller('OrdersController',
         // Select Order from List
         $scope.pleaseWaitMessage = 'Select an order to display';
         function activeOrder(order) {
+            if(!order) return;
             $scope.isPageBusy = true;
             // $scope.clickSound.play();
             $scope.isPostExpanded = false;
@@ -377,9 +382,9 @@ meovn.controller('OrdersController',
             graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
             $scope.selectedOrder = order;
             $scope.comments = firebaseService.getCommentForOrder(order);
+            
         }
         $scope.active = function(order) {
-        	// $scope.pleaseWaitMessage = 'Please wait...';
             activeOrder(order);
         }
 
@@ -417,15 +422,6 @@ meovn.controller('OrdersController',
             }
         }
 
-        // $scope.filterOrdersByStatus = function(status) {
-        //     firebase.database().ref().child('orders').orderByChild("status_id").equalTo(status.id).once("value", function(data) {
-        //         // console.log('status id: ' + status.id);
-        //         data.forEach(function(item) {
-        //             var itemVal = item.val();
-        //             // console.log(itemVal);
-        //         });
-        //     });
-        // }
 
         // object to hold all the data for the new comment form
         $scope.commentData = {};
@@ -447,28 +443,9 @@ meovn.controller('OrdersController',
                 'status_id': 0,
                 'user': $scope.currentMember.id,
             };
-            // firebase.database().ref().child('comments').push($commentItem);
             firebaseService.addComment($commentItem);
             $scope.comments.push($commentItem);
             $scope.commentData = {};
-        }
-
-        // remove item from Comment List
-        $scope.removeComment = function(item) {
-            var index = $scope.commentList.indexOf(item);
-            $scope.commentList.splice(index, 1);
-        }
-
-        // find comment by id in Comment List
-        $scope.getCommentById = function(id) {
-            var found = $filter('filter')($scope.commentList, {
-                id: id
-            }, true);
-            if (found.length) {
-                return found[0];
-            } else {
-                return null;
-            }
         }
 
         // destroy comment
@@ -486,13 +463,8 @@ meovn.controller('OrdersController',
                 $scope.showAlert('', 'Oops! Not allowed to change the order status of others.', 'error');
                 return false;
             }
-            // if(order.status_id == status.id || !status) return;
-            // $scope.isPageBusy = true;
-            // var val = angular.element($event.target).attr("data-status-id");
             order.status_id = status.id;
-            // $scope.orders.$save(order);	
             firebaseService.updateOrderStatus(order);
-            // $scope.orders.active = order;
 
             var newCommentKey = firebase.database().ref().child('comments').push().key;
             var $commentItem = {
@@ -504,7 +476,6 @@ meovn.controller('OrdersController',
                 'status_id': status.id,
                 'user': $scope.currentMember.id,
             };
-            // firebase.database().ref().child('comments').push($commentItem);
             firebaseService.addComment($commentItem);
              $scope.comments.push($commentItem);
             $scope.commentData = {};
