@@ -206,7 +206,7 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in tt | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned'})">
+                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned'})">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->
@@ -243,10 +243,10 @@
                                                                    <!-- /ko -->
                                                                 </span>
                                                                         </span>
-                                                                        <!-- /ko -->
-                                                                        <!-- ko if: model.displayNotificationsDisabledIndicator() -->
                                                                         <div class="notificationsDisabledIndicator" aria-hidden="true">
-                                                                            <span class="list-seller-name {{order.seller_will_call_id != null ? 'visible' : ''}}" title="{{findUser(order.seller_will_call_id).last_name}}">{{findUser(order.seller_will_call_id).last_name.charAt(0)}}</span>
+                                                                            <span class="list-seller-name {{order.seller_will_call_id != null ? 'visible' : ''}}" title="{{findUser(order.seller_will_call_id).last_name}}">
+                                                                                {{findUser(order.seller_will_call_id).last_name.charAt(0)}}
+                                                                            </span>
 
                                                                             <button type="button" ng-hide="order.seller_will_call_id" ng-click="addToFavourite($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Thêm vào danh sách của tôi"> <span class="iconfont plus"></span> </button>
                                                                             <button type="button" ng-show="userCanReleaseOrChangeStatus(order) && order.seller_will_call_id" ng-click="releaseOrder($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Hủy nhận Order"> <span class="iconfont cross"></span> </button>
@@ -428,11 +428,11 @@
                                                                 <!-- {{-- Begin comment --}} -->
                                                                
                                                                     
-                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{comment.user.is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments">
+                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{findUser(comment.user).is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments track by $index">
                                                                     <div class="callAction" ng-show="comment.type==1">
                                                                         <div class="iconfont {{getStatusById(comment.status_id).icon_class}}"></div>
                                                                     </div>
-                                                                    <a role="button" aria-label="{{comment.user.last_name}}" title="{{comment.user.last_name}}" ng-show="comment.user.is_admin != 1 && comment.type!=1">
+                                                                    <a role="button" aria-label="{{comment.user.last_name}}" title="{{comment.user.last_name}}" ng-show="findUser(comment.user).is_admin != 1 && comment.type!=1">
                                                                             <swx-avatar class="clickable"><div role="button" class="Avatar Avatar--absolute">
                                                                             <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
                                                                         </div>
@@ -451,7 +451,7 @@
                                                                             <span class="tile idle">
                                                                             <span class="tileName">
                                                                             <h4>
-                                                                              #{{$index+1}} bởi {{comment.user.is_admin==1 ? 'Admin' : comment.user.last_name}}
+                                                                              #{{$index+1}} bởi {{findUser(comment.user).is_admin==1 ? 'Admin' : findUser(comment.user).last_name}}
                                                                            </h4>
                                                                             </span>
                                                                             </span>
@@ -459,11 +459,11 @@
 
                                                                         <div class="arrow" ng-hide="comment.type==1"></div>
                                                                         <div class="content">
-                                                                            <p ng-show="comment.type==1" class="liveSessionText fontSize-h4">#{{$index+1}} <strong style="color:#00AFF0"> {{comment.user.is_admin==1 ? 'Admin' : comment.user.last_name}} </strong> đã đánh dấu trạng thái <strong style="color:#00AFF0"> {{getStatusById(comment.status_id).name}}</strong></p>
+                                                                            <p ng-show="comment.type==1" class="liveSessionText fontSize-h4">#{{$index+1}} <strong style="color:#00AFF0"> {{findUser(comment.user).is_admin==1 ? 'Admin' :  findUser(comment.user).last_name}} </strong> đã đánh dấu trạng thái <strong style="color:#00AFF0"> {{getStatusById(comment.status_id).name}}</strong></p>
 
                                                                             <!-- ko if: isCopySelectionAsQuoteEnabled -->
                                                                             <p ng-hide="comment.type==1">{{comment.content}}</p>
-                                                                                <button type="submit" ng-show="{{currentMember.is_admin == 1 || currentMember.id == comment.user.id && comment.type!=1}}" class="btn primary circle small transparent" aria-label="Delete" style="    position: absolute;right: 5px;top: 5px;" ng-click="deleteComment(comment)" title="Xóa"> 
+                                                                                <button type="submit" ng-show="{{currentMember.is_admin == 1 || currentMember.id == findUser(comment.user).id && comment.type!=1}}" class="btn primary circle small transparent" aria-label="Delete" style="    position: absolute;right: 5px;top: 5px;" ng-click="deleteComment(comment)" title="Xóa"> 
                                                                                     <span class="iconfont delete" style="    display: table-cell;"></span>
                                                                                     </button>
                                                                         </div>
@@ -629,7 +629,7 @@
                     <!-- <div class="report-title">Your requests today</div> -->
                     <div class="support-items">
                         <div class="s-item" ng-repeat="r in requests track by $index" ng-class="r.status==1 ? 'pendding' : (r.status==2 ? 'resolved' : 'rejected')">
-                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by Hiếu</div>
+                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by {{findUser(r.fromSeller).last_name}} for:</div>
                             <div class="s-content">#{{$index+1}} {{r.content}}</div>
                             <div class="s-status">
                                 <span class="iconfont" ng-class="r.status==1 ? 'question' : (r.status==2 ? 'tick' : 'blockNotification')" tooltips tooltip-template="{{r.status==1 ? 'Pendding' : (r.status==2 ? 'Resolved' : 'Rejected')}}" tooltip-side="left"></span>

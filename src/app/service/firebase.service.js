@@ -2,7 +2,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
 	var ref = firebase.database().ref();
     // ordersArr = $firebaseArray(ref.child('orders'));
-    commentsArr = $firebaseArray(ref.child('comments'));
+    // commentsArr = $firebaseArray(ref.child('comments'));
     sourcesArr = $firebaseArray(ref.child('sources'));
     statusesArr = $firebaseArray(ref.child('statuses'));
     membersArr = $firebaseArray(ref.child('members'));
@@ -11,9 +11,9 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
  //    var getAllOrders = function(){
 	// 	return ordersArr.$loaded();
 	// };
-	var getAllComments = function(){
-		return commentsArr.$loaded();
-	};
+	// var getAllComments = function(){
+	// 	return commentsArr.$loaded();
+	// };
     var getAllSources = function(){
 		return sourcesArr.$loaded();
 	};
@@ -47,14 +47,6 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		});
 		
 	}
-	// ref.child('users').orderByChild('name').equalTo('name').on("value", function(snapshot) {
-	//     console.log(snapshot.val());
-	//     snapshot.forEach(function(data) {
-	//         console.log(data.key);
-	//     });
-	// });
-
-	
 
 	var getCommentForOrder = function(order){
 		var comments = [];
@@ -95,12 +87,29 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		    });
 		 });
 	};
-	var addComment = function(comment){
-		return commentsArr.$add(comment);
+	var findOrderById = function(id){
+		var orders = [];
+		ref.child('requests').orderByChild('id').equalTo(id).once('value', function(snapshot){
+			console.log(snapshot.val());
+			angular.forEach(snapshot.val(), function(value, key){
+				orders.push(value);
+			});
+		 	// return res;
+		 });
+		return orders;
 	};
-	var updateComment = function(comment){
-		return commentsArr.$save(comment);
+	// var addComment = function(comment){
+	// 	return commentsArr.$add(comment);
+	// };
+
+	var addComment = function(r){
+		 var re = ref.child('comments');
+		 return re.push(r);
 	};
+
+	// var updateComment = function(comment){
+	// 	return commentsArr.$save(comment);
+	// };
 	var removeComment = function(comment){
 		return	ref.child('comments').orderByChild('id').equalTo(comment.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
@@ -148,12 +157,13 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
 	return{
 		// getAllOrders    : getAllOrders,
-		getAllComments	: getAllComments,
+		// getAllComments	: getAllComments,
 		getCommentForOrder: getCommentForOrder,
 		addComment		: addComment,
-		updateComment	: updateComment,
+		// updateComment	: updateComment,
 		removeComment	: removeComment,
 		// getOrder    	: getOrder,
+		findOrderById   : findOrderById,
 		getAllStatuses	: getAllStatuses,
 		updateOrder		: updateOrder,
 		updateOrderStatus: updateOrderStatus,

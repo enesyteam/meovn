@@ -26,7 +26,7 @@ meovn.directive('requestEnter', function () {
             if(event.which === 13) {
                 scope.$apply(function (){
                     scope.$eval(attrs.requestEnter);
-                    scope.submitRequest();
+                    scope.submitRequest(scope.selectedOrder);
                     scope.isPageBusy = false;
                 });
                 event.preventDefault();

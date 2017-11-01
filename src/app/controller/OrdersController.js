@@ -92,46 +92,15 @@ meovn.controller('OrdersController',
 
         // store all buyers avatars
         $scope.buyersAvatar = [];
-
-        // firebaseService.getAllOrders().then(function(orders) {
-        //     $scope.orders = orders;
-            
-
-        //     // $scope.buyersAvatar = [];
-        //     // angular.forEach(orders, function(value, key) {
-        //     //     Facebook.api('/' + value.fbId + '/picture?height=100&width=100', function(response) {
-        //     //         if (value.fbId) {
-        //     //             $scope.buyersAvatar.push({
-        //     //                 'fbId': value.fbId,
-        //     //                 'avatar': response.data.url
-        //     //             });
-        //     //         }
-        //     //     });
-        //     // });
-
-
-            
-        // });
         firebaseService.getAllSources().then(function(sources) {
                 $scope.sources = sources;
                 firebaseService.getAllPacks().then(function(packs) {
                     $scope.packs = packs;
                     if ($state.current.name == 'home.details') {
                         $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
-
-                        // ref.child('orders').orderByChild('id')
-                        // .equalTo($stateParams.id)
-                        // .once('value', function(snap) {
-                        //     var res = [];
-                        //     snap.forEach(function(item){
-                        //             res.push(item.val());
-                        //        });
-                        //     activeOrder(res[0]);
-                        // });
-
-                        angular.forEach($scope.tt, function(o, i) {
+                        angular.forEach($scope.orders, function(o, i) {
                           if (o.id === $stateParams.id ) {
-                            activeOrder($scope.tt[i]);
+                            activeOrder($scope.orders[i]);
                           }
                         });
 
@@ -155,20 +124,11 @@ meovn.controller('OrdersController',
 					angular.forEach($scope.sellers, function(value) {
 						if(value.email == $scope.firebaseUser.email){
 							$scope.currentMember = value;
+                            // get requests for current member
+                            getRequests($scope.currentMember.id);
 						}
 					});
-					// $scope.isAsideLoading = false;
-					// console.log($scope.currentMember);
-
 		        });
-
-                // $scope.$apply(function() {
-                //     firebaseService.getMemberByEmail($scope.firebaseUser.email);
-                // });
-                // firebaseService.getMemberByEmail(firebase.auth().currentUser.email);
-               
-                // window.location = '/';
-                // console.log($scope.currentMember);
             }
         });
 
@@ -195,13 +155,6 @@ meovn.controller('OrdersController',
                 }
             });
         });
-        // firebaseService.getAllComments().then(function(comments) {
-        //     $scope.comments = comments;
-        // });
-
-        // $scope.firebaseUser = firebase.auth().currentUser;
-        // var email = firebaseService.getMemberByEmail(firebase.auth().currentUser.email);
-        // 		alert(email);
         $scope.updateFirebaseUser = function(newAvatar, newName) {
             var user = firebase.auth().currentUser;
             // console.log(user);
@@ -220,28 +173,32 @@ meovn.controller('OrdersController',
 
 
         function getOrderByID(id) {
-            console.log($scope.tt);
-            return $filter("filter")($scope.tt, {
+            console.log($scope.orders);
+            return $filter("filter")($scope.orders, {
                 id: id
             });
         }
 
-        // ref.child('orders').limitToLast(1)
-        //     .on('child_added', function(snap) {
-        //         $scope.tt.unshift(snap.val());
-        //     });
-
         firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
-            $scope.tt.unshift(snapshot.val());
-            showNotify(snapshot.val());
+            $scope.orders.unshift(snapshot.val());
+            
             Facebook.api('/' + snapshot.val().fbId + '/picture?height=100&width=100', function(response) {
                 if (!response || response.error) {
                     alert('error!');
                 }
-
+                $scope.$apply(function(){
                     $scope.newAvatar = response.data.url;
-
+                });
             });
+            showNotify(snapshot.val());
+        });
+
+        firebase.database().ref('comments').limitToLast(1).on('child_added', function(snapshot) {
+                console.log(snapshot.val());
+                // if($scope.selectedOrder && (snapshot.val().order_id == $scope.selectedOrder.id)){
+                //     $scope.comments.push(snapshot.val());
+                // }
+
         });
 
         $scope.getBuyerAvatar = function(order) {
@@ -253,7 +210,6 @@ meovn.controller('OrdersController',
         $scope.defaultToastrConfig = angular.copy(toastrConfig);
         $scope.alertTypes = ['success', 'error', 'info', 'warning'];
 
-        $scope.showSearchbox = true;
         $scope.isSeaching = false;
         $scope.searchText = '';
         $scope.isPageBusy = true;
@@ -421,9 +377,6 @@ meovn.controller('OrdersController',
             graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
             $scope.selectedOrder = order;
             $scope.comments = firebaseService.getCommentForOrder(order);
-            if($scope.selectedOrder){
-                getRequests($scope.selectedOrder);    
-            }
         }
         $scope.active = function(order) {
         	// $scope.pleaseWaitMessage = 'Please wait...';
@@ -492,15 +445,11 @@ meovn.controller('OrdersController',
                 'created_at': Date.now(),
                 'type': 0,
                 'status_id': 0,
-                'user': $scope.currentMember,
+                'user': $scope.currentMember.id,
             };
             // firebase.database().ref().child('comments').push($commentItem);
-            firebaseService.addComment($commentItem).then(function(response) {
-                $scope.comments.push($commentItem);
-                // console.log(response);
-            }, function(err) {
-                $scope.showAlert('', 'Oops! ' + err, 'error');
-            });
+            firebaseService.addComment($commentItem);
+            $scope.comments.push($commentItem);
             $scope.commentData = {};
         }
 
@@ -525,15 +474,9 @@ meovn.controller('OrdersController',
         // destroy comment
         $scope.deleteComment = function(comment) {
             if (comment.id == undefined) return;
-            firebaseService.removeComment(comment).then(function(response) {
-                // angular.forEach($scope.comments, function(o, i) {
-                //   if (o.id === snap.val().id ) {
-                //     angular.copy(snap.val(), $scope.tt[i]);
-                //   }
-                // });
-            }, function(err) {
-                $scope.showAlert('', 'Oops! ' + err, 'error');
-            });
+            firebaseService.removeComment(comment);
+            var index = $scope.comments.indexOf(comment);
+            $scope.comments.splice(index, 1);
         };
 
         // update order status
@@ -559,15 +502,11 @@ meovn.controller('OrdersController',
                 'created_at': Date.now(),
                 'type': 1,
                 'status_id': status.id,
-                'user': $scope.currentMember,
+                'user': $scope.currentMember.id,
             };
             // firebase.database().ref().child('comments').push($commentItem);
-            firebaseService.addComment($commentItem).then(function(response) {
-                // console.log(response);
-                $scope.comments.push($commentItem);
-            }, function(err) {
-                $scope.showAlert('', 'Oops! ' + err, 'error');
-            });
+            firebaseService.addComment($commentItem);
+             $scope.comments.push($commentItem);
             $scope.commentData = {};
         }
 
@@ -585,10 +524,6 @@ meovn.controller('OrdersController',
                     }
                 }
             });
-        }
-
-        $scope.toggleShowSearchBox = function() {
-            $scope.showSearchbox = !$scope.showSearchbox;
         }
 
         // ################ Hotkeys
@@ -742,7 +677,7 @@ meovn.controller('OrdersController',
                 icon: $scope.newAvatar,
                 onClick: function onNotificationClicked() {
                     // $scope.orders.active = order;
-                    $scope.active(order);
+                    // $scope.active(order);
                 },
                 autoClose: 5000 //auto close the notification after 4 seconds (you can manually close it via hide function)
             }, function onShow(error, hide) {
@@ -933,7 +868,7 @@ meovn.controller('OrdersController',
 				$scope.chartConfig.series.push(chartSeries[i]);
 			}
 		}
-        $scope.tt = [];
+        
 		$scope.testChangeData = function(){
 			$scope.chartConfig.series[0].data = [70, 15, 56, 82, 49, 65, 88];
 
@@ -943,24 +878,9 @@ meovn.controller('OrdersController',
 		    }
 		    $scope.chartConfig.series[0].data = rnd;
             getAvailableOrders(2);
-            console.log($scope.tt);
 		}
 
         $scope.currentOrder = null;
-
-        // function getOrderById(id){
-        //     ref.child('orders').orderByChild('id')
-        //         .equalTo(id)
-        //         .once('value', function(snap) {
-        //             var res = [];
-        //             snap.forEach(function(item){
-        //                     res.push(item.val());
-        //                });
-        //             console.log('found: ');
-        //             console.log(res[0]);
-        //             return res[0];
-        //         });
-        // }
 
         function getAvailableOrders(dates){
             if(!dates) dates = 2;
@@ -983,23 +903,18 @@ meovn.controller('OrdersController',
                     res.push(item.val());
                });
                // console.log(res);
-                $scope.tt = res.reverse();
+                $scope.orders = res.reverse();
 
                // return res;
             });
         }
-        getAvailableOrders(10);
-        // console.log($scope.tt);
-        ref.child('orders').limitToLast(1)
-            .on('child_added', function(snap) {
-                $scope.tt.unshift(snap.val());
-            });
+        
         ref.child('orders')
             .on('child_changed', function(snap) {
-                angular.forEach($scope.tt, function(o, i) {
+                angular.forEach($scope.orders, function(o, i) {
                   if (o.id === snap.val().id ) {
                     $timeout(function () {
-                        angular.copy(snap.val(), $scope.tt[i]);
+                        angular.copy(snap.val(), $scope.orders[i]);
                         $scope.$apply();
                     }, 10);
                     return;
@@ -1215,31 +1130,47 @@ meovn.controller('OrdersController',
           $scope.requests = [];
           $scope.requestContent = null;
           function validationRequest(requestData){
-            requestData.content = $scope.requestContent;
             if(requestData.content.length < 3){
                 return false;
             }
             return true;
           }
-          function getRequests(order){
-            $scope.requests = supportService.getRequestItemsForOrder(order);
+          function getRequests(uid){
+            $scope.requests = supportService.getRequestItemsForUser(uid);
             // console.log($scope.requests);
           }
-          $scope.submitRequest = function(){
+          $scope.submitRequest = function(order){
             var requestData = {
-                fromSeller      : '73',
-                created_at      : null,
+                fromSeller      : $scope.currentMember.id,
+                created_at      : Date.now(),
                 type            : '1',
                 status          : '1',
-                order_id        : 'xxx',
-                content         : null,
+                order_id        : order.id,
+                content         : $scope.requestContent,
                 response        : '',
+                id              : supportService.getNewRequestId()
               }
             if(validationRequest(requestData)){
-                requestData.created_at = new Date();
+                requestData.created_at = Date.now();
+                supportService.submitRequest(requestData);
                 $scope.requests.push(requestData);
+                $scope.requestContent = '';
             }
           }
+
+        $scope.findOrderById = function(id){
+            var orders = [];
+            orders = firebaseService.findOrderById(id);
+            // console.log(orders);
+        }
+
+
+        function init(){
+            getAvailableOrders(10);
+        }
+
+        // call init()
+        init();
 
 
     });
