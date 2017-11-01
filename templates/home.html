@@ -112,7 +112,6 @@
                                     <!-- Chart -->
                                     <div class="Me-chartarea">
                                         <highchart config="chartConfig"></highchart>
-                                        <div class="row-fluid"><label><input type="checkbox" ng-model="chartConfig.credits.enabled"> credits</label></div>
                                         <div class="cc-credit">
                                             <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
                                                 <span class="iconfont heart"></span>
@@ -629,11 +628,11 @@
                 <div class="support-container">
                     <!-- <div class="report-title">Your requests today</div> -->
                     <div class="support-items">
-                        <div class="s-item resolved" ng-repeat="r in requests track by $index">
-                            <div class="s-header">Hiếu send a request on {{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                            <div class="s-content">{{r.content}}</div>
+                        <div class="s-item" ng-repeat="r in requests track by $index" ng-class="r.status==1 ? 'pendding' : (r.status==2 ? 'resolved' : 'rejected')">
+                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by Hiếu</div>
+                            <div class="s-content">#{{$index+1}} {{r.content}}</div>
                             <div class="s-status">
-                                <span class="iconfont tick" tooltips tooltip-template="Resolved" tooltip-side="left"></span>
+                                <span class="iconfont" ng-class="r.status==1 ? 'question' : (r.status==2 ? 'tick' : 'blockNotification')" tooltips tooltip-template="{{r.status==1 ? 'Pendding' : (r.status==2 ? 'Resolved' : 'Rejected')}}" tooltip-side="left"></span>
                             </div>
                         </div>
                         
@@ -657,40 +656,4 @@
                 <a class="play-pause"></a>
                 <ol class="indicator"></ol>
             </div>
-            <!-- {{-- Dropzone --}} -->
-            <script type="text/template" id="preview-template" style="display: none">
-                <div class="upload-object dz-preview dz-processing dz-image-preview">
-                    <div class="icon-container image">
-                        <img data-dz-thumbnail alt="" />
-                    </div>
-                    <div class="info">
-                        <h4 class="filename">
-                            <span data-dz-name class="is-selected filename"></span>
-                            <a
-                                href="javascript:;"
-                                class="upload-remove-button dz-remove"
-                                data-dz-remove
-                                data-request-confirm="Are you sure?"
-                                ><i class="icon-times"></i></a>
-                        </h4>
-                        <p class="size" data-dz-size></p>
-                    </div>
-                    <div class="meta">
-                        <a href="javascript:;" class="drag-handle"><i class="icon-bars"></i></a>
-                        <div class="progress-bar"><span class="upload-progress" data-dz-uploadprogress></span></div>
-                        <div class="error-message"><span data-dz-errormessage></span></div>
-                    </div>
-                </div>
-            </script>
-            <script type="text/template" id="error-template">
-                <div class="popover-head">
-                    <h3>Upload error</h3>
-                    <p></p>
-                    <button type="button" class="close" data-dismiss="popover" aria-hidden="true">&times;</button>
-                </div>
-                <div class="popover-body">
-                    <button class="btn btn-secondary" data-remove-file>Remove file</button>
-                </div>
-            </script>
-            <!-- {{-- /Dropzone --}} -->
         </div>

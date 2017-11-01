@@ -52,6 +52,7 @@ gulp.task('styles', function() {
 var jsAppFiles = [
 	'src/app/app.js',
   'src/app/service/firebase.service.js',
+  'src/app/service/support.service.js',
   'src/app/controller/AuthController.js',
   'src/app/controller/MembersController.js',
   'src/app/controller/OrdersController.js',
@@ -174,6 +175,7 @@ gulp.task('test', function () {
     /*app*/
     'src/app/app.js',
     'src/app/service/firebase.service.js',
+    'src/app/service/support.service.js',
     'src/app/controller/AuthController.js',
     'src/app/controller/MembersController.js',
     'src/app/controller/OrdersController.js',

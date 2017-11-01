@@ -2,7 +2,7 @@
 // old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
 meovn.controller('OrdersController',
     function($scope, $http,$timeout, hotkeys, $filter, $state, $stateParams,
-        toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService) {
+        toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService, supportService) {
 
         // var CURRENT_USER_ID = 73;
 
@@ -421,7 +421,9 @@ meovn.controller('OrdersController',
             graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
             $scope.selectedOrder = order;
             $scope.comments = firebaseService.getCommentForOrder(order);
-
+            if($scope.selectedOrder){
+                getRequests($scope.selectedOrder);    
+            }
         }
         $scope.active = function(order) {
         	// $scope.pleaseWaitMessage = 'Please wait...';
@@ -1192,6 +1194,7 @@ meovn.controller('OrdersController',
           $scope.showHelpPanel = function(){
             $scope.isShowHelpPanel = true;
             $scope.isShowOverlay = true;
+            // console.log($scope.selectedOrder);
           }
           $scope.closeHelpPanel = function(){
             $scope.isShowHelpPanel = false;
@@ -1204,18 +1207,13 @@ meovn.controller('OrdersController',
           }
 
           /*List request for current order*/
-          var requestStatuses = ['1', '2', '3']; // 1 : pending; 2: resolved; 3: rejected
+          var requestStatuses = {
+            pending : '1',
+            resolved : '2',
+            rejected : '3'
+          };
           $scope.requests = [];
-          $scope.requestContent = '';
-          var requestData = {
-            fromSeller      : '73',
-            created_at      : null,
-            type            : '1',
-            status          : '1',
-            forOrder        : 'xxx',
-            content         : '',
-            response        : '',
-          }
+          $scope.requestContent = null;
           function validationRequest(requestData){
             requestData.content = $scope.requestContent;
             if(requestData.content.length < 3){
@@ -1223,7 +1221,20 @@ meovn.controller('OrdersController',
             }
             return true;
           }
+          function getRequests(order){
+            $scope.requests = supportService.getRequestItemsForOrder(order);
+            // console.log($scope.requests);
+          }
           $scope.submitRequest = function(){
+            var requestData = {
+                fromSeller      : '73',
+                created_at      : null,
+                type            : '1',
+                status          : '1',
+                order_id        : 'xxx',
+                content         : null,
+                response        : '',
+              }
             if(validationRequest(requestData)){
                 requestData.created_at = new Date();
                 $scope.requests.push(requestData);
