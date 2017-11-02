@@ -4,14 +4,6 @@ meovn.controller('OrdersController',
     function($scope, $http,$timeout, hotkeys, $filter, $state, $stateParams,
         toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService, supportService) {
 
-        // var CURRENT_USER_ID = 73;
-
-        // $scope.audio = ngAudio.load('assets/sounds/click.mp3');
-        // $scope.clickSound = ngAudio.load('assets/sounds/button-2.mp3');
-        // $scope.getOrderSound = ngAudio.load('assets/sounds/click.mp3');
-        // $scope.releaseOrderSound = ngAudio.load('assets/sounds/button-4.mp3');
-        // $scope.popupSound = ngAudio.load('assets/sounds/new-order.mp3');
-
         var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 
         function graphPage(pageId) {
@@ -90,6 +82,79 @@ meovn.controller('OrdersController',
             });
         };
 
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label    = input.nextElementSibling,
+                labelVal = label.innerHTML;
+
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = '';
+                if( this.files && this.files.length > 1 )
+                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+                else
+                    fileName = e.target.value.split( '\\' ).pop();
+
+                if( fileName )
+                    label.querySelector( 'span' ).innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+
+        //upload avatar
+        var fileButton = document.getElementById("select-avatar");
+        var label  = fileButton.nextElementSibling;
+        fileButton.addEventListener('change', function(e){
+                var file = e.target.files[0];
+                var storageRef = firebase.storage().ref('avatars/' + file.name);
+
+                // Create the file metadata
+                var uploadTask = storageRef.put(file);
+
+                // Listen for state changes, errors, and completion of the upload.
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                  function(snapshot) {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // console.log('Upload is ' + progress + '% done');
+                    label.querySelector( 'span' ).innerHTML = 'Upload is ' + progress.toFixed(2) + '% done';
+                    switch (snapshot.state) {
+                      case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        // console.log('Upload is paused');
+                        break;
+                      case firebase.storage.TaskState.RUNNING: // or 'running'
+                        // console.log('Upload is running');
+                        break;
+                    }
+                  }, function(error) {
+
+                  // A full list of error codes is available at
+                  // https://firebase.google.com/docs/storage/web/handle-errors
+                  switch (error.code) {
+                    case 'storage/unauthorized':
+                      // User doesn't have permission to access the object
+                      break;
+
+                    case 'storage/canceled':
+                      // User canceled the upload
+                      break;
+
+                    case 'storage/unknown':
+                      // Unknown error occurred, inspect error.serverResponse
+                      break;
+                  }
+                }, function() {
+                  // Upload completed successfully, now we can get the download URL
+                  var downloadURL = uploadTask.snapshot.downloadURL;
+                  // console.log(downloadURL);
+                  $scope.updateFirebaseUser(downloadURL);
+
+                  label.querySelector( 'span' ).innerHTML = 'Select photo...'
+                });
+            });
+
         // store all buyers avatars
         $scope.buyersAvatar = [];
         firebaseService.getAllSources().then(function(sources) {
@@ -155,16 +220,16 @@ meovn.controller('OrdersController',
                 }
             });
         });
-        $scope.updateFirebaseUser = function(newAvatar, newName) {
+        $scope.updateFirebaseUser = function(newAvatar) {
             var user = firebase.auth().currentUser;
             // console.log(user);
             user.updateProfile({
-                displayName: newName,
                 photoURL: newAvatar,
             }).then(function() {
-                console.log('success');
-                console.log(user);
+                // console.log('success');
+                // console.log(user);
                 // Update successful.
+                $scope.firebaseUser.photoURL = newAvatar;
             }).catch(function(error) {
                 // An error happened.
                 console.log('error');
@@ -194,14 +259,6 @@ meovn.controller('OrdersController',
         });
 
         firebase.database().ref('comments').limitToLast(1).on('child_added', function(snapshot) {
-                // console.log(snapshot.val());
-                // if($scope.selectedOrder && (snapshot.val().order_id == $scope.selectedOrder.id)){
-                //     $timeout(function () {
-                //         $scope.comments.push(snapshot.val());
-                //         $scope.$apply();
-                //     }, 10);
-                //     return;
-                // }
 
         });
 
@@ -1107,8 +1164,8 @@ meovn.controller('OrdersController',
             return true;
           }
           function getRequests(uid){
-            $scope.requests = supportService.getRequestItemsForUser(uid);
-            // console.log($scope.requests);
+            $scope.requests = supportService.getUserRequests(uid);
+            console.log($scope.requests);
           }
           $scope.submitRequest = function(order){
             var requestData = {
@@ -1139,7 +1196,6 @@ meovn.controller('OrdersController',
         function init(){
             getAvailableOrders(10);
         }
-
         // call init()
         init();
 

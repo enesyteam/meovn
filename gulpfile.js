@@ -81,6 +81,8 @@ jsVendorFiles =  [
   'src/vendor/angular-tooltip/angular-tooltips.js',
   'src/vendor/angular-highchart/highstock.src.js',
   'src/vendor/angular-highchart/highcharts-ng.js',
+
+  'src/vendor/custom-file-input/custom-file-input.js',
 ],
 jsDest = 'assets/js';
 
@@ -172,6 +174,7 @@ gulp.task('test', function () {
     'src/vendor/angular-tooltip/angular-tooltips.js',
     'src/vendor/angular-highchart/highstock.src.js',
     'src/vendor/angular-highchart/highcharts-ng.js',
+    'src/vendor/custom-file-input/custom-file-input.js',
     /*app*/
     'src/app/app.js',
     'src/app/service/firebase.service.js',
