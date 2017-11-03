@@ -21,7 +21,6 @@ meovn.service('supportService', ["$firebaseArray", "$filter", function ($firebas
         var startTime = new Date(); // yesterday
         startTime.setDate(startTime.getDate() - 1);
         endTime.setDate(endTime.getDate());
-        console.log('get orders from: ' + startTime + ' to ' + endTime);
         startTime = startTime.getTime();
         endTime = endTime.getTime();
         var res = [];

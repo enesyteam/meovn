@@ -507,6 +507,10 @@ meovn.controller('OrdersController',
 
         // update order status
         $scope.updateStatus = function(order, $event, status) {
+            if(order.status_id == status.id){
+                $scope.showAlert('', 'Oops! Status not change? You should better add a comment.', 'error');
+                return false;  
+            }
             if (!$scope.userCanReleaseOrChangeStatus(order)) {
                 $scope.showAlert('', 'Oops! Not allowed to change the order status of others.', 'error');
                 return false;
@@ -648,13 +652,7 @@ meovn.controller('OrdersController',
         $scope.showMeExpand = false;
         $scope.toggleShowMeExpand = function(){
 			$scope.showMeExpand = !$scope.showMeExpand;
-			if($scope.showMeExpand){
-				$scope.initChart();
-			}
-            else{
-                console.log('destroy chart');
-                $scope.destroyChart();
-            }
+			$scope.initChart();
 		}
 
         hotkeys.add({
@@ -923,32 +921,42 @@ meovn.controller('OrdersController',
 		  
 
 		var chartSeries = [
-				  	{"name": "Đã gọi", "data": [80, 115, 46, 72, 39, 55, 80], id: 's1', "dashStyle":"ShortDash","color":"#888","lineWidthPlus":"1", "lineWidth":"1"},
-				    {"name": "Đã chốt", "data": [25, 50, 30, 10, 55, 66, 78], color: '#8bbc21', borderColor: '#8bbc21', type: "column", id: 's3'},
-				    {"name": "Thất bại", "data": [14, 16, 18, 11, 22, 45, 23], color: 'rgb(170,25,25)', borderColor: 'rgb(170,25,25)', type: "column", id: 's4'},
-				    {"name": "Báo xấu", "data": [9, 15, 25, 1, 22, 10, 8], color: 'rgb(38,60,83)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
-				    {"name": "Khác", "data": [25, 35, 18, 9, 20, 11, 15], color: 'rgb(72,151,241)', borderColor: 'rgb(72,151,241)', type: "column", id: 's6'}
+				  	{"name": "Đã gọi", "data": [0,0,0,0,0,0,0], id: 's1', "dashStyle":"ShortDash","color":"#888","lineWidthPlus":"1", "lineWidth":"1"},
+				    {"name": "Đã chốt", "data": [0,0,0,0,0,0,0], color: '#8bbc21', borderColor: '#8bbc21', type: "column", id: 's3'},
+				    {"name": "Thất bại", "data": [0,0,0,0,0,0,0], color: 'rgb(170,25,25)', borderColor: 'rgb(170,25,25)', type: "column", id: 's4'},
+				    // {"name": "Báo xấu", "data": [0,0,0,0,0,0,0], color: 'rgb(38,60,83)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
+				    {"name": "Khác", "data": [0,0,0,0,0,0,0], color: 'rgb(72,151,241)', borderColor: 'rgb(72,151,241)', type: "column", id: 's6'}
 				  ];
 
 		$scope.chartSeries = [];
 		$scope.initChart = function(){
-			for (var i = chartSeries.length - 1; i >= 0; i--) {
+			for (var i = 0; i < chartSeries.length; i++) {
 				$scope.chartConfig.series.push(chartSeries[i]);
 			}
 
             // $scope.chartConfig.series[0].data = [70, 15, 56, 82, 49, 65, 88];
-            var rnd = []
-            for (var i = 0; i < 7; i++) {
-              rnd.push(Math.floor(Math.random() * 20) + 1)
+            var data = firebaseService.getUserOrders($scope.currentMember.id, 7);
+
+            var called = [], success = [], failed = [], others = [];
+            for (var i = 0; i < data[1].length; i++) {
+                called.push(data[1][i].length);
+                success.push(data[2][i].length);
+                failed.push(data[3][i].length);
+                others.push(data[4][i].length);
             }
-            $scope.chartConfig.series[0].data = rnd;
+
+            $scope.chartConfig.series[0].data = called;
+            $scope.chartConfig.series[1].data = success;
+            $scope.chartConfig.series[2].data = failed;
+            $scope.chartConfig.series[3].data = others;
+            $scope.chartConfig.xAxis.categories = data[0];
 		}
         $scope.destroyChart = function(){
             $scope.chartSeries = [];
         }
 
         $scope.testGetData = function(){
-            firebaseService.getUserOrders($scope.currentMember.id, 10);
+            
         }
         
 		$scope.testChangeData = function(){

@@ -212,11 +212,6 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
         var endTime = new Date(); // today
         var startTime = new Date(); // yesterday
-
-        for (var i = 0; i < days; i++) {
-        	
-        }
-
         // first we need to get all orders related to this seller within days
         var orderDays = [];
 
@@ -245,9 +240,57 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
            });
            
         });
-        console.log(orderDays);
-        return res;
+        // find in orderDays array
+        var calledArr = [], successArr = [], failedArr = [], otherArr = [];
+        var dateArr = [];
+
+    	for (var i = 0; i < days; i++) {
+    		// first get all orders of this day
+	        var d = new Date();
+    		d.setDate(d.getDate() - i);
+    		// d = d.getTime();
+    		var dCalledArr = [], dSuccessArr = [], dFailedArr = [], dOtherArr = [];
+    		// get
+    		angular.forEach(orderDays, function(v){
+    			angular.forEach(v.assign_data, function(a){
+    				var dd = new Date(a.assigned_date);
+    				// console.log((new Date(d)).getDate());
+    				// NOTE: NEED TO CHECK DUPLICATE
+    				if(dd.getDate() == d.getDate()){
+    					if(a.status_after && (a.status_before != a.status_after)){
+    						dCalledArr.push(v);
+    					}
+    					if(v.status_id == 6 && a.status_after == 6){
+    						dSuccessArr.push(v);
+    					}
+    					else if(a.status_after && (v.status_id == 2 || v.status_id == 3 || v.status_id == 7) ){
+    						dFailedArr.push(v);
+    					}
+    					else{
+    						dOtherArr.push(v);
+    					}
+    				}
+    			});
+    		});
+
+    		// date array
+    		dateArr.push(d.getDate() + '-' + (d.getMonth()+1));
+
+    		calledArr.push(dCalledArr);
+    		successArr.push(dSuccessArr);
+    		failedArr.push(dFailedArr);
+    		otherArr.push(dOtherArr);
+    		//
+    	}
+    	res.push(dateArr);
+    	res.push(calledArr);
+		res.push(successArr);
+		res.push(failedArr);
+		res.push(otherArr);
+    	console.log(res);
+    	return res;
     }
+
 
 
 	return{
