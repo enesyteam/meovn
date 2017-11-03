@@ -27,6 +27,7 @@ var vendorCssFiles = [
   'src/vendor/angular-toast/angular-toastr.css',
   'src/vendor/angular-tooltip/angular-tooltips.css',
   'src/vendor/angular-highchart/highcharts-ng.css',
+  'bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css',
 ];
 
 gulp.task('vendorStyles', function() {
@@ -83,6 +84,9 @@ jsVendorFiles =  [
   'src/vendor/angular-highchart/highcharts-ng.js',
 
   'src/vendor/custom-file-input/custom-file-input.js',
+
+  'bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js',
+  'bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
 ],
 jsDest = 'assets/js';
 
@@ -154,8 +158,9 @@ gulp.task('test', function () {
   var sources = gulp.src([
     /*css*/
     './assets/css/styles-vendor*.css',
-   './assets/css/styles-bundle*.css',
-   'src/tempcss.css',
+    './assets/css/styles-bundle*.css',
+    'bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css',
+    'src/tempcss.css',
     /*angular*/
     // 'src/vendor/angular/angular.min.js',
     // 'src/vendor/angular/angular-animate.min.js',
@@ -175,6 +180,8 @@ gulp.task('test', function () {
     'src/vendor/angular-highchart/highstock.src.js',
     'src/vendor/angular-highchart/highcharts-ng.js',
     'src/vendor/custom-file-input/custom-file-input.js',
+    'bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js',
+    'bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
     /*app*/
     'src/app/app.js',
     'src/app/service/firebase.service.js',

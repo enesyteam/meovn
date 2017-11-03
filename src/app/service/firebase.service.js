@@ -8,7 +8,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     membersArr = $firebaseArray(ref.child('members'));
     packsArr = $firebaseArray(ref.child('packs'));
 
- //    var getAllOrders = function(){
+ 	//  var getAllOrders = function(){
 	// 	return ordersArr.$loaded();
 	// };
 	// var getAllComments = function(){
@@ -70,20 +70,66 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	 });
 	};
 	var updateOrderSellerWillCall = function(order){
+		// update_at
+		order.updated_at	= Date.now();
+		// if seller get this order, we need to store seller id
+		var assign_data = {};
+		if(order.seller_will_call_id){
+			assign_data = {
+				'uid' 			: order.seller_will_call_id,
+				'assigned_date'	: Date.now(),
+				'status_before' : order.status_id,
+				// 'status_after' is null that's mean seller not change status
+  			};
+  			// store to order
+  			order.assign_data = assign_data;
+		}
 		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
+		 		// append
+		 		child.ref.child('assign_data').push(assign_data);
 	        	return child.ref.update({
-	        		seller_will_call_id : order.seller_will_call_id
+	        		seller_will_call_id : order.seller_will_call_id,
+	        		updated_at			: order.updated_at,
 	        	});
 	    });
 	 });
 	};
 	var updateOrderStatus = function(order){
-		 return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
+		// update_at
+		order.updated_at	= Date.now();
+		return	ref.child('orders').orderByChild('id').equalTo(order.id).once('value', function(snapshot){
 		 	snapshot.forEach(function(child) {
 	        	child.ref.update({
-	        		status_id : order.status_id
+	        		status_id : order.status_id,
+	        		checked_by : order.checked_by,
+	        		checked_at : order.checked_at,
+	        		updated_at			: order.updated_at,
 	        	});
+	        	// find assign_data and update
+	        	// if order.seller_will_call_id == null => allow admin or mod change status
+	        	if(order.seller_will_call_id){
+	        		// seller change
+	        		child.ref.child('assign_data').orderByChild('uid').equalTo(order.seller_will_call_id).limitToLast(1)
+	        		.once('value', function(ss){
+	        			ss.forEach(function(c){
+	        				c.ref.update({
+	        					'status_after' : order.status_id
+	        				});
+	        			});
+	        		});
+	        	}
+	        	else{
+	        		// admin change
+	        		child.ref.child('assign_data').orderByChild('uid').limitToLast(1)
+	        		.once('value', function(ss){
+	        			ss.forEach(function(c){
+	        				c.ref.update({
+	        					'status_after' : order.status_id
+	        				});
+	        			});
+	        		});
+	        	}
 		    });
 		 });
 	};
@@ -106,6 +152,12 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		 var re = ref.child('comments');
 		 return re.push(r);
 	};
+
+	/*add a mobile number to blocks list*/
+	var submitBlockNumber = function(n){
+		var re = ref.child('blocks');
+		return re.push(n);
+	}
 
 	// var updateComment = function(comment){
 	// 	return commentsArr.$save(comment);
@@ -154,6 +206,49 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 			});
 	}
 
+	// get seller orders for display chart
+	var getUserOrders = function(uid, days){
+		var res = [];
+
+        var endTime = new Date(); // today
+        var startTime = new Date(); // yesterday
+
+        for (var i = 0; i < days; i++) {
+        	
+        }
+
+        // first we need to get all orders related to this seller within days
+        var orderDays = [];
+
+        startTime.setDate(startTime.getDate() - days);
+        endTime.setDate(endTime.getDate());
+        startTime = startTime.getTime();
+        endTime = endTime.getTime();
+ 		
+ 		// may be problem when orders is very big       
+        ref.child('orders')
+        .once('value', function(snap) {
+           snap.forEach(function(item){
+                // we look in assign_data to detect if order ever assign to this seller
+        		item.ref.child('assign_data').orderByChild('uid').equalTo(uid)
+        		.once('value', function(ss){
+        			// console.log(ss.val());
+        			if(ss.val()){
+        				ss.ref.orderByChild('assigned_date')
+        				.startAt(startTime)
+			            .endAt(endTime)
+			            .once('value', function(sn) {
+			            	orderDays.push(item.val());
+			            });
+        			}
+        		})
+           });
+           
+        });
+        console.log(orderDays);
+        return res;
+    }
+
 
 	return{
 		// getAllOrders    : getAllOrders,
@@ -173,6 +268,8 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		getAllMembers	: getAllMembers,
 		getMember		: getMember,
 		getMemberByEmail:getMemberByEmail,
+		submitBlockNumber : submitBlockNumber,
+		getUserOrders : getUserOrders ,
 	}
 
 }]);

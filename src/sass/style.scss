@@ -2909,10 +2909,10 @@ only screen and (min-resolution: 2dppx) {
     border-radius: 50%
 }
 
-:root .swx .Avatar--fogTheme .Avatar:not(.Avatar--selected):after {
-    border-color: #F5FAFC;
-    background-color: #F5FAFC
-}
+// :root .swx .Avatar--fogTheme .Avatar:not(.Avatar--selected):after {
+//     border-color: #F5FAFC;
+//     background-color: #F5FAFC
+// }
 
 :root .swx .Avatar--fogTheme .Avatar--agent:before {
     color: #F5FAFC
@@ -8997,7 +8997,7 @@ only screen and (min-resolution: 2dppx) {
 :root .swx .side .timeline .recent .notificationsDisabledIndicator {
     position: absolute;
     top: 3px;
-    right: 10px
+    right: 15px
 }
 
 :root .swx .side .timeline .recent .notificationsDisabledIndicator .iconfont:before {
@@ -11805,7 +11805,7 @@ only screen and (min-resolution: 2dppx) {
     height: auto;
     margin: 0;
     padding: 0;
-    overflow: auto
+    // overflow: auto
 }
 
 :root .swx .typingIndicator {
@@ -11892,7 +11892,7 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .showHelpPanelActions{
     position: absolute;
-    right: 30px;
+    right: 1.5em;
     top: 50%;
     z-index: 99;
 }
@@ -15603,13 +15603,16 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .chat .conversationHeader .contactPickerWrapper {
     position: absolute;
-    border-left: 1px solid #D6E6EC;
-    border-bottom: 1px solid #D6E6EC;
-    border-right: 1px solid #D6E6EC;
-    left: 1em;
-    right: 1em;
+    border-left: 1px solid #d6e6ec;
+    border-bottom: 1px solid #d6e6ec;
+    border-right: 1px solid #d6e6ec;
+    /* left: 1.5em; */
+    right: 1.5em;
     background: #fff;
-    margin-top: .05em
+    margin-top: .05em;
+    z-index: 101;
+    width: 450px;
+    float: right;
 }
 
 :root .swx .chat .conversationHeader .contactPickerWrapper swx-contact-picker {
@@ -38243,7 +38246,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 
 :root .swx.desktop.dark .contactPickerInput .contacts input {
-    color: white
+    color: #333
 }
 
 :root .swx.desktop.dark .contactPickerInput .contacts .contact-pill {
@@ -38253,7 +38256,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 
 :root .swx.desktop.dark .contactPickerWrapper {
-    background-color: #2a2a2a;
+    background-color: #fff;
     border-color: #393939
 }
 

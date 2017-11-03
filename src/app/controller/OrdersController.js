@@ -155,8 +155,6 @@ meovn.controller('OrdersController',
                 });
             });
 
-        // store all buyers avatars
-        $scope.buyersAvatar = [];
         firebaseService.getAllSources().then(function(sources) {
                 $scope.sources = sources;
                 firebaseService.getAllPacks().then(function(packs) {
@@ -262,12 +260,6 @@ meovn.controller('OrdersController',
 
         });
 
-        $scope.getBuyerAvatar = function(order) {
-            var newTemp = $filter("filter")($scope.buyersAvatar, {
-                fbId: order.fbId
-            });
-            return newTemp.avatar;
-        }
         $scope.defaultToastrConfig = angular.copy(toastrConfig);
         $scope.alertTypes = ['success', 'error', 'info', 'warning'];
 
@@ -515,13 +507,21 @@ meovn.controller('OrdersController',
 
         // update order status
         $scope.updateStatus = function(order, $event, status) {
-            // $scope.clickSound.play();
             if (!$scope.userCanReleaseOrChangeStatus(order)) {
                 $scope.showAlert('', 'Oops! Not allowed to change the order status of others.', 'error');
                 return false;
             }
+            if(status.id == 8){ //block
+                $scope.showBlockDialog = true;
+                blockStatus = status;
+                $scope.blockReason = ''; 
+                return;
+             }
+            changeOrderStatus(order, status);
+        }
+        function changeOrderStatus(order, status){
             order.status_id = status.id;
-            firebaseService.updateOrderStatus(order);
+            
 
             var newCommentKey = firebase.database().ref().child('comments').push().key;
             var $commentItem = {
@@ -533,9 +533,45 @@ meovn.controller('OrdersController',
                 'status_id': status.id,
                 'user': $scope.currentMember.id,
             };
+            if(status.id == 6){ //chot
+                order.checked_by = $scope.currentMember.id;
+                order.checked_at = Date.now()
+            }
+            else{
+                order.checked_by = null;
+                order.checked_at = null
+            }
+
+            firebaseService.updateOrderStatus(order);
+
             firebaseService.addComment($commentItem);
-             $scope.comments.push($commentItem);
+            $scope.comments.push($commentItem);
             $scope.commentData = {};
+        }
+        $scope.showBlockDialog = false;
+        $scope.hideBlockDialog = function(){
+           $scope.showBlockDialog = false; 
+        }
+        $scope.blockReason = '';
+
+        // ađ to block list
+        var blockStatus = null;
+        $scope.submitBlockNumber = function(order){
+            var newKey = firebase.database().ref().child('blocks').push().key;
+            var blockItem = {
+                'id': newKey,
+                'mobile': order.buyer_mobile,
+                'pack_id': order.product_pack_id,
+                'created_at': Date.now(),
+                'source_id': order.order_source_id,
+                'uid': $scope.currentMember.id,
+                'reason': $scope.blockReason,
+            };
+            if($scope.blockReason.length > 3){
+                firebaseService.submitBlockNumber(blockItem);
+                $scope.showBlockDialog = false;
+                changeOrderStatus(order, blockStatus);
+            }
         }
 
         // Quick update status for active order
@@ -615,6 +651,10 @@ meovn.controller('OrdersController',
 			if($scope.showMeExpand){
 				$scope.initChart();
 			}
+            else{
+                console.log('destroy chart');
+                $scope.destroyChart();
+            }
 		}
 
         hotkeys.add({
@@ -895,7 +935,21 @@ meovn.controller('OrdersController',
 			for (var i = chartSeries.length - 1; i >= 0; i--) {
 				$scope.chartConfig.series.push(chartSeries[i]);
 			}
+
+            // $scope.chartConfig.series[0].data = [70, 15, 56, 82, 49, 65, 88];
+            var rnd = []
+            for (var i = 0; i < 7; i++) {
+              rnd.push(Math.floor(Math.random() * 20) + 1)
+            }
+            $scope.chartConfig.series[0].data = rnd;
 		}
+        $scope.destroyChart = function(){
+            $scope.chartSeries = [];
+        }
+
+        $scope.testGetData = function(){
+            firebaseService.getUserOrders($scope.currentMember.id, 10);
+        }
         
 		$scope.testChangeData = function(){
 			$scope.chartConfig.series[0].data = [70, 15, 56, 82, 49, 65, 88];
@@ -905,7 +959,7 @@ meovn.controller('OrdersController',
 		      rnd.push(Math.floor(Math.random() * 20) + 1)
 		    }
 		    $scope.chartConfig.series[0].data = rnd;
-            getAvailableOrders(2);
+            // getAvailableOrders(2);
 		}
 
         $scope.currentOrder = null;
@@ -1168,6 +1222,10 @@ meovn.controller('OrdersController',
             console.log($scope.requests);
           }
           $scope.submitRequest = function(order){
+            if(!order){
+                $scope.showAlert('', 'Oops! Please select an Order to submit request.', 'error');
+                return;
+            }
             var requestData = {
                 fromSeller      : $scope.currentMember.id,
                 created_at      : Date.now(),
@@ -1194,7 +1252,7 @@ meovn.controller('OrdersController',
 
 
         function init(){
-            getAvailableOrders(10);
+            getAvailableOrders(20);
         }
         // call init()
         init();

@@ -241,9 +241,9 @@
 }
 
 :root .swx .scrollable {
-    overflow-y: scroll;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    -webkit-overflow-scrolling: touch;
+    // overflow-y: scroll;
+    // -ms-overflow-style: -ms-autohiding-scrollbar;
+    // -webkit-overflow-scrolling: touch;
     -webkit-transform: translate3d(0, 0, 0)
 }
 
