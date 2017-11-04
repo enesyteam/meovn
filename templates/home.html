@@ -141,7 +141,11 @@
                                                 <div class="data-items">
                                                     <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index">
                                                         <div class="mobile">
-                                                            <span>{{item.buyer_mobile}}</span>
+                                                            <span>
+                                                                {{item.buyer_mobile}}
+                                                                <span class="iconfont tick" ng-if="item.status_id == 6">
+                                                                </span>
+                                                            </span>
                                                         </div>
                                                         <div class="name">
                                                             <span>{{item.buyer_name}}</span>

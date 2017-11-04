@@ -257,8 +257,9 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     				// NOTE: NEED TO CHECK DUPLICATE
     				if(dd.getDate() == d.getDate()){
     					if(a.status_after && (a.status_before != a.status_after)){
-    						if(dCalledArr.indexOf(v) == -1) dCalledArr.push(v);
+    						if(dCalledArr.indexOf(v) == -1 && v.status_id != 1) dCalledArr.push(v);
     					}
+
     					if(v.status_id == 6 && a.status_after == 6 && v.checked_by == uid && v.seller_will_call_id == uid){
     						if(dSuccessArr.indexOf(v) == -1) dSuccessArr.push(v);
     					}
@@ -269,7 +270,8 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     						if(dNotCalled.indexOf(v) == -1) dNotCalled.push(v);
     					}
     					else{
-    						if(dOtherArr.indexOf(v) == -1 && v.status_id != 6) dOtherArr.push(v);
+    						if(dOtherArr.indexOf(v) == -1 && v.status_id != 6 && v.status_id != 2 && v.status_id != 3
+    							&& v.status_id != 7 && v.status_id != 7) dOtherArr.push(v);
     					}
     				}
     			});
