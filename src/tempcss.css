@@ -436,3 +436,44 @@
     padding-left: 25px !important;
     font-size: 14px !important;
 }
+
+:root .swx .Me-data{
+    position: absolute;
+    right: 15px;
+    top: 70px;
+    max-width: 450px;
+    width: calc(100% - 351px - 600px);
+    height: calc(100% - 70px);
+}
+:root .swx .Me-data .Me-data-content{
+    width: 100%;
+    height: calc(100% - 120px);
+    padding: 15px 15px 0 0;
+    position: relative
+}
+:root .swx .Me-data .Me-data-content .data-items{
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #393939;
+    padding-top: 15px;
+}
+:root .swx .Me-data .Me-data-content .data-items .data-item{
+    width: 100%;
+    height: 30px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+:root .swx .Me-data .Me-data-content .data-items .data-item:hover{
+    background: #444;
+    border-radius: 5px;
+}
+:root .swx .Me-data .Me-data-content .data-items .data-item div{
+    padding: 5px;
+    width: 200px;
+}
+:root .swx .Me-data .Me-data-content .data-items .data-item div > span{
+    line-height: 20px;
+}

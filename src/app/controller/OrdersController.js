@@ -236,10 +236,21 @@ meovn.controller('OrdersController',
 
 
         function getOrderByID(id) {
-            console.log($scope.orders);
+            // console.log($scope.orders);
             return $filter("filter")($scope.orders, {
                 id: id
             });
+        }
+
+        $scope.getSourceFromId = function(id){
+            return $filter("filter")($scope.sources, {
+                id: id
+            })[0];
+        }
+        $scope.getPackFromId = function(id){
+            return $filter("filter")($scope.packs, {
+                id: id
+            })[0];
         }
 
         firebase.database().ref('orders').limitToLast(1).on('child_added', function(snapshot) {
@@ -924,7 +935,7 @@ meovn.controller('OrdersController',
 				  	{"name": "Đã gọi", "data": [0,0,0,0,0,0,0], id: 's1', "dashStyle":"ShortDash","color":"#888","lineWidthPlus":"1", "lineWidth":"1"},
 				    {"name": "Đã chốt", "data": [0,0,0,0,0,0,0], color: '#8bbc21', borderColor: '#8bbc21', type: "column", id: 's3'},
 				    {"name": "Thất bại", "data": [0,0,0,0,0,0,0], color: 'rgb(170,25,25)', borderColor: 'rgb(170,25,25)', type: "column", id: 's4'},
-				    // {"name": "Báo xấu", "data": [0,0,0,0,0,0,0], color: 'rgb(38,60,83)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
+				    {"name": "Chưa gọi", "data": [0,0,0,0,0,0,0], color: 'rgba(0, 0, 0, .3)', borderColor: 'rgb(38,60,83)', type: "column", id: 's5'},
 				    {"name": "Khác", "data": [0,0,0,0,0,0,0], color: 'rgb(72,151,241)', borderColor: 'rgb(72,151,241)', type: "column", id: 's6'}
 				  ];
 
@@ -936,27 +947,42 @@ meovn.controller('OrdersController',
 
             // $scope.chartConfig.series[0].data = [70, 15, 56, 82, 49, 65, 88];
             var data = firebaseService.getUserOrders($scope.currentMember.id, 7);
+            // assign to seller data
+            $scope.sellerData = data;
+            // $scope.currentDataDisplay = data[2];
+            $scope.toggleActivedDataStatus(1);
 
-            var called = [], success = [], failed = [], others = [];
+            var called = [], success = [], failed = [], notCalled = [], others = [];
             for (var i = 0; i < data[1].length; i++) {
                 called.push(data[1][i].length);
                 success.push(data[2][i].length);
                 failed.push(data[3][i].length);
-                others.push(data[4][i].length);
+                notCalled.push(data[4][i].length);
+                others.push(data[5][i].length);
             }
 
             $scope.chartConfig.series[0].data = called;
             $scope.chartConfig.series[1].data = success;
             $scope.chartConfig.series[2].data = failed;
-            $scope.chartConfig.series[3].data = others;
+            $scope.chartConfig.series[3].data = notCalled;
+            $scope.chartConfig.series[4].data = others;
             $scope.chartConfig.xAxis.categories = data[0];
 		}
+        $scope.sellerData = [];
         $scope.destroyChart = function(){
             $scope.chartSeries = [];
         }
+        $scope.sellerDataStatusItem = {};
+        $scope.sellerDataStatuses = [];
 
-        $scope.testGetData = function(){
-            
+        $scope.currentDataDisplay = null;
+        function getSellerDataDisplay(statusId){
+            $scope.currentDataDisplay = $scope.sellerData[statusId];
+        }
+        $scope.activedDataStatus = 0;
+        $scope.toggleActivedDataStatus = function(statusId){
+            $scope.activedDataStatus = statusId;
+            getSellerDataDisplay(statusId);
         }
         
 		$scope.testChangeData = function(){
@@ -1261,6 +1287,39 @@ meovn.controller('OrdersController',
 
         function init(){
             getAvailableOrders(20);
+            // init status for seller page
+
+            var items = [
+                {
+                    $index    : 1,
+                    title : 'Đã gọi',
+                    value : 1,
+                },
+                {
+                    $index    : 2,
+                    title : 'Đã chốt',
+                    value : 2,
+                },
+                {
+                    $index    : 3,
+                    title : 'Thất bại',
+                    value : 3,
+                },
+                {
+                    $index    : 4,
+                    title : 'Chưa gọi',
+                    value : 4,
+                },
+                {
+                    $index    : 5,
+                    title : 'Trạng thái khác',
+                    value : 5,
+                },
+
+            ];
+            angular.forEach(items, function(v){
+                $scope.sellerDataStatuses.push(v);
+            });
         }
         // call init()
         init();

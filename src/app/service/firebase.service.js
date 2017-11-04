@@ -241,7 +241,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
            
         });
         // find in orderDays array
-        var calledArr = [], successArr = [], failedArr = [], otherArr = [];
+        var calledArr = [], successArr = [], failedArr = [], otherArr = [], notCalled = [];
         var dateArr = [];
 
     	for (var i = 0; i < days; i++) {
@@ -249,25 +249,27 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	        var d = new Date();
     		d.setDate(d.getDate() - i);
     		// d = d.getTime();
-    		var dCalledArr = [], dSuccessArr = [], dFailedArr = [], dOtherArr = [];
+    		var dCalledArr = [], dSuccessArr = [], dFailedArr = [], dOtherArr = [], dNotCalled = [];
     		// get
     		angular.forEach(orderDays, function(v){
     			angular.forEach(v.assign_data, function(a){
     				var dd = new Date(a.assigned_date);
-    				// console.log((new Date(d)).getDate());
     				// NOTE: NEED TO CHECK DUPLICATE
     				if(dd.getDate() == d.getDate()){
     					if(a.status_after && (a.status_before != a.status_after)){
-    						dCalledArr.push(v);
+    						if(dCalledArr.indexOf(v) == -1) dCalledArr.push(v);
     					}
-    					if(v.status_id == 6 && a.status_after == 6){
-    						dSuccessArr.push(v);
+    					if(v.status_id == 6 && a.status_after == 6 && v.checked_by == uid && v.seller_will_call_id == uid){
+    						if(dSuccessArr.indexOf(v) == -1) dSuccessArr.push(v);
     					}
     					else if(a.status_after && (v.status_id == 2 || v.status_id == 3 || v.status_id == 7) ){
-    						dFailedArr.push(v);
+    						if(dFailedArr.indexOf(v) == -1) dFailedArr.push(v);
+    					}
+    					else if(!a.status_after && v.status_id == 1 && v.seller_will_call_id == uid){
+    						if(dNotCalled.indexOf(v) == -1) dNotCalled.push(v);
     					}
     					else{
-    						dOtherArr.push(v);
+    						if(dOtherArr.indexOf(v) == -1 && v.status_id != 6) dOtherArr.push(v);
     					}
     				}
     			});
@@ -279,6 +281,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     		calledArr.push(dCalledArr);
     		successArr.push(dSuccessArr);
     		failedArr.push(dFailedArr);
+    		notCalled.push(dNotCalled);
     		otherArr.push(dOtherArr);
     		//
     	}
@@ -286,9 +289,18 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     	res.push(calledArr);
 		res.push(successArr);
 		res.push(failedArr);
+		res.push(notCalled);
 		res.push(otherArr);
     	console.log(res);
     	return res;
+    }
+
+    function checkDuplicate(arr, item){
+    	var matches = arr.filter(function(d) {
+	      return 
+	      		 d.buyer_mobile == item.buyer_mobile &&
+	      		 d.buyer_name == item.buyer_name
+	    });
     }
 
 

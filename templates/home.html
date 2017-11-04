@@ -92,7 +92,6 @@
                                         <div class="Me-accountInfoWrapper">
                                             <p class="Me-skypename" tabindex="0">Select a photo to upload and set as your avatar</p>
                                         </div>
-                                        <button ng-click="testGetData()">Test</button>
                                         <a class="Me-link" href="javascript:void(0);" aria-label="Download Skype plugin" style="display: block;">
                                             <span class="iconfont arrowDown Me-linkIcon"></span>
                                             <span class="fontSize-h3 Me-linkText">Download My Data</span>
@@ -122,7 +121,47 @@
                                         </div>
                                     </div>
                                     <!-- /Chart -->
-                                    
+                                    <!-- Seller data -->
+                                    <div class="Me-data">
+                                        <!-- Tab -->
+                                        <ul role="tablist" class="ContactsPage-categories">
+                                           <li role="tab" class="ContactsPage-categoryItem" ng-repeat="item in sellerDataStatuses track by $index">
+                                              <swx-contact-list-menu-item>
+                                                 <p>
+                                                     <!-- MenuItem-link  selected -->
+                                                    <a href="#" class="strong MenuItem-link" ng-class="activedDataStatus == item.value ? 'MenuItem-link--selected' : ''" ng-click="toggleActivedDataStatus(item.value)">{{item.title}}</a>
+                                                 </p>
+                                              </swx-contact-list-menu-item>
+                                           </li>
+                                        </ul>
+                                        <!-- /Tab -->
+                                        <!-- Tab content -->
+                                        <div class="Me-data-content">
+                                            <perfect-scrollbar class="scroller">
+                                                <div class="data-items">
+                                                    <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index">
+                                                        <div class="mobile">
+                                                            <span>{{item.buyer_mobile}}</span>
+                                                        </div>
+                                                        <div class="name">
+                                                            <span>{{item.buyer_name}}</span>
+                                                        </div>
+                                                        <div class="source">
+                                                            <span>{{getSourceFromId(item.order_source_id).short_title}}</span>
+                                                        </div>
+                                                        <div class="pack">
+                                                            <span>{{getPackFromId(item.product_pack_id).short_title
+                                                            + '/' + getPackFromId(item.product_pack_id).price
+                                                            + 'K'}}</span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </perfect-scrollbar>
+                                        </div>
+                                        <!-- /Tab content -->
+                                    </div>
+                                    <!-- /Seller data -->
                                 </div>
                             </div>
                         </div>
