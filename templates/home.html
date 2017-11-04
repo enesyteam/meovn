@@ -92,10 +92,6 @@
                                         <div class="Me-accountInfoWrapper">
                                             <p class="Me-skypename" tabindex="0">Select a photo to upload and set as your avatar</p>
                                         </div>
-                                        <a class="Me-link" href="javascript:void(0);" aria-label="Download Skype plugin" style="display: block;">
-                                            <span class="iconfont arrowDown Me-linkIcon"></span>
-                                            <span class="fontSize-h3 Me-linkText">Download My Data</span>
-                                        </a>
                                         <a class="Me-link" href="" aria-label="Manage account" ng-click="toggleShowPasswordEditBox()">
                                             <span class="iconfont edit Me-linkIcon"></span>
                                             <span class="fontSize-h3 Me-linkText">Change Password</span>
@@ -129,7 +125,7 @@
                                               <swx-contact-list-menu-item>
                                                  <p>
                                                      <!-- MenuItem-link  selected -->
-                                                    <a href="#" class="strong MenuItem-link" ng-class="activedDataStatus == item.value ? 'MenuItem-link--selected' : ''" ng-click="toggleActivedDataStatus(item.value)">{{item.title}}</a>
+                                                    <a href="javascript:void(0);" class="strong MenuItem-link" ng-class="activedDataStatus == item.value ? 'MenuItem-link--selected' : ''" ng-click="toggleActivedDataStatus(item.value)">{{item.title}}</a>
                                                  </p>
                                               </swx-contact-list-menu-item>
                                            </li>
@@ -140,11 +136,9 @@
                                             <perfect-scrollbar class="scroller">
                                                 <div class="data-items">
                                                     <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index">
-                                                        <div class="mobile">
+                                                        <div class="mobile" ng-class="item.status_id == 6 ? 'success' : ''">
                                                             <span>
                                                                 {{item.buyer_mobile}}
-                                                                <span class="iconfont tick" ng-if="item.status_id == 6">
-                                                                </span>
                                                             </span>
                                                         </div>
                                                         <div class="name">
@@ -425,8 +419,8 @@
                                                         <div class="headerControls newConversationV2">
                                                             <div class="buttonRow">
                                                                 <swx-button ng-repeat="status in ordersStatuses">
-                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' data-status-id="{{status.id}}" tooltips tooltip-template="{{status.name + ' [Shift+' + status.id + ']'}}" tooltip-side="bottom">
-                                                                            <span class="iconfont {{status.icon_class}}">{{status.name + ' [Shift+' + status.id + ']'}}</span>
+                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' data-status-id="{{status.id}}" tooltips tooltip-template="{{status.name}}" tooltip-side="bottom">
+                                                                            <span class="iconfont {{status.icon_class}}">{{status.name}}</span>
                                                                             <!-- ko if: showMenuOptions -->
                                                                             <!-- /ko -->
                                                                         </button>

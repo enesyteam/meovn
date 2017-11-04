@@ -29,6 +29,10 @@ meovn.controller('OrdersController',
         $scope.userLink = null;
 
         function graphUser(userId) {
+            if(!userId){
+                $scope.userAvatar = 'public/images/default-avatar-contact.svg';
+                return;
+            }
             // profile Picture
             Facebook.api('/' + userId + '/picture?height=100&width=100', function(response) {
                 /**
@@ -976,13 +980,13 @@ meovn.controller('OrdersController',
         $scope.sellerDataStatuses = [];
 
         $scope.currentDataDisplay = null;
-        function getSellerDataDisplay(statusId){
-            $scope.currentDataDisplay = $scope.sellerData[statusId];
+        function getSellerDataDisplay(s){
+            $scope.currentDataDisplay = $scope.sellerData[s];
         }
         $scope.activedDataStatus = 0;
-        $scope.toggleActivedDataStatus = function(statusId){
-            $scope.activedDataStatus = statusId;
-            getSellerDataDisplay(statusId);
+        $scope.toggleActivedDataStatus = function(s){
+            $scope.activedDataStatus = s;
+            getSellerDataDisplay(s);
         }
         
 		$scope.testChangeData = function(){
@@ -1201,7 +1205,8 @@ meovn.controller('OrdersController',
 
 
           // quick comment
-          $scope.quickComments = ['Khách hẹn gọi lại vào lúc ...', 'Khách yêu cầu gửi ...', 'Khách đang bận, gọi lại sau ..', 'Khách bận, mai gọi lại'];
+          $scope.quickComments = ['Khách hẹn gọi lại vào lúc ...h', 
+          'Khách yêu cầu gửi ...', 'Khách đang bận, gọi lại sau ...h', 'Khách bận, sáng gọi lại'];
           $scope.selectQuickComment = function(comment){
             if(comment){
                 $scope.commentData.content = comment;

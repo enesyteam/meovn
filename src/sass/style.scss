@@ -35070,7 +35070,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 
 :root .swx .UnansweredCall .UnansweredCall-buttons .UnansweredCall-nonGreenButton .btn.secondary.circle.stroke:after {
-    border-color: #83BFD9
+    border-color: transparent
 }
 
 :root .swx .UnansweredCall .UnansweredCall-buttons .UnansweredCall-nonGreenButton .btn.secondary.circle.stroke:hover:after,
@@ -37535,7 +37535,8 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 :root .swx.desktop.dark ul.swxContextMenu {
     background-color: #2a2a2a;
     color: #eee;
-    border-color: #667486
+    border-color: #667486;
+    box-shadow: 0 3px 20px rgba(89, 105, 129, .3), 0 1px 2px rgba(0, 0, 0, .05), 0 0 0 1px rgba(89, 105, 129, .1);
 }
 
 :root .swx.desktop.dark .popup .btn.primary:before,
@@ -38216,7 +38217,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 // buttons
 :root .swx.desktop.dark .btn.secondary.circle.stroke.active:before {
-    background-color: #393939
+    background-color: transparent
 }
 
 :root .swx.desktop.dark .btn.secondary.circle.stroke:active:before {
@@ -38224,7 +38225,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 :root .swx.desktop.dark .btn.secondary:before {
     background-color: #333333;
-    border: #00AFF0 solid 1px
+    // border: #00AFF0 solid 1px
 }
 
 :root .swx.desktop.dark .btn.secondary:hover:before,

@@ -127,7 +127,7 @@
     font-size: 21px;
 }
 :root .swx.desktop.dark .btn.closeAction:before{
-    background-color: #222b29;
+    background-color: #667486;
 }
 
 :root .swx .showHelpPanelActions .closeAction.notify:after{
@@ -473,6 +473,23 @@
 :root .swx .Me-data .Me-data-content .data-items .data-item div{
     padding: 5px;
     width: 200px;
+}
+:root .swx .Me-data .Me-data-content .data-items .data-item .mobile.success span:after{
+    font-family: SkypeUISymbol;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    margin-left: -5px;
+    margin-top: -5px;
+    color: #7fba00;
 }
 :root .swx .Me-data .Me-data-content .data-items .data-item div > span{
     line-height: 20px;

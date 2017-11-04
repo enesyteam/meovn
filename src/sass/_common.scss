@@ -10742,7 +10742,7 @@
 }
 
 :root .swx .btn.secondary:before {
-    background-color: #66cff6
+    background-color: transparent
 }
 
 :root .swx .btn.secondary>span {
@@ -10765,7 +10765,7 @@
 }
 
 :root .swx .btn.secondary.circle.stroke:after {
-    border-color: #00AFF0
+    border-color: transparent
 }
 
 :root .swx .btn.secondary.circle.stroke:before {
@@ -10980,7 +10980,7 @@
 
 :root .swx.themeWhite .btn:before,
 :root .swx.themeWhite .btn.primary:before {
-    background-color: #00AFF0
+    background-color: transparent
 }
 
 :root .swx.themeWhite .btn>span,
@@ -11033,7 +11033,7 @@
 }
 
 :root .swx.themeWhite .btn.secondary.circle.stroke:after {
-    border-color: #00AFF0
+    border-color: transparent
 }
 
 :root .swx.themeWhite .btn.secondary.circle.stroke:before {
@@ -11756,9 +11756,6 @@
     background-color: #66cff6
 }
 
-:root .swx .themeLight .btn.secondary.circle.stroke:after {
-    border-color: #00AFF0
-}
 
 :root .swx .themeLight .btn.secondary.circle.stroke:before {
     background-color: transparent
