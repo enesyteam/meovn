@@ -256,22 +256,24 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     				var dd = new Date(a.assigned_date);
     				// NOTE: NEED TO CHECK DUPLICATE
     				if(dd.getDate() == d.getDate()){
-    					if(a.status_after && (a.status_before != a.status_after)){
+    					if(a.status_after && (a.status_before != a.status_after && a.uid == uid)){
     						if(dCalledArr.indexOf(v) == -1 && v.status_id != 1) dCalledArr.push(v);
     					}
 
-    					if(v.status_id == 6 && a.status_after == 6 && v.checked_by == uid && v.seller_will_call_id == uid){
+    					if(v.status_id == 6 && a.status_after == 6 && v.checked_by == uid 
+    						&& v.seller_will_call_id == uid  && a.uid == uid){
     						if(dSuccessArr.indexOf(v) == -1) dSuccessArr.push(v);
     					}
-    					else if(a.status_after && (v.status_id == 2 || v.status_id == 3 || v.status_id == 7) ){
+    					else if(a.status_after && (a.status_after == 2 || a.status_after == 3 || a.status_after == 7) 
+    						&&  a.uid == uid ){
     						if(dFailedArr.indexOf(v) == -1) dFailedArr.push(v);
     					}
-    					else if(!a.status_after && v.status_id == 1 && v.seller_will_call_id == uid){
+    					else if(!a.status_after && v.status_id == 1 && v.seller_will_call_id == uid  && a.uid == uid){
     						if(dNotCalled.indexOf(v) == -1) dNotCalled.push(v);
     					}
     					else{
-    						if(dOtherArr.indexOf(v) == -1 && v.status_id != 6 && v.status_id != 2 && v.status_id != 3
-    							&& v.status_id != 7 && v.status_id != 7) dOtherArr.push(v);
+    						if(dOtherArr.indexOf(v) == -1 && (a.uid == uid && (a.status_after == 9
+    							|| a.status_after == 5 || a.status_after == 8))) dOtherArr.push(v);
     					}
     				}
     			});

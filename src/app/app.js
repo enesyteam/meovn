@@ -3,6 +3,8 @@
 		'facebook', 'CopyToClipboard', 'angular-web-notification', '720kb.tooltips', 'highcharts-ng', 'perfect_scrollbar'])
 	.config(function($stateProvider,$locationProvider, $urlRouterProvider, FacebookProvider){
         $locationProvider.hashPrefix('');
+        // use the HTML5 History API
+
         $urlRouterProvider.otherwise("/");
         $stateProvider
           .state('home',{
