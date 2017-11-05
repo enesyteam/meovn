@@ -1,7 +1,7 @@
 <div class="shell notifications" id="notifications" aria-live="polite" aria-atomic="true" style="display: none;">
             <div class="notification warning" role="alert" data-notification-id="1">
                 <div class="iconfont"></div>
-                <p> <a href="javascript:void(0);" class="strong" role="button">Notification Messages</a>
+                <p> <a href="javascript:void(0);" class="strong" role="button">Vui lòng thay đổi mật khẩu mặc định để đảm bảo tính bảo mật cho tài khoản của bạn.</a>
                 </p>
                 <div class="close">
                     <button class="btn transparent circle" type="btn" data-dismiss-id="1"><span class="iconfont cross" data-dismiss-id="1">Dismiss notification</span>
@@ -13,7 +13,7 @@
         <div class="pre-loading" style="background-color: #1f1f1f;width:100%;height:100%; position: absolute;top: 0; bottom: 0; left: 0; right: 0" ng-show="isAsideLoading">
             <div class="is-loading" style="height: 100%">
                 <div class="loading-container" style="height: 100%">
-                    <div class="loader" ng-show="isAsideLoading" ng-hide style="width: 100%;height: 20px;padding-top: 30px;margin-top: 15px;">
+                    <div class="loader" style="width: 100%;height: 20px;padding-top: 30px;margin-top: 15px;">
                         <svg class="circular" viewBox="25 25 50 50" style="margin:0 auto">
                           <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
                         </svg>
@@ -96,11 +96,34 @@
                                             <span class="iconfont edit Me-linkIcon"></span>
                                             <span class="fontSize-h3 Me-linkText">Change Password</span>
                                         </a>
-                                        <div class="Me-link changePasswordBox" ng-show="showPasswordEditBox">
-
-                                            <input class="newPassword" maxlength="18" type="password" placeholder="Mật khẩu mới">
-                                            <a href="#" class="iconfont ok" role="button" aria-label="Confirm" ng-click="submitPassword(currentUser, $event)"></a>
-                                            <a href="#" class="iconfont cancel" role="button" aria-label="Cancel" ng-click="toggleShowPasswordEditBox()"></a>
+                                        <div class="changePasswordPanel" ng-show="showPasswordEditBox">
+                                            
+                                            <div class="Me-link changePasswordBox">
+                                                <input class="oldPassword" maxlength="18" type="password" placeholder="Mật khẩu cũ" ng-model="oldPassword">
+                                            </div>
+                                            <span class="passwordMessage">Nhập mật khẩu mới từ 8-12 ký tự</span>
+                                            <div class="Me-link changePasswordBox">
+                                                <input class="newPassword" maxlength="18" type="password" placeholder="Mật khẩu mới" ng-model="newPassword" ng-change="validationNewPassword()">
+                                            </div>
+                                            <div class="Me-link changePasswordBox confirmPassword">
+                                                <input class="newPassword" maxlength="18" type="password" placeholder="Nhập lại mật khẩu" ng-model="confirmNewPassword" ng-change="validationNewPassword()">
+                                            </div>
+                                            <div class="actions">
+                                              <div class="submitPassword">
+                                                 <swx-button>
+                                                    <button type="button" role="button" class="btn secondary circle" title="Cancel" aria-label="Cancel" ng-click="hidePasswordEditBox()">
+                                                       <span>Cancel</span>
+                                                       <!-- ko if: showMenuOptions --><!-- /ko -->
+                                                    </button>
+                                                 </swx-button>
+                                                 <swx-button>
+                                                    <button type="button" role="button" class="btn primary circle disabled" title="Submit" aria-label="Submit" ng-class="validNewPassword ? '' : 'disabled'" ng-click="updateFirebaseUserPassword()">
+                                                       <span>Submit</span>
+                                                       <!-- ko if: showMenuOptions --><!-- /ko -->
+                                                    </button>
+                                                 </swx-button>
+                                              </div>
+                                           </div>
                                         </div>
                                         <a class="Me-link" ng-click="signOut()" aria-label="Sign out">
                                             <span class="iconfont signOut Me-linkIcon"></span>
@@ -168,12 +191,12 @@
             </div>
             <div class="shell main" id="chatServiceContainer">
                 <aside class="sideContainer">
-                    <div class="timelineComponentContainer swx" id="timelineComponent" dir="ltr" ng-style="isAsideLoading && {'top': '0'}">
+                    <div class="timelineComponentContainer swx" id="timelineComponent" dir="ltr">
                         <div class="side themeWhite slideLeftToRight inactive">
                             <swx-sidebar>
 
                                 <!-- {{-- Toolbar --}} -->
-                                <div class="navigation afterSearch"  ng-hide="isAsideLoading">
+                                <div class="navigation afterSearch">
                                     <div role="menubar" class="navigationMenuIcons">
                                         <swx-menu-item role="presentation">
                                             <a href="javascript:void(0);" role="menuitem" class="navItem icon" ng-class="{active: isShowAll}" aria-label="Settings" id="menuItem-userSettings" style="" tabindex="-1" ng-click="toggleShowAll()">
@@ -213,9 +236,9 @@
                                     </div>
                                   
                                 </div>
-                                <div class="asideSplitter"  ng-hide="isAsideLoading"></div>
+                                <div class="asideSplitter"></div>
                                 <!-- {{-- /Toolbar --}} -->
-                                <div class="search beforeMenuItems"  ng-hide="isAsideLoading">
+                                <div class="search beforeMenuItems">
                                     <swx-search-input>
                                         <div class="input">
                                             <div class="icon">
@@ -277,7 +300,9 @@
                                                                    <!-- ko if: model.displayMessage() -->
                                                                    <div class="message">
                                                                       <p tabindex="-1">
-                                                                        {{order.buyer_mobile + '/' + order.fbId}}
+                                                                        {{getSourceFromId(order.order_source_id).short_title + '/' + getPackFromId(order.product_pack_id).short_title
+                                                                        + '/' + getPackFromId(order.product_pack_id).price
+                                                                        + 'K'}}
                                                                       </p>
                                                                    </div>
                                                                    <!-- /ko -->
@@ -339,355 +364,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="chatContainer" ng-show="selectedOrder">
-                    <div class="chatComponentContainer swx" id="chatComponent" dir="ltr">
-                        <div id="swxContent1" class="swxContent">
-                            <swx-navigation>
-                                <div class="fragmentsContainer hideContent">
-                                    <div class="conversationControl chat themeLight allowTextSelection group">
-                                        <swx-header class="conversationHeader newConversationV2">
-                                            <div class="headerMain">
-                                                <div class="roster">
-                                                    <div class="grid group">
-                                                        <swx-avatar role="button" class="avatar Avatar--fogTheme">
-                                                            <div role="button" class="Avatar Avatar--presence Avatar--{{getOrderStatusForOrder(selectedOrder)}} Avatar--defaultAvatar Avatar--absolute" tabindex="">
-                                                                <a href="//facebook.com/{{selectedOrder.fbId}}" target="_blank">
-                                                                    <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{userAvatar}}" style="display: block;">
-                                                                </a>
-                                                            </div>
-                                                        </swx-avatar>
-                                                        <swx-button class="hideProfile hide">
-                                                            <button type="button" role="button" class="btn primary circle" title="Close" aria-label="Open group profile.">
-                                                                <span class="iconfont chevronUp">Close</span>
-                                                                <!-- ko if: showMenuOptions -->
-                                                                <!-- /ko -->
-                                                            </button>
-                                                        </swx-button>
-                                                        <span class="tile conversationTopic">
-                                                             <span class="tileText">
-                                                                <span class="tileName square">
-                                                                   <h3 class="editable">
-                                                                        <span role="button" class="iconfont button chevronUp hide">
-                                                                        </span>
-                                                                        <span class="hoverWrap">
-                                                                            
-                                                                               <span aria-label="Customer Name." tabindex="0" class="detail-customer-name"><a href="//facebook.com/{{selectedOrder.fbId}}" target="_blank"> {{selectedOrder.buyer_name}} </a></span> 
-                                                                            
-                                                                        </span>
-                                                                        <button class="iconfont edit hide" type="button" aria-label="Rename conversation" title="Rename conversation">
-                                                                        </button>
-                                                                    </h3>
-                                                                </span>
-
-                                                                <span class="tileMessage presence circle">
-                                                                    <div class="message fixSmall">
-                                                                        <div class="displayMessage">
-                                                                            <span class="iconfont groupParticipantsLabel fontSize-p" title="11 participants">{{selectedOrder.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
-                                                                            </span>
-                                                                            <span class="fontSize-p divider">|</span>
-                                                                            <swx-conversation-share-link class="conversation-share-link conversation-share-link-header">
-                                                                                <div class="conversationShareLink">
-                                                                                    <swx-button>
-                                                                                        <button type="button" role="button" class="btn shareButton circle classicShare" data-ng-click="clibboardCoppyLink($event)" tooltips tooltip-template="Click to get link" tooltip-side="bottom">
-                                                                                                <span class="iconfont link">Get link</span>
-                                                                                                <!-- ko if: showMenuOptions -->
-                                                                                                <!-- /ko -->
-                                                                                            </button>
-                                                                                        </swx-button>
-                                                                                        <swx-button>
-                                                                                            <button type="button" role="button" class="btn shareButton circle narrowShare">
-                                                                                                <span class="iconfont share">Share</span>
-                                                                                                <!-- ko if: showMenuOptions -->
-                                                                                                <!-- /ko -->
-                                                                                            </button>
-                                                                                        </swx-button>
-                                                                                        <!-- ko if: isTooltipOpened -->
-                                                                                        <!-- /ko -->
-                                                                                    </div>
-                                                                                </swx-conversation-share-link>
-                                                                                <!-- /ko -->
-                                                                            </div>
-                                                                        </div>
-                                                                    </span>
-                                                            </span>
-                                                        </span>
-                                                        <span href="#" role="menuitem" class="headerCustomerMobile" style="" tabindex="-1">
-                                                         <h2>{{selectedOrder.buyer_mobile}}</h2>
-                                                        </span>
-
-                                                        <!-- ko if: headerControlsEnabled() -->
-                                                        <div class="headerControls newConversationV2">
-                                                            <div class="buttonRow">
-                                                                <swx-button ng-repeat="status in ordersStatuses">
-                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' tooltips tooltip-template="{{status.name + '(' + status.id + ')'}}" tooltip-side="bottom">
-                                                                            <span class="iconfont {{status.icon_class}}">{{status.name}}</span>
-                                                                            <!-- ko if: showMenuOptions -->
-                                                                            <!-- /ko -->
-                                                                        </button>
-                                                                </swx-button>
-                                                                <!-- ko if: showMoreActions() -->
-                                                                <!-- /ko -->
-                                                            </div>
-                                                        </div>
-                                                        <!-- /ko -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <!-- ko if: editModeActive -->
-                                        <div class="contactPickerWrapper" ng-class="showBlockDialog ? '' : 'hide'">
-                                           <div class="headerAdd">
-                                              <swx-contact-picker-input params="setParticipantProvider: setParticipantProvider">
-                                                 <div class="contactPickerInput scrollinWrapper ltroverride hyperscroll hyperscrollV">
-                                                    <div class="scrollViewport scrollViewportV" tabindex="-1">
-                                                       <div class="contacts">
-                                                          <!-- ko foreach: selectedContacts --><!-- /ko -->
-                                                          <input autocomplete="organization" type="text" class="fontSize-p"  placeholder="Please give us some reasons why do you want to block this buyer" data-focusmanager="1" ng-model="blockReason">
-                                                       </div>
-                                                    </div>
-                                                    <!-- ko if: showMoreResultsAvailableMessage() --><!-- /ko-->
-                                                    <div class="rail railV">
-                                                       <div class="slider"></div>
-                                                    </div>
-                                                 </div>
-                                              </swx-contact-picker-input>
-                                           </div>
-                                           
-                                           <!-- ko if: !newConversationV2 --><!-- /ko -->
-                                           <!-- ko if: newConversationV2 -->
-                                           <div class="actions">
-                                              <div class="submitConversation">
-                                                 <swx-button>
-                                                    <button type="button" role="button" class="btn secondary circle" title="Cancel" aria-label="Cancel" ng-click="hideBlockDialog()">
-                                                       <span data-bind="css: spanCssClass, text: text">Cancel</span>
-                                                       <!-- ko if: showMenuOptions --><!-- /ko -->
-                                                    </button>
-                                                 </swx-button>
-                                                 <swx-button >
-                                                    <button type="button" role="button" class="btn primary circle" title="Add" aria-label="Add" ng-class="blockReason.length > 3 ? '' : 'disabled'" ng-click="submitBlockNumber(selectedOrder)">
-                                                       <span>Submit</span>
-                                                       <!-- ko if: showMenuOptions --><!-- /ko -->
-                                                    </button>
-                                                 </swx-button>
-                                              </div>
-                                           </div>
-                                           <!-- /ko -->
-                                        </div>
-                                        </swx-header>
-
-                                        <!-- {{-- Chat log --}} -->
-                                        <swx-chat-log class="conversationHistory ltroverride">
-                                            
-                                            <div class="loader load-container" ng-show="isPageBusy" ng-hide>
-                                                <svg class="circular" viewBox="25 25 50 50">
-                                                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                                                </svg>
-                                              </div>
-
-                                            <div class="conversation scrollable scrollViewport scrollViewportV">
-                                                <perfect-scrollbar class="scroller">
-                                                <div class="history scrollViewport-inner">
-                                                    <div class="scroller" id="commentList">
-                                                        <!-- ko if: showIntroText -->
-                                                        <!-- /ko -->
-                                                        <div class="messageHistory largeAllowed visible" role="list" data-swx-testid="messageHistory" tabindex="0">
-                                                            <!-- <div ng-include="'templates/order-details.html'"></div> -->
-                                                                <ui-view></ui-view>
-                                                            <div class="comments-log">
-                                                                <swx-message   ng-show="comments" role="listitem" class="message showName their last read participant" tabindex="-1" aria-relevant="all" data-id="1505910544476">
-                                                                    <div class="bubble">
-                                                                        <div class="arrow"></div>
-                                                                        <div class="content" id="msg_1505910544476">
-                                                                            <!-- ko if: isCopySelectionAsQuoteEnabled -->
-                                                                            <h2>Comments/Actions</h2>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- /ko -->
-                                                                </swx-message>
-                                                                <!-- {{-- Begin comment --}} -->
-                                                               
-                                                                    
-                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{findUser(comment.user).is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments track by $index">
-                                                                    <div class="callAction" ng-show="comment.type==1">
-                                                                        <div class="iconfont {{getStatusById(comment.status_id).icon_class}}"></div>
-                                                                    </div>
-                                                                    <a role="button" aria-label="{{comment.user.last_name}}" title="{{comment.user.last_name}}" ng-show="findUser(comment.user).is_admin != 1 && comment.type!=1">
-                                                                            <swx-avatar class="clickable"><div role="button" class="Avatar Avatar--absolute">
-                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
-                                                                        </div>
-                                                                        </swx-avatar>
-                                                                        </a>
-                                                                    <div class="bubble">
-                                                                        <!-- ko if: isSMS -->
-                                                                        <!-- /ko -->
-                                                                        <!-- ko ifnot: isMeCommandMessage -->
-                                                                        <!-- ko if: renderAuthorInfo -->
-                                                                        <div class="offScreen">From: </div>
-                                                                        <!-- ko if: isGroupConversation -->
-                                                                        <!-- /ko -->
-                                                                        <!-- ko ifnot: isGroupConversation -->
-                                                                        <swx-name ng-hide="comment.type==1">
-                                                                            <span class="tile idle">
-                                                                            <span class="tileName">
-                                                                            <h4>
-                                                                              #{{$index+1}} bởi {{findUser(comment.user).is_admin==1 ? 'Admin' : findUser(comment.user).last_name}}
-                                                                           </h4>
-                                                                            </span>
-                                                                            </span>
-                                                                        </swx-name>
-
-                                                                        <div class="arrow" ng-hide="comment.type==1"></div>
-                                                                        <div class="content">
-                                                                            <p ng-show="comment.type==1" class="liveSessionText fontSize-h4">#{{$index+1}} <strong style="color:#00AFF0"> {{findUser(comment.user).is_admin==1 ? 'Admin' :  findUser(comment.user).last_name}} </strong> đã đánh dấu trạng thái <strong style="color:#00AFF0"> {{getStatusById(comment.status_id).name}}</strong></p>
-
-                                                                            <!-- ko if: isCopySelectionAsQuoteEnabled -->
-                                                                            <p ng-hide="comment.type==1">{{comment.content}}</p>
-                                                                                <button type="submit" ng-show="{{currentMember.is_admin == 1 || currentMember.id == findUser(comment.user).id && comment.type!=1}}" class="btn primary circle small transparent" aria-label="Delete" style="    position: absolute;right: 5px;top: 5px;" ng-click="deleteComment(comment)" title="Xóa"> 
-                                                                                    <span class="iconfont delete" style="    display: table-cell;"></span>
-                                                                                    </button>
-                                                                        </div>
-                                                                        <div class="timestamp">
-                                                                            <div class="offScreen">Sent on: </div>
-                                                                            <p class="smaller right" title='<% comment.created_at %>'>{{newDate(comment.created_at) | date:'hh:mm dd/MM'}}</p>
-                                                                        </div>
-
-                                                                                
-                                                                    </div>
-                                                                    <!-- ko if: messageDeliveryStatusEnabled && !isMeCommandMessage -->
-                                                                    <div class="DeliveryStatus hide">
-                                                                        <span></span>
-                                                                        <span class="DeliveryStatus-status fontSize-p smaller" ></span>
-                                                                    </div>
-                                                                    <!-- /ko -->
-
-                                                                    <!-- ko if: timestampsInNarrowModeEnabled -->
-                                                                    <div class="bottomTimestamp">
-                                                                        <div class="offScreen">Sent on: </div>
-                                                                        <p class="smaller" id="time_3484384719590717324">Sep 18 at 8:46 am</p>
-                                                                    </div>
-                                                                    <!-- /ko -->
-                                                                </swx-message>
-                                                                <!-- {{-- If user is typing a comment --}} -->
-                                                                <swx-message role="listitem" class="message showName their first last showTimestamp showBottomTimestamp read text swx-in-viewport isTyping" tabindex="-1" ng-show="commentData.content">
-                                                                    <a role="button">
-                                                                            <swx-avatar class="clickable"><div role="button" class="Avatar Avatar--absolute">
-                                                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="public/images/default-avatar-contact.svg" style="display: block;">
-                                                                        </div>
-                                                                        </swx-avatar>
-                                                                        </a>
-                                                                    <div class="bubble">
-                                                                        <!-- ko if: isSMS -->
-                                                                        <!-- /ko -->
-                                                                        <!-- ko ifnot: isMeCommandMessage -->
-                                                                        <!-- ko if: renderAuthorInfo -->
-                                                                        <div class="offScreen">From: </div>
-                                                                        <!-- ko if: isGroupConversation -->
-                                                                        <!-- /ko -->
-                                                                        <!-- ko ifnot: isGroupConversation -->
-                                                                        <swx-name>
-                                                                            <span class="tile idle">
-                                                                            <span class="tileName">
-                                                                            <h4>
-                                                                              #{{commentList.length + 1}} bởi {{currentMember.last_name}}
-                                                                           </h4>
-                                                                            </span>
-                                                                            </span>
-                                                                        </swx-name>
-
-                                                                        <div class="arrow"></div>
-                                                                        <div class="content" id="msg_3484384719590717324">
-                                                                            <!-- ko if: isCopySelectionAsQuoteEnabled -->
-                                                                            <p>{{commentData.content}}</p>
-                                                                            <div class="comment-typing-load-container load8" ng-show="isPostingComment">
-                                                                                <div class="loader"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="timestamp">
-                                                                            <div class="offScreen">Sent on: </div>
-                                                                            <p class="smaller right" title='<% comment.created_at %>'>{{date | date:'hh:mm dd/MM'}}</p>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- ko if: messageDeliveryStatusEnabled && !isMeCommandMessage -->
-                                                                    <div class="DeliveryStatus hide">
-                                                                        <span></span>
-                                                                        <span class="DeliveryStatus-status fontSize-p smaller" ></span>
-                                                                    </div>
-                                                                    <!-- /ko -->
-
-                                                                    <!-- ko if: timestampsInNarrowModeEnabled -->
-                                                                    <div class="bottomTimestamp">
-                                                                        <div class="offScreen">Sent on: </div>
-                                                                        <p class="smaller" id="time_3484384719590717324">Sep 18 at 8:46 am</p>
-                                                                    </div>
-                                                                    <!-- /ko -->
-                                                                </swx-message>
-                                                                <!-- {{-- /  --}} -->
-                                                            </div>
-
-                                                            <!-- {{-- // End comment --}} -->
-
-                                                        </div>
-
-                                                        <!-- {{-- // END COMMENTS --}} -->
-                                                       
-                                                    </div>
-                                                </div>
-                                                </perfect-scrollbar>
-                                            </div>
-                                        </swx-chat-log>
-
-                                        <!-- {{-- /Chat log --}} {{-- Typing box --}} -->
-                                        <label class="input swx-chat-input">
-                                            <div class="tc">
-                                                <div class="form-holder mediabarV2enabled">
-
-                                                    <div class="upper-row-form">
-                                                        <div class="form">
-                                                                <form>
-                                                                <swx-textarea>
-                                                                    <div id="chatInputContainer" class="container" style="height: 39px;">
-                                                                        <!-- ko if: quotedMessageXML().length > 0 -->
-                                                                        <!-- /ko -->
-                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here & press Enter to send" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
-                                                                        </textarea>
-                                                                    </div>
-                                                                </swx-textarea>
-                                                                </form>
-                                                        </div>
-                                                        <div class="buttonRow">
-                                                            <swx-button >
-                                                                <button type="button" role="button" class="btn transparent circle actionButton" title="Clear comment data" aria-haspopup="true" ng-show="commentData.content.length > 0" ng-click="clearCommentData()">
-                                                                <span class="iconfont cross"></span>
-                                                                </button>
-                                                            </swx-button>
-                                                           <swx-expression-picker  class="expressionPicker">
-                                                              <div class="wrapper swx-expression-picker">
-                                                                 <swx-button >
-                                                                    <button type="button" role="button" class="btn swx-expression-picker-btn transparent circle emoticon-picker-button large" title="Quick Comment" ng-click="toggleShowQuickComment()">
-                                                                       <span class="iconfont message"></span>
-                                                                    </button>
-                                                                 </swx-button>
-                                                                 <div class="bubble popup arrow down active" ng-show="showQuickComment">
-                                                                    <div class="quick-reply-item" ng-repeat="item in quickComments" ng-click="selectQuickComment(item)">
-                                                                        <span class="quick-reply-item-content">{{item}}</span>
-                                                                    </div>
-                                                                </div>
-                                                              </div>
-                                                           </swx-expression-picker>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <!-- ko if: showTermsOfUse -->
-                                                <!-- /ko -->
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </swx-navigation>
-                        </div>
-                    </div>
-                </div>
+                <ui-view></ui-view>
             </div>
             <div class="showHelpPanelActions">
                 <button type="button" role="button" class="btn circle large closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()" tooltips tooltip-template="Get supported from Adsministrators" tooltip-side="left">

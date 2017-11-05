@@ -15610,7 +15610,7 @@ only screen and (min-resolution: 2dppx) {
     right: 1.5em;
     background: #fff;
     margin-top: .05em;
-    z-index: 101;
+    z-index: 1;
     width: 450px;
     float: right;
 }
@@ -36564,18 +36564,6 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     height: 25px;
     margin-left: 55px;
 }
-:root .swx .Me-link.changePasswordBox input {
-    line-height: 25px;
-    height: 25px;
-    vertical-align: middle;
-    margin-left: 0;
-    font-size: 15px;
-    width: 100%;
-    border: none;
-    outline: none;
-    display: inline-block;
-    width: 75%;
-}
 :root .swx .Me-link.changePasswordBox a {
     font-size: 32px;
     /* display: inline-block; */
@@ -38174,7 +38162,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 }
 
 :root .swx.desktop.dark .btn.transparent>span {
-    color: #a9a5a4 !important
+    color: #fff!important;
 }
 
 :root .swx.desktop.dark .btn.transparent:hover>span {
@@ -38360,7 +38348,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 
 :root .swx.desktop.dark .shell.notifications .notification.info,
 :root .swx.desktop.dark .shell.notifications .notification.warning {
-    background-color: #3e6a8a
+    background-color: #e81123;
 }
 
 :root .swx.desktop.dark .shell.notifications .notification.info p,
@@ -38370,7 +38358,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 
 :root .swx.desktop.dark .shell.notifications .notification.info a,
 :root .swx.desktop.dark .shell.notifications .notification.warning a {
-    color: #00AFF0
+    color: #fff;
 }
 
 :root .swx.desktop.dark .UnansweredCall {
@@ -38520,11 +38508,9 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     // padding: 5px 10px;
     overflow: hidden;
     display: inline-block;
-    width: 100%;
     overflow-x: scroll;
     /* width: auto; */
     height: 150px;
-    overflow-x: scroll;
     white-space: nowrap;
 }
 

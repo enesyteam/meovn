@@ -494,3 +494,63 @@
 :root .swx .Me-data .Me-data-content .data-items .data-item div > span{
     line-height: 14px;
 }
+:root .swx .Me-link.changePasswordBox{
+    position: relative;
+    width: calc(100% - 100px);
+    background-color: #1f1f1f;
+    border: 1px solid #00aff0;
+    border-radius: 4px;
+    padding: 4px;
+    height: 30px;
+    margin-left: 56px;
+    margin-top: 4px;
+}
+:root .swx .Me-link.changePasswordBox input{
+    line-height: 22px;
+    height: 22px;
+    vertical-align: middle;
+    margin-left: 0;
+    font-size: 15px;
+    width: 100%;
+    border: none;
+    outline: 0;
+    display: inline-block;
+    width: 100%;
+}
+:root .swx .passwordMessage{
+    color: #888;
+    font-size: 14px;
+    display: block;
+    float: left;
+    margin-left: 55px;
+    line-height: 30px;
+}
+
+:root .swx .changePasswordPanel .actions{
+    margin-left: 50px;
+    display: block;
+}
+:root .swx .changePasswordPanel .actions .submitPassword .btn.circle{
+    width: auto;
+    min-width: 130px;
+    height: 30px;
+    margin: 6px;
+}
+:root .swx .changePasswordPanel .actions .submitPassword .btn.circle span{
+    font-size: .6em;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #eaeaea;
+}
+
+:root .swx .load-container{
+    position: absolute;
+    right: 0;
+    top: .5em;
+    z-index: 10;
+    float: right;
+    position: relative;
+    overflow: hidden;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

@@ -9,14 +9,14 @@
         $stateProvider
           .state('home',{
             url: '/',
-            controller : 'OrdersController',
-            templateUrl: "/templates/home.html"
-          })
-          .state('home.details', {
-				url        : 'order/:id/:mobile/seller=:seller',
-				params     : { id : null,mobile: null, seller: null},
-				templateUrl: 'templates/order-details.html'
-			})
+                controller : 'OrdersController',
+                templateUrl: "/templates/home.html"
+              })
+              .state('home.details', {
+    				url        : 'order/:id/:mobile/seller=:seller',
+    				params     : { id : null,mobile: null, seller: null},
+    				templateUrl: 'templates/order.html'
+    			})
           .state('auth',{
             url: '/auth',
             controller : 'AuthController',

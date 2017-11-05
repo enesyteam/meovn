@@ -7,7 +7,6 @@ meovn.controller('OrdersController',
         var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 
         function graphPage(pageId) {
-            $scope.isPageBusy = true;
             Facebook.api('/' + pageId + '?access_token=' + access_token, function(response) {
                 /**
                  * Using $scope.$apply since this happens outside angular framework.
@@ -22,7 +21,7 @@ meovn.controller('OrdersController',
                 $scope.currentPageAvatar = response.data.url;
             }).then(function() {
                 // console.log('xong');
-                $scope.isPageBusy = false;
+                // $scope.isPageBusy = false;
             });
         };
         $scope.userAvatar = null;
@@ -61,29 +60,26 @@ meovn.controller('OrdersController',
                 /**
                  * Using $scope.$apply since this happens outside angular framework.
                  */
-
                 $scope.fbContent = response;
-
-
             }).then(function() {
-                // console.log('xong');
-                $scope.isPageBusy = false;
-            });
-            // graph post photos
-            Facebook.api('/' + pageId + '_' + postId + '/attachments' + '?access_token=' + access_token, function(response) {
-                /**
-                 * Using $scope.$apply since this happens outside angular framework.
-                 */
-                $scope.fbPhotos = [];
-                for (var i = 0; i < response.data[0].subattachments.data.length - 1; i++) {
-                    $scope.fbPhotos.push(response.data[0].subattachments.data[i].media.image.src);
-                }
+                // graph post photos
+                Facebook.api('/' + pageId + '_' + postId + '/attachments' + '?access_token=' + access_token, function(response) {
+                    /**
+                     * Using $scope.$apply since this happens outside angular framework.
+                     */
+                    $scope.fbPhotos = [];
+                    for (var i = 0; i < response.data[0].subattachments.data.length - 1; i++) {
+                        $scope.fbPhotos.push(response.data[0].subattachments.data[i].media.image.src);
+                    }
+                    // $scope.isPageBusy = null;
 
+                }).then(function() {
+                    // console.log('xong');
+                    $scope.isPageBusy = null;
+                });
 
-            }).then(function() {
-                // console.log('xong');
-                $scope.isPageBusy = false;
             });
+            
         };
 
         var inputs = document.querySelectorAll( '.inputfile' );
@@ -160,23 +156,27 @@ meovn.controller('OrdersController',
             });
 
         firebaseService.getAllSources().then(function(sources) {
-                $scope.sources = sources;
-                firebaseService.getAllPacks().then(function(packs) {
-                    $scope.packs = packs;
-                    if ($state.current.name == 'home.details') {
-                        $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
-                        angular.forEach($scope.orders, function(o, i) {
-                          if (o.id === $stateParams.id ) {
-                            activeOrder($scope.orders[i]);
-                          }
-                        });
+            $scope.sources = sources;
+            $scope.isAsideLoading = true;
+            firebaseService.getAllPacks().then(function(packs) {
+                $scope.packs = packs;
+                if ($state.$current.name == 'home.details') {
+                    console.log($state);
+                    // $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
+                    angular.forEach($scope.orders, function(o, i) {
+                      if (o.id === $stateParams.id ) {
+                        $scope.active($scope.orders[i]);
+                        // return;
+                        // $scope.isPageBusy = false;
+                      }
+                    });
 
-                        $scope.isPageBusy = false;
-                    }
-
-                    $scope.isAsideLoading = false;
-                });
+                    
+                }
+                // $scope.isPageBusy = false;
+                $scope.isAsideLoading = false;
             });
+        });
 
         $scope.currentMember = null;
         firebase.auth().onAuthStateChanged(function(firebaseUser) {
@@ -238,6 +238,53 @@ meovn.controller('OrdersController',
             });
         };
 
+        $scope.showPasswordEditBox = false;
+        $scope.toggleShowPasswordEditBox = function(){
+            $scope.showPasswordEditBox = !$scope.showPasswordEditBox;
+        }
+        $scope.hidePasswordEditBox = function(){
+            $scope.showPasswordEditBox = false;
+        }
+        $scope.oldPassword = '';
+        $scope.newPassword = '';
+        $scope.confirmNewPassword = '';
+        $scope.validNewPassword = false;
+        $scope.validationNewPassword = function(){
+            if($scope.newPassword.length < 8 || $scope.confirmNewPassword < 8 
+                || ($scope.newPassword != $scope.confirmNewPassword)){
+               $scope.validNewPassword = false; 
+            }
+            else{
+                $scope.validNewPassword = true; 
+            }
+        }
+
+        $scope.updateFirebaseUserPassword = function(){
+            if(!$scope.validNewPassword) return;
+            if(!$scope.firebaseUser) return;
+            if(!$scope.oldPassword) return;
+
+
+            var credential = firebase.auth.EmailAuthProvider.credential(
+              $scope.firebaseUser.email,
+              $scope.oldPassword
+            );
+
+            $scope.firebaseUser.reauthenticateWithCredential(credential).then(function() {
+              // User re-authenticated => update password.
+              $scope.firebaseUser.updatePassword($scope.newPassword).then(function() {
+              // Update successful.
+              console.log('Password changed successful');
+              $scope.signOut();
+                }).catch(function(error) {
+                    console.log(error);
+                  // An error happened.
+                  console.log('Error while changing password, please try again!');
+                });
+            }).catch(function(error) {
+              // An error happened.
+            });
+        }
 
         function getOrderByID(id) {
             // console.log($scope.orders);
@@ -280,20 +327,15 @@ meovn.controller('OrdersController',
 
         $scope.isSeaching = false;
         $scope.searchText = '';
-        $scope.isPageBusy = true;
+        $scope.isPageBusy = false;
         $scope.isAsideLoading = true;
-        $scope.isPostingComment = false;
         $scope.activeStatus = null;
-        $scope.date = new Date();
 
         $scope.fbContent = null;
         $scope.fbPhotos = [];
         $scope.currentPageName = '';
         $scope.currentPageAvatar = '';
 
-        $scope.dateRange = {};
-        $scope.dateRange.startDate = new Date();
-        $scope.dateRange.endDate = new Date();
         $scope.isPostExpanded = false;
         $scope.selectedOrder = null;
 
@@ -303,26 +345,12 @@ meovn.controller('OrdersController',
             firebase.auth().signOut();
         }
 
-
         $scope.newDate = function(dateString) {
             return new Date(dateString);
         }
         $scope.toggleExpandPost = function() {
             $scope.isPostExpanded = !$scope.isPostExpanded;
         }
-
-        // $scope.currentUser = null;
-        // var getCurrentUser = function() {
-        //     var result = [];
-        //     ref.child('members').orderByChild('id').equalTo(CURRENT_USER_ID).once('value', function(snap) {
-        //         snap.forEach(function(item) {
-        //             var itemVal = item.val();
-        //             result.push(itemVal);
-        //         });
-        //     });
-        //     $scope.currentUser = result;
-        // }
-        // getCurrentUser();
 
         $scope.isShowAll = false;
 
@@ -432,21 +460,23 @@ meovn.controller('OrdersController',
         $scope.pleaseWaitMessage = 'Select an order to display';
         function activeOrder(order) {
             if(!order) return;
-            $scope.isPageBusy = true;
+            // $scope.isPageBusy = true;
             // $scope.clickSound.play();
             $scope.isPostExpanded = false;
             
             graphUser(order.fbId);
-            $scope.fbContent = [];
-            $scope.fbContent.message = '';
-            $scope.fbPhotos = [];
-            $scope.currentPageName = '';
-            $scope.currentPageAvatar = '';
+            // $scope.fbContent = [];
+            // $scope.fbContent.message = '';
+            // $scope.fbPhotos = [];
+            // $scope.currentPageName = '';
+            // $scope.currentPageAvatar = '';
             graphPage(getPageIdFromOrder(order));
             graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
-            $scope.selectedOrder = order;
-            $scope.comments = firebaseService.getCommentForOrder(order);
             
+            $scope.comments = firebaseService.getCommentForOrder(order);
+            $scope.selectedOrder = order;
+            // $scope.isPageBusy = null;
+            // $scope.isAsideLoading = false;
         }
         $scope.active = function(order) {
             activeOrder(order);
@@ -522,12 +552,17 @@ meovn.controller('OrdersController',
 
         // update order status
         $scope.updateStatus = function(order, $event, status) {
+            if($scope.showCallLaterDialog || $scope.showBlockDialog){
+                $scope.showCallLaterDialog = false;
+                $scope.showBlockDialog = false;
+            }
+
             if(order.status_id == status.id){
-                $scope.showAlert('', 'Oops! Status not change? You should better add a comment.', 'error');
+                $scope.showAlert('', 'Oops! Trạng thái không thay đổi, xem xét bổ sung comment.', 'error');
                 return false;  
             }
             if (!$scope.userCanReleaseOrChangeStatus(order)) {
-                $scope.showAlert('', 'Oops! Not allowed to change the order status of others.', 'error');
+                $scope.showAlert('', 'Oops! Thay đổi trạng thái Order không thuộc về bạn?', 'error');
                 return false;
             }
             if(status.id == 8){ //block
@@ -536,12 +571,16 @@ meovn.controller('OrdersController',
                 $scope.blockReason = ''; 
                 return;
              }
+             else if(status.id == 5){
+                $scope.showCallLaterDialog = true;
+                callLaterStatus = status;
+                return;
+             }
             changeOrderStatus(order, status);
         }
         function changeOrderStatus(order, status){
             order.status_id = status.id;
             
-
             var newCommentKey = firebase.database().ref().child('comments').push().key;
             var $commentItem = {
                 'id': newCommentKey,
@@ -572,6 +611,34 @@ meovn.controller('OrdersController',
            $scope.showBlockDialog = false; 
         }
         $scope.blockReason = '';
+
+        $scope.showCallLaterDialog = false;
+        $scope.hideCallLaterDialog = function(){
+           $scope.showCallLaterDialog = false; 
+        }
+        $scope.willCalllLaterMessage = '';
+        var callLaterStatus = null;
+        $scope.submitCallLater = function(order){
+            changeOrderStatus(order, callLaterStatus);
+            // add new comment
+            if (!$scope.willCalllLaterMessage) {
+                return false;
+            }
+
+            var newCommentKey = firebase.database().ref().child('comments').push().key;
+            var $commentItem = {
+                'id': newCommentKey,
+                'order_id': order.id,
+                'content': $scope.willCalllLaterMessage,
+                'created_at': Date.now(),
+                'type': 0,
+                'status_id': 0,
+                'user': $scope.currentMember.id,
+            };
+            firebaseService.addComment($commentItem);
+            $scope.comments.push($commentItem);
+            $scope.hideCallLaterDialog();
+        }
 
         // ađ to block list
         var blockStatus = null;
@@ -677,56 +744,6 @@ meovn.controller('OrdersController',
                 $scope.hideAllModals();
             }
         });
-
-        
-
-        // Clibboard
-        // getClipboard data
-        // var getClipboardData = function(order) {
-        //     var m, n, s, p, st, sl;
-        //     s = getSource(order.order_source_id);
-        //     p = getPack(order.product_pack_id);
-        //     st = getStatus(order.status_id);
-        //     sl = $scope.getSeller(order.seller_will_call_id);
-        //     return 'Page:' + '\t\t\t' + s[0].source_name +
-        //         '\nGói sp:' + '\t\t\t' + p[0].short_title + '/' + p[0].price + 'K' +
-        //         '\nTrạng thái:' + '\t\t' + st[0].name +
-        //         '\nNgười gọi:' + '\t\t' + (sl ? sl[0].last_name : 'Chưa có');
-        // }
-        // var getSource = function(id) {
-        //     if (!id) return null;
-        //     var result = [];
-        //     ref.child('sources').orderByChild('id').equalTo(id).once('value', function(snap) {
-        //         snap.forEach(function(item) {
-        //             var itemVal = item.val();
-        //             result.push(itemVal);
-        //         });
-        //     });
-        //     return result;
-        // };
-        // var getStatus = function(id) {
-        //     // console.log(id);
-        //     if (!id) return null;
-        //     var result = [];
-        //     ref.child('statuses').orderByChild('id').equalTo(id).once('value', function(snap) {
-        //         snap.forEach(function(item) {
-        //             var itemVal = item.val();
-        //             result.push(itemVal);
-        //         });
-        //     });
-        //     return result;
-        // };
-        // var getPack = function(id) {
-        //     if (!id) return null;
-        //     var result = [];
-        //     ref.child('packs').orderByChild('id').equalTo(id).once('value', function(snap) {
-        //         snap.forEach(function(item) {
-        //             var itemVal = item.val();
-        //             result.push(itemVal);
-        //         });
-        //     });
-        //     return result;
-        // };
 
         $scope.getSeller = function(id) {
             if (!id) return null;
@@ -1262,7 +1279,7 @@ meovn.controller('OrdersController',
           }
           $scope.submitRequest = function(order){
             if(!order){
-                $scope.showAlert('', 'Oops! Please select an Order to submit request.', 'error');
+                $scope.showAlert('', 'Oops! Vui lòng chọn Order trước khi gửi request.', 'error');
                 return;
             }
             var requestData = {

@@ -8909,7 +8909,7 @@
                  * @default { "color": "#333333", "cursor": "pointer", "fontSize": "12px", "fontWeight": "bold", "textOverflow": "ellipsis" }
                  */
                 itemStyle: {
-                    color: '#333333',
+                    color: '#888',
                     fontSize: '12px',
                     fontWeight: 'bold',
                     textOverflow: 'ellipsis'
@@ -8928,7 +8928,7 @@
                  * @default { "color": "#000000" }
                  */
                 itemHoverStyle: {
-                    color: '#000000'
+                    color: '#fff'
                 },
 
                 /**
