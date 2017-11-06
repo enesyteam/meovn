@@ -14,6 +14,7 @@
               })
               .state('home.details', {
     				url        : 'order/:id/:mobile/seller=:seller',
+            controller : 'OrdersController',
     				params     : { id : null,mobile: null, seller: null},
     				templateUrl: 'templates/order.html'
     			})
