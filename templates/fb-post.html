@@ -16,6 +16,9 @@
                   <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
                </svg>
             </div>
+            <!-- Null post -->
+            <!-- <span ng-show="!fbContent" ng-hide>Khách hàng inbox hoặc không tìm thấy gói sản phẩm</span> -->
+            <!-- /Null post -->
             <div style="text-align: left;">
                <span class="emoticon hi large animated" style="display: inline-block;"><span class="emoSprite">(hi)</span>
                <img class="" alt="" width="40" height="40" aria-hidden="true" role="presentation" ng-src="{{currentPageAvatar}}" style="display: block;border-radius: 50%">
@@ -42,7 +45,7 @@
                <div class="inviteLink">
                   <!-- ko ifnot: uri --><!-- /ko -->
                   <!-- ko if: uri -->
-                  <perfect-scrollbar class="scroller" suppressScrollY>
+                  <perfect-scrollbar class="scroller" suppress-scroll-y="true" wheel-propagation="true">
                      <div style="height: 150px;width:100%" >
                         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                         <div id="links" class="product-gallery">

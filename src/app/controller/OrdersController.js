@@ -54,6 +54,11 @@ meovn.controller('OrdersController',
 
 
         function graphPost(pageId, postId) {
+            if(!postId){
+                $scope.fbContent = null;
+                $scope.fbPhotos = null;
+                return;
+            }
             $scope.isPageBusy = true;
             Facebook.api('/' + pageId + '_' + postId + '?access_token=' + access_token, function(response) {
 
@@ -1308,7 +1313,7 @@ meovn.controller('OrdersController',
 
 
         function init(){
-            getAvailableOrders(20);
+            getAvailableOrders(10);
             // init status for seller page
 
             var items = [

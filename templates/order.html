@@ -331,7 +331,7 @@
                                                                        <span class="iconfont message"></span>
                                                                     </button>
                                                                  </swx-button>
-                                                                 <div class="bubble popup arrow down active" ng-show="showQuickComment">
+                                                                 <div class="bubble popup arrow down active" ng-show="showQuickComment" click-anywhere-but-here="hideQuickComment()" is-active="showQuickComment == false">
                                                                     <div class="quick-reply-item" ng-repeat="item in quickComments" ng-click="selectQuickComment(item)">
                                                                         <span class="quick-reply-item-content">{{item}}</span>
                                                                     </div>
