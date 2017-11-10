@@ -320,7 +320,7 @@ meovn.controller('OrdersController',
                     $scope.newAvatar = response.data.url;
                 });
             });
-            showNotify(snapshot.val());
+            // showNotify(snapshot.val());
         });
 
         firebase.database().ref('comments').limitToLast(1).on('child_added', function(snapshot) {
@@ -806,12 +806,6 @@ meovn.controller('OrdersController',
         }
 
         // ##########################CHART
-
-        /*Preparing data for chart*/
-        var preparingChartData = function(){
-        	// count orders called by me:
-
-        }
 
         /*Define chart*/
         $scope.chartTypes = [
