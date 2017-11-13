@@ -10,7 +10,7 @@
             </div>
         </div>
         <!-- Preload -->
-        <div class="pre-loading" style="background-color: #1f1f1f;width:100%;height:100%; position: absolute;top: 0; bottom: 0; left: 0; right: 0" ng-show="isAsideLoading">
+        <!-- <div class="pre-loading" style="background-color: #1f1f1f;width:100%;height:100%; position: absolute;top: 0; bottom: 0; left: 0; right: 0" ng-show="isAsideLoading">
             <div class="is-loading" style="height: 100%">
                 <div class="loading-container" style="height: 100%">
                     <div class="loader" style="left: 50%;top: 50%">
@@ -19,6 +19,24 @@
                         </svg>
                       </div>
                 </div>
+            </div>
+        </div> -->
+
+        <div class="ytp-spinner" data-layer="4" style="" ng-show="isAsideLoading">
+           <div>
+              <div class="ytp-spinner-container">
+                 <div class="ytp-spinner-rotator">
+                    <div class="ytp-spinner-left">
+                       <div class="ytp-spinner-circle"></div>
+                    </div>
+                    <div class="ytp-spinner-right">
+                       <div class="ytp-spinner-circle"></div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="ytp-spinner-message" style="display: block;">
+                Loading data from server, please wait...
             </div>
         </div>
         <!-- /Preload -->
@@ -44,7 +62,7 @@
                                     <div class="Me-sky"></div>
                                     <swx-avatar class="Me-avatar">
                                         <div role="button" class="Avatar Avatar--size40 Avatar--presence Avatar--more Avatar--defaultAvatar" tabindex="" >
-                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" src="{{firebaseUser.photoURL}}" style="display: block;">
+                                            <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{firebaseUser.photoURL ? firebaseUser.photoURL : 'public/images/default-avatar-contact.svg'}}" style="display: block;">
                                         </div>
                                     </swx-avatar>
                                     <div class="Me-info">
@@ -70,7 +88,7 @@
                                     <div class="Me-avatarContainer">
                                         <swx-avatar class="Me-avatar Me-avatar--large Avatar--fogTheme">
                                             <div role="button" class="Avatar Avatar--size260 Avatar--presence Avatar--more"  tabindex="">
-                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{firebaseUser.photoURL}}" style="display: block;">
+                                                <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{firebaseUser.photoURL ? firebaseUser.photoURL : 'public/images/default-avatar-contact.svg'}}" style="display: block;">
 
                                             </div>
                                         </swx-avatar>
@@ -158,7 +176,7 @@
                                         <div class="Me-data-content">
                                             <perfect-scrollbar class="scroller">
                                                 <div class="data-items">
-                                                    <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index">
+                                                    <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index | orderBy: 'created_at':true">
                                                         <div class="mobile" ng-class="item.status_id == 6 ? 'success' : ''">
                                                             <span>
                                                                 {{item.buyer_mobile}}
@@ -381,6 +399,7 @@
                     
                 </div>
                 <div class="support-container">
+
                     <!-- <div class="report-title">Your requests today</div> -->
                     <div class="support-items">
                         <div class="s-item" ng-repeat="r in requests track by $index" ng-class="r.status==1 ? 'pendding' : (r.status==2 ? 'resolved' : 'rejected')">

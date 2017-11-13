@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="styles/vendor-049f7054c0.css">
 
-  <link rel="stylesheet" href="styles/app-b59db1a775.css">
+  <link rel="stylesheet" href="styles/app-4e04822888.css">
 </head>
 <body>
 <div class="body-bg"></div>
@@ -46,8 +46,22 @@
   <back-top></back-top>
 </main>
 
-<div id="preloader" ng-show="!$pageFinishedLoading">
-  <div></div>
+<div class="ytp-spinner" data-layer="4" style="" ng-show="!$pageFinishedLoading">
+   <div>
+      <div class="ytp-spinner-container">
+         <div class="ytp-spinner-rotator">
+            <div class="ytp-spinner-left">
+               <div class="ytp-spinner-circle"></div>
+            </div>
+            <div class="ytp-spinner-right">
+               <div class="ytp-spinner-circle"></div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="ytp-spinner-message" style="display: block;">
+        Loading data from server, please wait...
+    </div>
 </div>
 
 <script src="scripts/vendor-8ecd1e14f3.js"></script>
@@ -71,7 +85,7 @@
 <!-- AngularFire -->
 <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 
-<script src="scripts/app-6bcc94cd17.js"></script>
+<script src="scripts/app-708afb20c4.js"></script>
 
 </body>
 </html>

@@ -7,6 +7,7 @@ meovn.controller('OrdersController',
         var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 
         function graphPage(pageId) {
+            console.log('page: ' + pageId);
             Facebook.api('/' + pageId + '?access_token=' + access_token, function(response) {
                 /**
                  * Using $scope.$apply since this happens outside angular framework.
@@ -18,6 +19,10 @@ meovn.controller('OrdersController',
                 /**
                  * Using $scope.$apply since this happens outside angular framework.
                  */
+                if(!response || !response.data){
+                    $scope.currentPageAvatar = null;
+                    return;
+                };
                 $scope.currentPageAvatar = response.data.url;
             }).then(function() {
                 // console.log('xong');
@@ -81,6 +86,8 @@ meovn.controller('OrdersController',
                 }).then(function() {
                     // console.log('xong');
                     $scope.isPageBusy = null;
+                    loadingOrderHistory();
+                    getCommentForActiveOrder();
                 });
 
             });
@@ -160,29 +167,6 @@ meovn.controller('OrdersController',
                 });
             });
 
-        firebaseService.getAllSources().then(function(sources) {
-            $scope.sources = sources;
-            $scope.isAsideLoading = true;
-            firebaseService.getAllPacks().then(function(packs) {
-                $scope.packs = packs;
-                if ($state.$current.name == 'home.details') {
-                    console.log($state);
-                    // $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
-                    angular.forEach($scope.orders, function(o, i) {
-                      if (o.id === $stateParams.id ) {
-                        $scope.active($scope.orders[i]);
-                        // return;
-                        // $scope.isPageBusy = false;
-                      }
-                    });
-
-                    
-                }
-                // $scope.isPageBusy = false;
-                $scope.isAsideLoading = false;
-            });
-        });
-
         $scope.currentMember = null;
         firebase.auth().onAuthStateChanged(function(firebaseUser) {
             if (!firebaseUser) {
@@ -215,18 +199,8 @@ meovn.controller('OrdersController',
 
         $scope.ordersStatusesForFilter = [];
         $scope.ordersStatuses = [];
-        firebaseService.getAllStatuses().then(function(statuses) {
-            $scope.statuses = statuses;
-            $scope.ordersStatusesForFilter = [];
-            angular.forEach($scope.statuses, function(value, key) {
-                if (value.active == 1 && value.allow_fillter == 1) {
-                    $scope.ordersStatusesForFilter.push(value);
-                }
-                if (value.active == 1) {
-                    $scope.ordersStatuses.push(value);
-                }
-            });
-        });
+
+
         $scope.updateFirebaseUser = function(newAvatar) {
             var user = firebase.auth().currentUser;
             // console.log(user);
@@ -440,6 +414,9 @@ meovn.controller('OrdersController',
         }
 
         function getPageIdFromOrder(order) {
+            // if($scope.sources.length < 1) return;
+            console.log('++++++++++++++++');
+            console.log($scope.sources);
             var found = $filter('filter')($scope.sources, {
                 id: order.order_source_id
             }, true);
@@ -463,11 +440,14 @@ meovn.controller('OrdersController',
 
         // Select Order from List
         $scope.pleaseWaitMessage = 'Select an order to display';
-        function activeOrder(order) {
-            if(!order) return;
+        $scope.active = function(order) {
+             if(!order) return;
+             
             // $scope.isPageBusy = true;
             // $scope.clickSound.play();
+            // console.log(order);
             $scope.isPostExpanded = false;
+            
             
             graphUser(order.fbId);
             // $scope.fbContent = [];
@@ -478,13 +458,18 @@ meovn.controller('OrdersController',
             graphPage(getPageIdFromOrder(order));
             graphPost(getPageIdFromOrder(order), getPostIdFromOrder(order));
             
-            $scope.comments = firebaseService.getCommentForOrder(order);
             $scope.selectedOrder = order;
-            // $scope.isPageBusy = null;
-            // $scope.isAsideLoading = false;
         }
-        $scope.active = function(order) {
-            activeOrder(order);
+        function getCommentForActiveOrder(){
+            $scope.comments = firebaseService.getCommentForOrder($scope.selectedOrder);
+        }
+
+        $scope.isLoadingOrderHistory = false;
+        function loadingOrderHistory(){
+            $scope.isLoadingOrderHistory = true;
+            $timeout(function() {
+               $scope.isLoadingOrderHistory = false; 
+            }, 3000);
         }
 
         // find an user with id
@@ -903,6 +888,7 @@ meovn.controller('OrdersController',
         $scope.currentOrder = null;
 
         function getAvailableOrders(dates){
+            console.log('called');
             if(!dates) dates = 2;
             var endTime = new Date(); // today
             var startTime = new Date(); // yesterday
@@ -923,7 +909,10 @@ meovn.controller('OrdersController',
                     res.push(item.val());
                });
                // console.log(res);
-                $scope.orders = res.reverse();
+               $scope.orders = res.reverse();
+                
+
+               
 
                // return res;
             });
@@ -1158,7 +1147,7 @@ meovn.controller('OrdersController',
           }
           function getRequests(uid){
             $scope.requests = supportService.getUserRequests(uid);
-            console.log($scope.requests);
+            // console.log($scope.requests);
           }
           $scope.submitRequest = function(order){
             if(!order){
@@ -1188,10 +1177,50 @@ meovn.controller('OrdersController',
             orders = firebaseService.findOrderById(id);
             // console.log(orders);
         }
-
+        
+        
 
         function init(){
             getAvailableOrders(10);
+        firebaseService.getAllStatuses().then(function(statuses) {
+            $scope.statuses = statuses;
+            $scope.ordersStatusesForFilter = [];
+            angular.forEach($scope.statuses, function(value, key) {
+                if (value.active == 1 && value.allow_fillter == 1) {
+                    $scope.ordersStatusesForFilter.push(value);
+                }
+                if (value.active == 1) {
+                    $scope.ordersStatuses.push(value);
+                }
+            });
+        });
+        firebaseService.getAllSources().then(function(sources) {
+            angular.forEach(sources, function(item){
+                if(item.active == 1)
+                $scope.sources.push(item);
+            });
+            // $scope.sources = sources;
+            $scope.isAsideLoading = true;
+            firebaseService.getAllPacks().then(function(packs) {
+                $scope.packs = packs;
+                if ($state.$current.name == 'home.details') {
+                    // console.log($state);
+                    $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
+                    angular.forEach($scope.orders, function(o, i) {
+                      if (o.id === $stateParams.id ) {
+                        console.log('fucked')
+                        $scope.active($scope.orders[i]);
+                        // return;
+                        // $scope.isPageBusy = false;
+                      }
+                    });
+
+                    
+                }
+                // $scope.isPageBusy = false;
+                $scope.isAsideLoading = false;
+            });
+        });
             // init status for seller page
 
             var items = [

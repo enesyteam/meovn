@@ -10,12 +10,31 @@
       <!-- /ko -->
       <div class="arrow"></div>
       <div class="content">
+         <div class="" ng-show="isPageBusy">
+               <div class="ytp-spinner ytp-small-mode" data-layer="4" style="width: 40px">
+                 <div>
+                    <div class="ytp-spinner-container" >
+                       <div class="ytp-spinner-rotator">
+                          <div class="ytp-spinner-left">
+                             <div class="ytp-spinner-circle"></div>
+                          </div>
+                          <div class="ytp-spinner-right">
+                             <div class="ytp-spinner-circle"></div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="ytp-spinner-message" style="display: none;">
+                      Getting information from Facebook...
+                  </div>
+              </div>
+            </div>
          <div class="welcomeMessage">
-            <div class="loader load-container" ng-show="isPageBusy">
+           <!--  <div class="loader load-container" ng-show="isPageBusy">
                <svg class="circular" viewBox="25 25 50 50">
                   <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
                </svg>
-            </div>
+            </div> -->
             <!-- Null post -->
             <!-- <span ng-show="!fbContent" ng-hide>Khách hàng inbox hoặc không tìm thấy gói sản phẩm</span> -->
             <!-- /Null post -->
@@ -71,6 +90,28 @@
                <div class="description fontSize-p">{{selectedOrder.admin_note}}</div>
             </div>
          </div>
+         <div class="" style="position: absolute;left: 30px" ng-show="isLoadingOrderHistory">
+               <div class="ytp-spinner ytp-small-mode" data-layer="4" style="width: 30px;">
+                 <div>
+                    <div class="ytp-spinner-container" >
+                       <div class="ytp-spinner-rotator">
+                          <div class="ytp-spinner-left">
+                             <div class="ytp-spinner-circle"></div>
+                          </div>
+                          <div class="ytp-spinner-right">
+                             <div class="ytp-spinner-circle"></div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="ytp-spinner-message" style="display: none;">
+                      Getting information from Facebook...
+                  </div>
+              </div>
+            </div>
+            <div class="" ng-hide="isLoadingOrderHistory">
+               <h2>Order history</h2>
+            </div>
          <!-- /ko -->
          <!-- ko if: othersAddedMessageContent --><!-- /ko -->
          <!-- ko if: agentsMessageContent --><!-- /ko -->
