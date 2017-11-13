@@ -21,7 +21,7 @@ meovn.filter('my_filter', function () {
     		return item.seller_will_call_id == scope.currentMember.id;
     	}
     	else{
-    		return item;
+    		return item.status_id != 6 && item.status_id != 7 && item.status_id != 8 && item.status_id != 2;
     	}
     });
   };

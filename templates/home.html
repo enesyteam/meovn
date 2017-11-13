@@ -84,8 +84,8 @@
                                     <p class="Me-displayName fontSize-h3 strong" ng-click="toggleShowMeExpand()">{{currentMember.first_name + ' ' + currentMember.last_name}}</p>
                                     <p class="Me-availability">{{currentMember.email}}</p>
                                 </div>
-                                <div class="Me-content">
-                                    <div class="Me-avatarContainer">
+                                <div class="Me-content col-md-12">
+                                    <div class="Me-avatarContainer col-md-3">
                                         <swx-avatar class="Me-avatar Me-avatar--large Avatar--fogTheme">
                                             <div role="button" class="Avatar Avatar--size260 Avatar--presence Avatar--more"  tabindex="">
                                                 <img class="Avatar-image" alt="" aria-hidden="true" role="presentation" ng-src="{{firebaseUser.photoURL ? firebaseUser.photoURL : 'public/images/default-avatar-contact.svg'}}" style="display: block;">
@@ -149,17 +149,13 @@
                                         </a>
                                     </div>
                                     <!-- Chart -->
-                                    <div class="Me-chartarea">
+                                    <div class="Me-chartarea col-md-5">
                                         <highchart config="chartConfig"></highchart>
-                                        <div class="cc-credit">
-                                            <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
-                                                <span class="iconfont heart"></span>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <!-- /Chart -->
                                     <!-- Seller data -->
-                                    <div class="Me-data">
+                                    <div class="Me-data col-md-4">
                                         <!-- Tab -->
                                         <ul role="tablist" class="ContactsPage-categories">
                                            <li role="tab" class="ContactsPage-categoryItem" ng-repeat="item in sellerDataStatuses track by $index">
@@ -176,7 +172,7 @@
                                         <div class="Me-data-content">
                                             <perfect-scrollbar class="scroller">
                                                 <div class="data-items">
-                                                    <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index | orderBy: 'created_at':true">
+                                                    <div class="data-item" ng-repeat="item in currentDataDisplay[0] track by $index">
                                                         <div class="mobile" ng-class="item.status_id == 6 ? 'success' : ''">
                                                             <span>
                                                                 {{item.buyer_mobile}}
@@ -202,6 +198,11 @@
                                     </div>
                                     <!-- /Seller data -->
                                 </div>
+                            </div>
+                        </div>
+                        <div class="cc-credit">
+                            <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
+                                <span class="iconfont heart"></span>
                             </div>
                         </div>
                     </swx-me-area>

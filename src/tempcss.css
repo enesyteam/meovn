@@ -438,12 +438,11 @@
 }
 
 :root .swx .Me-data{
-    position: absolute;
-    right: 15px;
-    top: 70px;
-    max-width: 450px;
-    width: calc(100% - 351px - 600px);
-    height: calc(100% - 70px);
+    // position: absolute;
+    // right: 15px;
+    // max-width: 450px;
+    // width: calc(100% - 351px - 600px);
+    // height: calc(100% - 70px);
 }
 :root .swx .Me-data .Me-data-content{
     width: 100%;

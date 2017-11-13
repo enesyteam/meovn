@@ -68,7 +68,7 @@
                      <div style="height: 150px;width:100%" >
                         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                         <div id="links" class="product-gallery">
-                           <a href="{{photo}}" class="post-attachment-item" title="Post Attachments Gallery" ng-repeat="photo in fbPhotos">
+                           <a href="{{photo}}" target="_blank" class="post-attachment-item" title="Post Attachments Gallery" ng-repeat="photo in fbPhotos">
                            <img ng-src="{{photo}}" style="height: 140px;">
                            </a>
                         </div>
@@ -111,6 +111,30 @@
             </div>
             <div class="" ng-hide="isLoadingOrderHistory">
                <h2>Order history</h2>
+               <div style="width: 100%; font-size: 12px;margin-top: 25px;color:#888">
+                 <div class="col-md-12">
+                   <div class="row">
+                     <div class="col-md-1">
+                       1
+                     </div>
+                     <div class="col-md-3">
+                       <span style="float: left;">Nguyễn Văn Công</span>
+                     </div>
+                     <div class="col-md-3">
+                       <span style="float: left;">0943312354</span>
+                     </div>
+                     <div class="col-md-1">
+                       <span style="float: left;">ĐCCN</span>
+                     </div>
+                     <div class="col-md-2">
+                       <span style="float: left;">3R+64/790K</span>
+                     </div>
+                     <div class="col-md-1">
+                       <span style="float: left;">20-8 12:45</span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
             </div>
          <!-- /ko -->
          <!-- ko if: othersAddedMessageContent --><!-- /ko -->

@@ -36415,8 +36415,8 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
 
 :root .swx .Me-avatarContainer {
     position: relative;
-    width: 350px;
-    border-right: 1px solid #393939;
+    // width: 350px;
+    // border-right: 1px solid #393939;
 }
 :root .swx .Me-reportContainer {
     position: relative;
@@ -38508,7 +38508,7 @@ html[dir='rtl']:root .swx span.moji .actionButtons:before {
     // padding: 5px 10px;
     overflow: hidden;
     display: inline-block;
-    overflow-x: scroll;
+    // overflow-x: scroll;
     /* width: auto; */
     height: 150px;
     white-space: nowrap;

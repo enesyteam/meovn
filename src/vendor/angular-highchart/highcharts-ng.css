@@ -5,13 +5,13 @@ highchart {
 }
 
 .Me-chartarea{
-	position: absolute;
-    width: calc(100% - 375px);
-    top: 70px;
-    right: 15px;
-    margin: 0 auto;
-    text-align: center;
-    height: calc(100% - 70px);
+	// position: absolute;
+ //    width: calc(100% - 375px);
+ //    top: 70px;
+ //    right: 15px;
+ //    margin: 0 auto;
+ //    text-align: center;
+ //    height: calc(100% - 70px);
 }
 .highcharts-background{
     background-color: #1f1f1f;
@@ -23,7 +23,9 @@ highchart {
     font-size: 13px !important;
     font-weight: 300 !important;
     color: #667486;
+    z-index: 9999;
     line-height: 28px !important;
+    z-index: 100
 }
 .cc-credit .iconfont{
     font-size: 22px !important;
