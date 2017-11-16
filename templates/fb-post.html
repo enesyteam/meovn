@@ -90,47 +90,40 @@
                <div class="description fontSize-p">{{selectedOrder.admin_note}}</div>
             </div>
          </div>
-         <div class="" style="position: absolute;left: 30px" ng-show="isLoadingOrderHistory">
-               <div class="ytp-spinner ytp-small-mode" data-layer="4" style="width: 30px;">
-                 <div>
-                    <div class="ytp-spinner-container" >
-                       <div class="ytp-spinner-rotator">
-                          <div class="ytp-spinner-left">
-                             <div class="ytp-spinner-circle"></div>
-                          </div>
-                          <div class="ytp-spinner-right">
-                             <div class="ytp-spinner-circle"></div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-                 <div class="ytp-spinner-message" style="display: none;">
-                      Getting information from Facebook...
+         <div class="" style="position: relative;float: left;" ng-show="isLoadingOrderHistory">
+               <div class="ytp-spinner-message" style="display: block;position: relative;left: 0;margin-left: 0;line-height: 30px;vertical-align: middle;margin-top: 7px;text-align: left;">
+                      Đang tải lịch sử Order từ khách hàng...
+                      <div style="color: #888; font-size: 12px;width:100%;line-height: 1;">Quá trình này có thế mất khá nhiều thời gian, vui lòng kiên nhẫn...</div>
                   </div>
-              </div>
             </div>
-            <div class="" ng-hide="isLoadingOrderHistory">
-               <h2>Order history</h2>
+            <!-- <div ng-if="oldOrder.length < 1 && !isLoadingOrderHistory" style="color: #888; font-size: 12px;width:100%;text-align: left;float: left;">Không tìm thấy dữ liệu đặt hàng từ {{selectedOrder.buyer_mobile}}</div> -->
+            <div class="" ng-hide="isLoadingOrderHistory || oldOrder.length < 1">
+               <h2 style="color:#888;float: left;margin-bottom: 20px;font-size: 18px;">Lịch sử đặt hàng từ {{selectedOrder.buyer_mobile}}</h2>
                <div style="width: 100%; font-size: 12px;margin-top: 25px;color:#888">
-                 <div class="col-md-12">
+                 <div class="col-md-12" ng-repeat="o in oldOrder">
                    <div class="row">
                      <div class="col-md-1">
-                       1
-                     </div>
-                     <div class="col-md-3">
-                       <span style="float: left;">Nguyễn Văn Công</span>
-                     </div>
-                     <div class="col-md-3">
-                       <span style="float: left;">0943312354</span>
-                     </div>
-                     <div class="col-md-1">
-                       <span style="float: left;">ĐCCN</span>
+                       {{$index + 1}}
                      </div>
                      <div class="col-md-2">
-                       <span style="float: left;">3R+64/790K</span>
+                       <span style="float: left;">{{o.buyer_name}}</span>
+                     </div>
+                     <div class="col-md-2">
+                       <span style="float: left;">{{o.buyer_mobile}}</span>
                      </div>
                      <div class="col-md-1">
-                       <span style="float: left;">20-8 12:45</span>
+                       <span style="float: left;">{{getSourceFromId(o.order_source_id).short_title}}</span>
+                     </div>
+                     <div class="col-md-2">
+                       <span style="float: left;">{{getPackFromId(o.product_pack_id).short_title
+                                                            + '/' + getPackFromId(o.product_pack_id).price
+                                                            + 'K'}}</span>
+                     </div>
+                     <div class="col-md-2">
+                       <span style="float: left;">{{o.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                     </div>
+                     <div class="col-md-2">
+                       <span style="float: left;">{{findUser(o.checked_by).last_name}}</span>
                      </div>
                    </div>
                  </div>

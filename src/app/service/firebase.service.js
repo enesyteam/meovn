@@ -316,7 +316,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		res.push(failedArr);
 		res.push(notCalled);
 		res.push(otherArr);
-    	console.log(res);
+    	// console.log(res);
     	return res;
     }
 
@@ -328,11 +328,16 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 	    });
     }
 
-
+	var getOldOrderHistory = function(mobile){
+		return ref.child('oldData').child('orders').orderByChild('buyer_mobile').equalTo(mobile).once('value', function(snapshot){
+			return snapshot;
+		 });
+	}
 
 	return{
 		// getAllOrders    : getAllOrders,
 		// getAllComments	: getAllComments,
+		getOldOrderHistory : getOldOrderHistory,
 		getCommentForOrder: getCommentForOrder,
 		addComment		: addComment,
 		// updateComment	: updateComment,

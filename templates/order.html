@@ -185,7 +185,7 @@
                                                         <div class="messageHistory largeAllowed visible" role="list" tabindex="0">
                                                             <div ng-include="'templates/fb-post.html'"></div>
                                                                 
-                                                            <div class="comments-log">
+                                                            <div class="comments-log" ng-if="comments.length > 0">
                                                                 <swx-message ng-show="comments" role="listitem" class="message showName their last read participant" tabindex="-1" aria-relevant="all">
                                                                     <div class="bubble">
                                                                         <div class="arrow"></div>
@@ -199,7 +199,7 @@
                                                                 <!-- {{-- Begin comment --}} -->
                                                                
                                                                     
-                                                                <swx-message  ng-show="comments" role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{findUser(comment.user).is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments track by $index">
+                                                                <swx-message role="listitem" class="message {{comment.type!=1 ? 'showName' : ''}} first last showTimestamp showBottomTimestamp {{comment.type==1 ? 'live-session' : 'text'}} {{findUser(comment.user).is_admin==1 && comment.type!=1 ? 'me' : 'their'}}" ng-class="" tabindex="-1" ng-repeat="comment in comments track by $index">
                                                                     <div class="callAction" ng-show="comment.type==1">
                                                                         <div class="iconfont {{getStatusById(comment.status_id).icon_class}}"></div>
                                                                     </div>

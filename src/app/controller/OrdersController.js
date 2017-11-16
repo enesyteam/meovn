@@ -2,7 +2,8 @@
 // old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
 meovn.controller('OrdersController',
     function($scope, $http,$timeout, hotkeys, $filter, $state, $stateParams,
-        toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService, supportService) {
+        toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService, supportService,
+        days) {
 
         var access_token = 'EAAPbgSrDvvwBAE83TW0ZCCm83YuFXjaQmyd7UQZC9hHhaumkN8aiscrr0hxvlRZAeVae7HDpY1vv3aIzPZAH3O6QtHipfooGJzZBH1WioeKiUZAZC2pkuUJRoAMNvzh5RtQBHiRzfrG12e7nzYRl4E1h7kTbXRW1VsZD';
 
@@ -77,10 +78,18 @@ meovn.controller('OrdersController',
                     /**
                      * Using $scope.$apply since this happens outside angular framework.
                      */
+                     console.log(response);
                     $scope.fbPhotos = [];
-                    for (var i = 0; i < response.data[0].subattachments.data.length - 1; i++) {
-                        $scope.fbPhotos.push(response.data[0].subattachments.data[i].media.image.src);
+                    if(response.data[0].subattachments){
+                        for (var i = 0; i < response.data[0].subattachments.data.length - 1; i++) {
+                            $scope.fbPhotos.push(response.data[0].subattachments.data[i].media.image.src);
+                        }
                     }
+
+                    if(response.data[0].media){
+                        $scope.fbPhotos.push(response.data[0].media.image.src);
+                    }
+
                     // $scope.isPageBusy = null;
 
                 }).then(function() {
@@ -464,12 +473,16 @@ meovn.controller('OrdersController',
             $scope.comments = firebaseService.getCommentForOrder($scope.selectedOrder);
         }
 
+        $scope.oldOrder = [];
         $scope.isLoadingOrderHistory = false;
         function loadingOrderHistory(){
             $scope.isLoadingOrderHistory = true;
-            $timeout(function() {
-               $scope.isLoadingOrderHistory = false; 
-            }, 3000);
+            firebaseService.getOldOrderHistory($scope.selectedOrder.buyer_mobile).then(function(snap){
+                snap.forEach(function(child) {
+                    $scope.oldOrder.push(child.val());
+                });
+                $scope.isLoadingOrderHistory = false;
+            });
         }
 
         // find an user with id
@@ -1079,7 +1092,7 @@ meovn.controller('OrdersController',
         
 
         function init(){
-            getAvailableOrders(10);
+            getAvailableOrders(days);
         firebaseService.getAllStatuses().then(function(statuses) {
             $scope.statuses = statuses;
             $scope.ordersStatusesForFilter = [];

@@ -1,6 +1,9 @@
 
 	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
 		'facebook', 'CopyToClipboard', 'angular-web-notification', '720kb.tooltips', 'highcharts-ng', 'perfect_scrollbar'])
+  .constant('days', 1)
+  .constant('appVersion', '3.0.0')
+  .constant('releaseDate', 'Nov-20, 2017')
 	.config(function($stateProvider,$locationProvider, $urlRouterProvider, FacebookProvider){
         $locationProvider.hashPrefix('');
         // use the HTML5 History API
@@ -26,5 +29,11 @@
 
         var myAppId = '1085772744867580';
             FacebookProvider.init(myAppId);
-    });
+    })
+  .run(themeRun);
+
+  function themeRun($rootScope, appVersion, releaseDate){
+    $rootScope.appVersion = appVersion;
+    $rootScope.releaseDate = releaseDate;
+  }
 

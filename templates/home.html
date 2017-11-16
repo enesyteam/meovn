@@ -198,13 +198,14 @@
                                     </div>
                                     <!-- /Seller data -->
                                 </div>
+                                <div class="cc-credit">
+                                    <div class="al-footer-right">MEOVN Ver {{appVersion}} - {{releaseDate}}. Created by Cá Cơm with 
+                                        <span class="iconfont heart"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="cc-credit">
-                            <div class="al-footer-right">MEOVN Ver 3.0. Release date: 2017-11-10. Created by Cá Cơm with 
-                                <span class="iconfont heart"></span>
-                            </div>
-                        </div>
+                        
                     </swx-me-area>
                 </div>
             </div>
@@ -319,9 +320,9 @@
                                                                    <!-- ko if: model.displayMessage() -->
                                                                    <div class="message">
                                                                       <p tabindex="-1">
-                                                                        {{getSourceFromId(order.order_source_id).short_title + '/' + getPackFromId(order.product_pack_id).short_title
+                                                                        {{getSourceFromId(order.order_source_id).short_title + '~' + getPackFromId(order.product_pack_id).short_title
                                                                         + '/' + getPackFromId(order.product_pack_id).price
-                                                                        + 'K'}}
+                                                                        + 'K' + '~' + order.buyer_mobile}}
                                                                       </p>
                                                                    </div>
                                                                    <!-- /ko -->
