@@ -229,8 +229,9 @@
                   Kết quả tìm kiếm
                </h1>
                <h2 ng-show="successResult.length > 0">
-                  Orders đã chốt
+                  Đã chốt
                </h2>
+               <small ng-show="successResult.length > 0">Chỉ hiển thị các Order đã chốt</small>
                <ul>
                   <li ng-repeat="o in successResult">Facebook: <strong>{{o.buyer_name}}</strong> ~ Từ: {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{getPackFromId(o.product_pack_id).short_title + '/' + getPackFromId(o.product_pack_id).price + 'K' }}</strong> ~ TG: {{o.created_at | date:'yyyy-MM-dd HH:mm:ss'}}  ~ Chốt bởi: <strong>{{o.checked_by }}</strong></li>
                </ul>
