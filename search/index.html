@@ -1,0 +1,288 @@
+<html lang="en" prefix="og: http://ogp.me/ns#" data-sbro-popup-lock="true" data-sbro-ads-lock="true" data-sbro-deals-lock="true" data-sbro-extensions-lock="true" class=" js" ng-app="meovnSearch">
+   <head>
+      <style type="text/css">.autocomplete-container {  overflow: visible;}.autocomplete-suggestions {  border: 1px solid #999;  background: #FFF;  overflow-x: hidden;  overflow-y: auto;  cursor: default;}.autocomplete-suggestion {  padding: 2px 5px;  white-space: nowrap;  overflow: hidden;}.autocomplete-selected {  background: #F0F0F0;}.autocomplete-container strong {  font-weight: bold;}#powered-by-constructor-io {  font-size: 0.8em;  text-align:right;  background-color:rgb(255,255,192);  font-family:sans-serif;  padding: 4px 10px;  position: absolute;  border: 1px solid #999;}#constructorio-backing-node {  background-color:rgb(255,255,255);  padding: 4px 10px;  position: absolute;  border: 1px solid #FFF;}.autocomplete-suggestion-image {  float:left;  padding-right: 10px;}#autocomplete-direct-results:before {  content:'Products'}#autocomplete-search-container:before {  content:'Search Suggestions'}.autocomplete-suggestion-description {  font-size: 0.8em;  display: block;  margin-left: 10px;  line-height: 1.0em;}.autocomplete-suggestion[data-ac-facet='true'] > .autocomplete-suggestion-item {  padding-left: 10px;}</style>
+      <meta charset="utf-8">
+      <title>shuffle-array</title>
+      <meta name="description" content="Randomize the order of the elements in a given array.">
+      <meta property="og:description" content="Randomize the order of the elements in a given array.">
+      <meta property="og:title" content="shuffle-array">
+      <meta property="og:url" content="https://www.npmjs.com/package/shuffle-array">
+      <meta property="og:site_name" content="npm">
+      <meta name="keywords" content="random,shuffle,array">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:url" content="https://www.npmjs.com/package/shuffle-array">
+      <meta name="twitter:title" content="npm: shuffle-array">
+      <meta name="twitter:description" content="Randomize the order of the elements in a given array.">
+      <meta http-equiv="cleartype" content="on">
+      <meta name="apple-mobile-web-app-capable" content="no">
+      <meta name="viewport" content="width=device-width,minimum-scale=1.0,initial-scale=1,user-scalable=yes">
+      <meta name="x-npm:ga:id" content="UA-47041310-1">
+      <meta name="x-npm:ga:dimensions" content="{&quot;aboveChrome&quot;:&quot;dimension1&quot;,&quot;belowHeader&quot;:&quot;dimension3&quot;,&quot;packagePage&quot;:&quot;dimension2&quot;}">
+      <link rel="canonical" href="https://www.npmjs.com/package/shuffle-array">
+      <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="npm">
+      <link rel="stylesheet" media="all" href="assets/css/styles.css">
+      <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <![endif]-->
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700">
+      <style>
+         .marketing {
+         margin: 0px;
+         margin-bottom: 40px;
+         padding: 0.7em;
+         font-size: 20px;
+         font-style: normal;
+         font-variant: normal;
+         font-weight: normal;
+         background: rgba(0, 0, 0, 0.02);
+         border-radius: 0px 0px 2px 2px;
+         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+         color: #666;
+         text-decoration: none;
+         text-align: center;
+         }
+         .marketing .inline-hed {
+         font-weight: 600;
+         }
+         .marketing .inline-message {
+         font-weight: 300;
+         padding: 0em 0.5em;
+         }
+         .marketing a {
+         font-weight: 400;
+         text-decoration: none;
+         color: #cb3837;
+         white-space: nowrap;
+         }
+      </style>
+      <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+      <meta name="theme-color" content="#cb3837">
+      <style id="iconic-responsive-css" type="text/css">/* Iconic Responsive Support Styles */
+         .iconic-property-fill, .iconic-property-text {stroke: none !important;}
+         .iconic-property-stroke {fill: none !important;}
+         svg.iconic.iconic-fluid {height:100% !important;width:100% !important;}
+         svg.iconic.iconic-sm:not(.iconic-size-md):not(.iconic-size-lg), svg.iconic.iconic-size-sm{width:16px;height:16px;}
+         svg.iconic.iconic-md:not(.iconic-size-sm):not(.iconic-size-lg), svg.iconic.iconic-size-md{width:32px;height:32px;}
+         svg.iconic.iconic-lg:not(.iconic-size-sm):not(.iconic-size-md), svg.iconic.iconic-size-lg{width:128px;height:128px;}
+         svg.iconic-sm > g.iconic-md, svg.iconic-sm > g.iconic-lg, svg.iconic-md > g.iconic-sm, svg.iconic-md > g.iconic-lg, svg.iconic-lg > g.iconic-sm, svg.iconic-lg > g.iconic-md {display: none;}
+         svg.iconic.iconic-icon-sm > g.iconic-lg, svg.iconic.iconic-icon-md > g.iconic-lg {display:none;}
+         svg.iconic-sm:not(.iconic-icon-md):not(.iconic-icon-lg) > g.iconic-sm, svg.iconic-md.iconic-icon-sm > g.iconic-sm, svg.iconic-lg.iconic-icon-sm > g.iconic-sm {display:inline;}
+         svg.iconic-md:not(.iconic-icon-sm):not(.iconic-icon-lg) > g.iconic-md, svg.iconic-sm.iconic-icon-md > g.iconic-md, svg.iconic-lg.iconic-icon-md > g.iconic-md {display:inline;}
+         svg.iconic-lg:not(.iconic-icon-sm):not(.iconic-icon-md) > g.iconic-lg, svg.iconic-sm.iconic-icon-lg > g.iconic-lg, svg.iconic-md.iconic-icon-lg > g.iconic-lg {display:inline;}
+      </style>
+      <style>.autocomplete-container, .autocomplete-suggestions, #powered-by-constructor-io { width: NaNpx !important }</style>
+   </head>
+   <script>function patch() {
+      window._open = window.open;
+      document._createElement = document.createElement;
+      document._createEvent = document.createEvent;
+      window._parent = (window.location != window.parent.location) ? document.referrer: document.location;
+      
+      function getParent(el, selector) {
+          var parent = el.parentNode;
+          if (parent == document) {
+              return null;
+          }
+          if (parent.matches(selector)) {
+              return parent;
+          } else {
+              return getParent(parent, selector);
+          }
+      }
+      
+      function blockWindow(args) {
+          var target;
+          if (window.event) {
+              target = window.event.target.tagName.toLowerCase() == 'a' ?
+                  window.event.target : getParent(window.event.target, 'a');
+          }
+          parent.postMessage({
+              type: "safeBlock",
+              url: args && args.length > 0 ? args[0] : '',
+              args: args ? Array.from(args) : null,
+              href: target ? target.href : null
+          }, window._parent);
+      }
+      
+      window.open = function() {
+          blockWindow(arguments);
+      };
+      
+      dispatchEvent = function(element) {
+          return function(event) {
+              if (event.type == "click") {
+                  blockWindow([element.getAttribute('href')]);
+              }
+          }
+      };
+      
+      document.createElement = function() {
+          var element = document._createElement.apply(document, arguments);
+          if (arguments[0].toLowerCase() == 'a') {
+              element.dispatchEvent = dispatchEvent(element);
+          }
+          return element;
+      };
+      
+      // Process saved popup.
+      var html = document.querySelector('html'),
+          key = 'data-sbro-popup-current',
+          url = html.getAttribute(key);
+      if (url) {
+          blockWindow([url]);
+      }
+      
+      }; patch();
+   </script>
+   <body itemscope="" itemtype="http://schema.org/WebSite" data-crumb="PHG0nJlOPRB2cGWtn_cjR61CJn9MnQBTj2J4KCUw-Ft" style="" cz-shortcut-listen="true" ng-controller="SearchController">
+      <meta itemprop="url" content="https://www.npmjs.com/">
+      <header class="anonymous   ">
+         <!-- logo -->
+         <div class="header-item brand-container">
+            <div class="logo-container" id="npm-logo">
+               <a href="/">
+                  <svg viewBox="0 0 18 7">
+                     <path fill="#CB3837" d="M0,0v6h5v1h4v-1h9v-6"></path>
+                     <path fill="#FFF" d="M1,1v4h2v-3h1v3h1v-4h1v5h2v-4h1v2h-1v1h2v-4h1v4h2v-3h1v3h1v-3h1v3h1v-4"></path>
+                  </svg>
+               </a>
+            </div>
+         </div>
+         <!-- /logo -->
+         <!-- search -->
+         <div class="header-item header-search-container">
+            <form class="site-search" id="npm-search" action="/search" method="get" itemprop="potentialAction" itemscope="" itemtype="http://schema.org/SearchAction">
+               <!-- <meta itemprop="target" content="https://www.npmjs.com/search?q={q}"> -->
+               <div id="site-search-container">
+                  <input name="q" value="" type="search" id="site-search" placeholder="Tìm kiếm Order bằng số điện thoại khách hàng..." tabindex="1" autocorrect="off" autocapitalize="off" itemprop="query-input" autocomplete="off" ng-model="query" my-enter="">
+               </div>
+               <button tabindex="2" type="submit" ng-click="searchOrder($event)">
+                  <span class="a11y-only">Search</span>
+                  <svg viewBox="0 0 34 34" fill="none" stroke="currentColor">
+                     <ellipse stroke-width="3" cx="16" cy="15" rx="12" ry="12"></ellipse>
+                     <path d="M26 26 l 8 8" stroke-width="3" stroke-linecap="square"></path>
+                  </svg>
+               </button>
+            </form>
+         </div>
+         <!-- menu 1 -->
+         <div class="header-item user-info-container">
+            <div class="user-info">
+               
+            </div>
+            <!-- .user-info -->
+         </div>
+         <!-- /menu 1 -->
+         <!-- menu 2 -->
+         <div class="header-item header-nav-menu-container">
+            <div class="nav-menu-container" role="navigation">
+               <a class="nav-toggle drop-down-menu-toggle" href="#product-navigation">
+                  <span class="a11y-only">Toggle Navigation</span>
+                  <svg viewBox="0 0 44 44">
+                     <rect x="4" y="12" fill="currentColor" width="36" height="2"></rect>
+                     <rect x="4" y="20" fill="currentColor" width="36" height="2"></rect>
+                     <rect x="4" y="28" fill="currentColor" width="36" height="2"></rect>
+                  </svg>
+               </a>
+            </div>
+         </div>
+         <!-- /menu 2 -->
+      </header>
+      <div class="promotion" data-promotion-id="1411" data-promotion-spot="belowHeader">
+         <div class="marketing">
+            <span class="inline-hed">MEOVN.</span>
+            <span class="inline-message"><strong> Tìm nhanh</strong> dữ liệu khách hàng</span>
+         </div>
+      </div>
+      <div class="container content">
+         <div class="content-column">
+          <div class="ytp-spinner" data-layer="4" style="" ng-show="isSearching">
+             <div>
+                <div class="ytp-spinner-container">
+                   <div class="ytp-spinner-rotator">
+                      <div class="ytp-spinner-left">
+                         <div class="ytp-spinner-circle"></div>
+                      </div>
+                      <div class="ytp-spinner-right">
+                         <div class="ytp-spinner-circle"></div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="ytp-spinner-message" style="display: block;">
+                  Searching data from server, please wait...
+              </div>
+          </div>
+            <h1 class="package-name">
+               <a class="active">Kết quả tìm kiếm</a>
+            </h1>
+            <form class="star">
+               <input type="hidden" name="name" value="shuffle-array">
+               <input id="star-input" type="checkbox" name="isStarred" value="true">
+               <label for="star-input" class="icon-star"></label>
+               <input type="hidden" name="crumb" value="PHG0nJlOPRB2cGWtn_cjR61CJn9MnQBTj2J4KCUw-Ft">
+            </form>
+            <div id="readme" class="markdown">
+               <h1 class="package-name-redundant">
+                  Kết quả tìm kiếm
+               </h1>
+               <h2 ng-show="successResult.length > 0">
+                  Orders đã chốt
+               </h2>
+               <ul>
+                  <li ng-repeat="o in successResult">Facebook: <strong>{{o.buyer_name}}</strong> ~ Từ: {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{getPackFromId(o.product_pack_id).short_title + '/' + getPackFromId(o.product_pack_id).price + 'K' }}</strong> ~ TG: {{o.created_at | date:'yyyy-MM-dd HH:mm:ss'}}  ~ Chốt bởi: <strong>{{o.checked_by }}</strong></li>
+               </ul>
+               <!-- <h2>
+                  Báo xấu
+               </h2>
+               <ul>
+                  <li ng-repeat="o in successResult">Từ: ĐCCN | Gói SP: NT2+64/790K | 2017 22-08 14:55 | Báo xấu bởi: Dương</li>
+               </ul> -->
+               
+            </div>
+         </div>
+         <!-- <div class="sidebar">
+            
+            <ul class="box">
+               <li>
+                  <strong class="pretty-number daily-downloads">14,500</strong>
+                  Orders đã chốt
+               </li>
+               <li>
+                  <strong class="pretty-number weekly-downloads">2,294</strong>
+                  Khách hàng báo xấu
+               </li>
+            </ul>
+            
+         </div> -->
+      </div>
+
+      <script src="/src/vendor/jquery/jquery-3.1.1.min.js"></script>
+      <script src="/assets/js/scripts-angular.min.js"></script>
+
+      <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
+      <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyBVv2Pm48P_ml5EnVUnio0OGAu2YyCepIs",
+          authDomain: "meoorder.firebaseapp.com",
+          databaseURL: "https://meoorder.firebaseio.com",
+          projectId: "meoorder",
+          storageBucket: "meoorder.appspot.com",
+          messagingSenderId: "918210217082"
+        };
+        firebase.initializeApp(config);
+      </script>
+      <!-- AngularFire -->
+      <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+      <script src="/search/assets/js/app.js"></script>
+      <script src="/search/assets/js/firebaseService.js"></script>
+       <script src="/search/assets/js/directive.js"></script>
+       <script src="/search/assets/js/SearchCtrl.js"></script>
+
+
+   </body>
+</html>
