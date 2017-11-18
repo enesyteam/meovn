@@ -333,11 +333,17 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 			return snapshot;
 		 });
 	}
+	var getBlockedNumber = function(mobile){
+		return ref.child('blocks').orderByChild('mobile').equalTo(mobile).once('value', function(snapshot){
+			return snapshot;
+		 });
+	}
 
 	return{
 		// getAllOrders    : getAllOrders,
 		// getAllComments	: getAllComments,
 		getOldOrderHistory : getOldOrderHistory,
+		getBlockedNumber : getBlockedNumber,
 		getCommentForOrder: getCommentForOrder,
 		addComment		: addComment,
 		// updateComment	: updateComment,

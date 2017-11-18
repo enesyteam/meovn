@@ -264,7 +264,7 @@
                                             <div class="icon">
                                                 <div class="iconfont search"></div>
                                             </div>
-                                            <input role="search" type="text" maxlength="250" value="" name="query" class="inputField fontSize-h4" placeholder="Enter mobile or name..." aria-label="Search orders. Type name or mobile number." style="" id="order-search-box" ng-model="searchText">
+                                            <input role="search" type="text" maxlength="250" value="" name="query" class="inputField fontSize-h4" placeholder="Enter mobile or name..." aria-label="Type name or mobile number." style="" id="order-search-box" ng-model="searchText">
                                             <button type="button" class="btn primary circle small transparent searchReset" aria-label="Clear search" ng-show="searchText && searchText >= 0" ng-click="resetSearch()">
                                                 <span class="iconfont cross"></span>
                                             </button>
@@ -289,7 +289,7 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned'})">
+                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned', o: order})">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->

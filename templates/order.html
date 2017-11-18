@@ -100,7 +100,7 @@
                                                     <div class="scrollViewport scrollViewportV" tabindex="-1">
                                                        <div class="contacts">
                                                           <!-- ko foreach: selectedContacts --><!-- /ko -->
-                                                          <input type="text" class="fontSize-p"  placeholder="Vui lòng nhập lý do báo xấu" ng-model="blockReason">
+                                                          <input type="text" class="fontSize-p"  placeholder="Vui lòng nhập lý do báo xấu" ng-model="$root.blockReason">
                                                        </div>
                                                     </div>
                                                     <!-- ko if: showMoreResultsAvailableMessage() --><!-- /ko-->
@@ -139,7 +139,7 @@
                                                     <div class="scrollViewport scrollViewportV" tabindex="-1">
                                                        <div class="contacts">
                                                           <!-- ko foreach: selectedContacts --><!-- /ko -->
-                                                          <input autocomplete="organization" type="text" class="fontSize-p"  placeholder="Vui lòng ghi chú thời điểm gọi lại" ng-model="willCalllLaterMessage">
+                                                          <input autocomplete="organization" type="text" class="fontSize-p"  placeholder="Vui lòng ghi chú thời điểm gọi lại" ng-model="$root.willCalllLaterMessage">
                                                        </div>
                                                     </div>
                                                     <!-- ko if: showMoreResultsAvailableMessage() --><!-- /ko-->

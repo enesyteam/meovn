@@ -1,7 +1,7 @@
 // 'use strict';
 // old access token: 639041606186502|uaa4AIPe63MOQQWKFlrTW2cZlHY
 meovn.controller('OrdersController',
-    function($scope, $http,$timeout, hotkeys, $filter, $state, $stateParams,
+    function($scope, $http, $rootScope, $timeout, hotkeys, $filter, $state, $stateParams,
         toastr, toastrConfig, $firebaseArray, Facebook, $copyToClipboard, webNotification, firebaseService, supportService,
         days) {
 
@@ -469,13 +469,17 @@ meovn.controller('OrdersController',
             
             $scope.selectedOrder = order;
         }
+        $scope.select = function(order){
+            $scope.selectedOrder = order;
+        }
         function getCommentForActiveOrder(){
             $scope.comments = firebaseService.getCommentForOrder($scope.selectedOrder);
         }
 
-        $scope.oldOrder = [];
+        
         $scope.isLoadingOrderHistory = false;
         function loadingOrderHistory(){
+            $scope.oldOrder = [];
             $scope.isLoadingOrderHistory = true;
             firebaseService.getOldOrderHistory($scope.selectedOrder.buyer_mobile).then(function(snap){
                 snap.forEach(function(child) {
@@ -571,7 +575,7 @@ meovn.controller('OrdersController',
             if(status.id == 8){ //block
                 $scope.showBlockDialog = true;
                 blockStatus = status;
-                $scope.blockReason = ''; 
+                $rootScope.blockReason = ''; 
                 return;
              }
              else if(status.id == 5){
@@ -613,7 +617,7 @@ meovn.controller('OrdersController',
         $scope.hideBlockDialog = function(){
            $scope.showBlockDialog = false; 
         }
-        $scope.blockReason = '';
+        $rootScope.blockReason = '';
 
         $scope.showCallLaterDialog = false;
         $scope.hideCallLaterDialog = function(){
@@ -623,12 +627,12 @@ meovn.controller('OrdersController',
         function showCallater(){
             $scope.showCallLaterDialog = true;
         }
-        $scope.willCalllLaterMessage = '';
+        $rootScope.willCalllLaterMessage = '';
         var callLaterStatus = null;
         $scope.submitCallLater = function(order){
-            
             // add new comment
-            if ($scope.willCalllLaterMessage.length < 3) {
+            console.log($rootScope.willCalllLaterMessage);
+            if ($rootScope.willCalllLaterMessage.length < 3) {
                 return false;
             }
             else{
@@ -637,7 +641,7 @@ meovn.controller('OrdersController',
                 var $commentItem = {
                     'id': newCommentKey,
                     'order_id': order.id,
-                    'content': $scope.willCalllLaterMessage,
+                    'content': $rootScope.willCalllLaterMessage,
                     'created_at': Date.now(),
                     'type': 0,
                     'status_id': 0,
@@ -661,13 +665,13 @@ meovn.controller('OrdersController',
                 'created_at': Date.now(),
                 'source_id': order.order_source_id,
                 'uid': $scope.currentMember.id,
-                'reason': $scope.blockReason,
+                'reason': $rootScope.blockReason,
             };
-            if($scope.blockReason.length > 3){
+            if($rootScope.blockReason.length > 3){
                 firebaseService.submitBlockNumber(blockItem);
                 $scope.showBlockDialog = false;
                 changeOrderStatus(order, blockStatus);
-                $scope.blockReason = '';
+                $rootScope.blockReason = '';
             }
         }
 

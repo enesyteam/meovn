@@ -1,7 +1,7 @@
 
 	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
 		'facebook', 'CopyToClipboard', 'angular-web-notification', '720kb.tooltips', 'highcharts-ng', 'perfect_scrollbar'])
-  .constant('days', 1)
+  .constant('days', 2)
   .constant('appVersion', '3.0.0')
   .constant('releaseDate', 'Nov-20, 2017')
 	.config(function($stateProvider,$locationProvider, $urlRouterProvider, FacebookProvider){
@@ -16,9 +16,9 @@
                 templateUrl: "/templates/home.html"
               })
               .state('home.details', {
-    				url        : 'order/:id/:mobile/seller=:seller',
-            controller : 'OrdersController',
-    				params     : { id : null,mobile: null, seller: null},
+    				url        : 'order/:id/:mobile/seller=:seller/select=:o',
+            controller : 'DetailController',
+    				params     : { id : null,mobile: null, seller: null, o: null},
     				templateUrl: 'templates/order.html'
     			})
           .state('auth',{
@@ -37,3 +37,6 @@
     $rootScope.releaseDate = releaseDate;
   }
 
+meovn.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);

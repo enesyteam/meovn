@@ -156,7 +156,7 @@
             <form class="site-search" id="npm-search" action="/search" method="get" itemprop="potentialAction" itemscope="" itemtype="http://schema.org/SearchAction">
                <!-- <meta itemprop="target" content="https://www.npmjs.com/search?q={q}"> -->
                <div id="site-search-container">
-                  <input name="q" value="" type="search" id="site-search" placeholder="Tìm kiếm Order bằng số điện thoại khách hàng..." tabindex="1" autocorrect="off" autocapitalize="off" itemprop="query-input" autocomplete="off" ng-model="query" my-enter="">
+                  <input name="q" value="" type="search" id="site-search" placeholder="Nhập SĐT ~ Enter để tìm kiếm..." tabindex="1" autocorrect="off" autocapitalize="off" itemprop="query-input" autocomplete="off" ng-model="query" my-enter="">
                </div>
                <button tabindex="2" type="submit" ng-click="searchOrder($event)">
                   <span class="a11y-only">Search</span>
@@ -197,8 +197,9 @@
          </div>
       </div>
       <div class="container content">
+         
          <div class="content-column">
-          <div class="ytp-spinner" data-layer="4" style="" ng-show="isSearching">
+         <div class="ytp-spinner" data-layer="4" style="" ng-show="isSearching">
              <div>
                 <div class="ytp-spinner-container">
                    <div class="ytp-spinner-rotator">
@@ -211,37 +212,39 @@
                    </div>
                 </div>
              </div>
-             <div class="ytp-spinner-message" style="display: block;">
-                  Searching data from server, please wait...
-              </div>
+             <!-- <div class="ytp-spinner-message" style="display: block;">
+                  {{searchNote}}
+              </div> -->
           </div>
-            <h1 class="package-name">
-               <a class="active">Kết quả tìm kiếm</a>
-            </h1>
-            <form class="star">
-               <input type="hidden" name="name" value="shuffle-array">
-               <input id="star-input" type="checkbox" name="isStarred" value="true">
-               <label for="star-input" class="icon-star"></label>
-               <input type="hidden" name="crumb" value="PHG0nJlOPRB2cGWtn_cjR61CJn9MnQBTj2J4KCUw-Ft">
-            </form>
-            <div id="readme" class="markdown">
-               <h1 class="package-name-redundant">
-                  Kết quả tìm kiếm
-               </h1>
-               <h2 ng-show="successResult.length > 0">
-                  Đã chốt
-               </h2>
-               <small ng-show="successResult.length > 0">Chỉ hiển thị các Order đã chốt</small>
-               <ul>
-                  <li ng-repeat="o in successResult">Facebook: <strong>{{o.buyer_name}}</strong> ~ Từ: {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{getPackFromId(o.product_pack_id).short_title + '/' + getPackFromId(o.product_pack_id).price + 'K' }}</strong> ~ TG: {{o.created_at | date:'yyyy-MM-dd HH:mm:ss'}}  ~ Chốt bởi: <strong>{{o.checked_by }}</strong></li>
-               </ul>
-               <!-- <h2>
-                  Báo xấu
-               </h2>
-               <ul>
-                  <li ng-repeat="o in successResult">Từ: ĐCCN | Gói SP: NT2+64/790K | 2017 22-08 14:55 | Báo xấu bởi: Dương</li>
-               </ul> -->
-               
+            <div ng-if="successResult.length > 0 || blocked.length > 0">
+              <h1>
+                 Kết quả tìm kiếm
+              </h1>
+              <form class="star">
+                 <input type="hidden" name="name" value="shuffle-array">
+                 <input id="star-input" type="checkbox" name="isStarred" value="true">
+                 <label for="star-input" class="icon-star"></label>
+                 <input type="hidden" name="crumb" value="PHG0nJlOPRB2cGWtn_cjR61CJn9MnQBTj2J4KCUw-Ft">
+              </form>
+              <div id="readme" class="markdown">
+                 <div class="success-list" ng-show="successResult.length > 0">
+                   <h2>
+                      Đã chốt
+                   </h2>
+                   <ul>
+                      <li ng-repeat="o in successResult">Facebook: <strong>{{o.buyer_name}}</strong> ~ Từ: {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{getPackFromId(o.product_pack_id).short_title + '/' + getPackFromId(o.product_pack_id).price + 'K' }}</strong> ~ time: {{o.created_at | date:'dd/MM HH:mm'}}  ~ Chốt bởi: <strong>{{o.checked_by }}</strong></li>
+                   </ul>
+                 </div>
+                 <div class="black-list" ng-show="blocked.length > 0">
+                   <h2>
+                      Báo xấu
+                   </h2>
+                   <ul>
+                      <li ng-repeat="o in blocked">Từ: {{getSourceFromId(o.source_id).short_title}} ~ Gói SP: <strong>{{getPackFromId(o.pack_id).short_title + '/' + getPackFromId(o.pack_id).price + 'K' }}</strong> ~ time: {{o.created_at | date:'dd/MM HH:mm'}}  ~ Báo xấu bởi: <strong>{{o.uid }}</strong></li>
+                   </ul>
+                 </div>
+                 
+              </div>
             </div>
          </div>
          <!-- <div class="sidebar">
