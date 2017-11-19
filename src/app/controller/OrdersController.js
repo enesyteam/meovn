@@ -1064,6 +1064,19 @@ meovn.controller('OrdersController',
             $scope.requests = supportService.getUserRequests(uid);
             // console.log($scope.requests);
           }
+          ref.child('requests')
+            .on('child_changed', function(snap) {
+                angular.forEach($scope.requests, function(o, i) {
+                  if (o.id === snap.val().id ) {
+                    $timeout(function () {
+                        angular.copy(snap.val(), $scope.requests[i]);
+                        $scope.$apply();
+                    }, 10);
+                    return;
+                  }
+                });
+            });
+
           $scope.submitRequest = function(order){
             if(!order){
                 $scope.showAlert('', 'Oops! Vui lòng chọn Order trước khi gửi request.', 'error');

@@ -1,7 +1,7 @@
 
 	var meovn = angular.module('meovn', ['ui.router', 'cfp.hotkeys', 'ngAnimate', 'toastr', 'firebase', 
 		'facebook', 'CopyToClipboard', 'angular-web-notification', '720kb.tooltips', 'highcharts-ng', 'perfect_scrollbar'])
-  .constant('days', 2)
+  .constant('days', 3)
   .constant('appVersion', '3.0.0')
   .constant('releaseDate', 'Nov-20, 2017')
 	.config(function($stateProvider,$locationProvider, $urlRouterProvider, FacebookProvider){

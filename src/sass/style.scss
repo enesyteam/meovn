@@ -2876,7 +2876,7 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .Avatar--offline:after {
     color: #93999D;
-    content: "\f108"
+    content: "";
 }
 
 :root .swx .Avatar--callForwarded:after {
@@ -2898,7 +2898,7 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .Avatar--blocked:after {
     color: #E81123;
-    content: "\f10c"
+    content: "";
 }
 
 :root .swx .Avatar--more:after {

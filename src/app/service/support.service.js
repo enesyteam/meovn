@@ -17,12 +17,8 @@ meovn.service('supportService', ["$firebaseArray", "$filter", function ($firebas
 		return requests;
 	}
 	var getUserRequests = function(uid){
-        var endTime = new Date(); // today
-        var startTime = new Date(); // yesterday
-        startTime.setDate(startTime.getDate() - 1);
-        endTime.setDate(endTime.getDate());
-        startTime = startTime.getTime();
-        endTime = endTime.getTime();
+        var startTime = new Date();
+        
         var res = [];
 
         ref.child('requests')
@@ -31,8 +27,9 @@ meovn.service('supportService', ["$firebaseArray", "$filter", function ($firebas
         .once('value', function(snap) {
            // console.log(startTime);
            snap.forEach(function(item){
+           		var d = new Date(item.val().created_at);
            		// console.log(item.val().created_at);
-           		if(item.val().created_at > startTime){
+           		if(d.getDate() == startTime.getDate()){
 					res.push(item.val());
            		}
                 

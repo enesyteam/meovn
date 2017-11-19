@@ -312,7 +312,7 @@
                                                                     <div id="chatInputContainer" class="container" style="height: 39px;">
                                                                         <!-- ko if: quotedMessageXML().length > 0 -->
                                                                         <!-- /ko -->
-                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type a message here & press Enter to send" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
+                                                                        <textarea id="chatInputAreaWithQuotes" ng-model="commentData.content" my-enter="comment(selectedOrder)" name="content" aria-live="polite" class="inputField fontSize-p" aria-autocomplete="list" aria-owns="suggestionList" role="combobox" placeholder="Type comment & press Enter to post" aria-label="Chat input, conversation with Untitled conversation. " maxlength="2000" style="height: 30px;" scroll-bottom="commentList">
                                                                         </textarea>
                                                                     </div>
                                                                 </swx-textarea>
@@ -328,7 +328,7 @@
                                                               <div class="wrapper swx-expression-picker">
                                                                  <swx-button >
                                                                     <button type="button" role="button" class="btn swx-expression-picker-btn transparent circle emoticon-picker-button large" title="Quick Comment" ng-click="toggleShowQuickComment()">
-                                                                       <span class="iconfont message"></span>
+                                                                       <span class="iconfont quoteClose"></span>
                                                                     </button>
                                                                  </swx-button>
                                                                  <div class="bubble popup arrow down active" ng-show="showQuickComment" click-anywhere-but-here="hideQuickComment()" is-active="showQuickComment == false">
