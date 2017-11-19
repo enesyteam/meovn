@@ -347,7 +347,7 @@ meovn.controller('OrdersController',
                 autoDismiss: false,
                 positionClass: 'toast-bottom-center',
                 type: alertType,
-                timeOut: '3000',
+                timeOut: '30000',
                 extendedTimeOut: '2000',
                 allowHtml: false,
                 closeButton: true,
@@ -777,7 +777,7 @@ meovn.controller('OrdersController',
                 absolute: true
             });
             $copyToClipboard.copy(textToCopy).then(function() {
-                $scope.showAlert('', 'Order has been copied. Press Ctrl+V to paste.', 'info');
+                $scope.showAlert('', 'Link đã được copy vào Clipboard.', 'info');
             });
         }
 
@@ -1082,6 +1082,7 @@ meovn.controller('OrdersController',
                 $scope.showAlert('', 'Oops! Vui lòng chọn Order trước khi gửi request.', 'error');
                 return;
             }
+            console.log(order);
             var requestData = {
                 fromSeller      : $scope.currentMember.id,
                 created_at      : Date.now(),
@@ -1090,6 +1091,8 @@ meovn.controller('OrdersController',
                 order_id        : order.id,
                 content         : $scope.requestContent,
                 response        : '',
+                buyer_mobile    : order.buyer_mobile,
+                buyer_name      : order.buyer_name,
                 id              : supportService.getNewRequestId()
               }
             if(validationRequest(requestData)){

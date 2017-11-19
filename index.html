@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="ltr" dir="ltr" ng-app="meovn">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>MEO ORDERS V3.0.1 - FRONTEND</title>
-
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
-
-  <!-- inject:css -->
-  <link rel="stylesheet" href="/assets/css/styles-vendor-0a31845a8c.min.css">
-  <link rel="stylesheet" href="/assets/css/styles-bundle-416912322c.min.css">
-  <link rel="stylesheet" href="/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css">
-  <link rel="stylesheet" href="/src/tempcss.css">
-  <!-- endinject -->
-
-</head>
-<body class="swx desktop dark">
-  <div ui-view style="height: 100%" ng-class="isShowOverlay==true ? 'show-overlay' : ''"></div>
-
-    <script src="src/vendor/jquery/jquery-3.1.1.min.js"></script>
-  <script src="assets/js/scripts-angular.min.js"></script>
-
-  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
-  <script>
-    // Initialize Firebase
+<!DOCTYPE html><html lang="en" class="ltr" dir="ltr" ng-app="meovn"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MEO ORDERS V3.0.1 - FRONTEND</title><link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png"><!-- inject:css --><link rel="stylesheet" href="/assets/css/styles-vendor-fba84c0fe4.min.css"><link rel="stylesheet" href="/assets/css/styles-bundle-5714ff6b2c.min.css"><!-- endinject --></head><body class="swx desktop dark"><div ui-view style="height: 100%" ng-class="isShowOverlay==true ? 'show-overlay' : ''"></div><script src="src/vendor/jquery/jquery-3.1.1.min.js"></script><script src="assets/js/scripts-angular.min.js"></script><script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script><script>// Initialize Firebase
     var config = {
       apiKey: "AIzaSyBVv2Pm48P_ml5EnVUnio0OGAu2YyCepIs",
       authDomain: "meoorder.firebaseapp.com",
@@ -35,38 +7,7 @@
       storageBucket: "meoorder.appspot.com",
       messagingSenderId: "918210217082"
     };
-    firebase.initializeApp(config);
-  </script>
-  <!-- AngularFire -->
-  <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
-
-  <!-- inject:js -->
-  <script src="/src/vendor/angularhotkeys/hotkeys.min.js"></script>
-  <script src="/src/vendor/angular-web-notification/web-notification.js"></script>
-  <script src="/src/vendor/angular-web-notification/angular-web-notification.js"></script>
-  <script src="/src/vendor/angular-toast/angular-toastr.tpls.min.js"></script>
-  <script src="/src/vendor/facebook-angular/angular-facebook.js"></script>
-  <script src="/src/vendor/ngclibboard/ngclipboard.js"></script>
-  <script src="/src/vendor/blueimp/js/blueimp-gallery.min.js"></script>
-  <script src="/src/vendor/angular-tooltip/angular-tooltips.js"></script>
-  <script src="/src/vendor/angular-highchart/highstock.src.js"></script>
-  <script src="/src/vendor/angular-highchart/highcharts-ng.js"></script>
-  <script src="/src/vendor/custom-file-input/custom-file-input.js"></script>
-  <script src="/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
-  <script src="/bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
-  <script src="/src/app/app.js"></script>
-  <script src="/src/app/service/firebase.service.js"></script>
-  <script src="/src/app/service/support.service.js"></script>
-  <script src="/src/app/controller/AuthController.js"></script>
-  <script src="/src/app/controller/MembersController.js"></script>
-  <script src="/src/app/controller/OrdersController.js"></script>
-  <script src="/src/app/controller/DetailController.js"></script>
-  <script src="/src/app/controller/SupportController.js"></script>
-  <script src="/src/app/directive/myEnter.directive.js"></script>
-  <script src="/src/app/directive/orderFilter.directive.js"></script>
-  <!-- endinject -->
-
-<!--   <script>
+    firebase.initializeApp(config);</script><!-- AngularFire --><script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script><!-- inject:js --><script src="/assets/js/scripts-vendor.min.js"></script><script src="/assets/js/scripts-bundle-a49885357d.min.js"></script><!-- endinject --><!--   <script>
     blueimp.Gallery(
         document.getElementById('links').getElementsByTagName('a'),
         {
@@ -74,7 +15,4 @@
             carousel: true
         }
     );
-</script> -->
-
-</body>
-</html>
+</script> --></body></html>

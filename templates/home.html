@@ -230,9 +230,9 @@
                                             </a>
                                         </swx-menu-item>
                                         <swx-menu-item role="presentation" ng-repeat="status in ordersStatusesForFilter">
-                                            <a role="menuitem" class="navItem icon" ng-class="{active: activeStatus == status}" aria-label="Contacts" id="menuItem-contacts" style="" tabindex="-1" data-focusmanager="184" ng-click="toggleActiveStatus(status)">
+                                            <a role="menuitem" class="navItem icon" ng-class="{active: activeStatus == status}" aria-label="Contacts" id="menuItem-contacts" style="" tabindex="-1" data-focusmanager="184" ng-click="toggleActiveStatus(status)" tooltips tooltip-template="{{status.name}}" tooltip-side="bottom">
                                                 <span class="icon">
-                                                    <span class="iconfont {{status.icon_class}}" title="{{status.name}}"></span>
+                                                    <span class="iconfont {{status.icon_class}}"></span>
                                                 </span>
                                                 <span class="text">
                                            <h4>{{status.name}}</h4>
@@ -241,9 +241,9 @@
                                         </swx-menu-item>
                                         
                                         <swx-menu-item role="presentation">
-                                            <a role="menuitem" class="navItem icon" aria-label="Settings" id="menuItem-userSettings" ng-class="showMyOrders ? 'active' : ''" style="" tabindex="-1" ng-click="toggleShowMyOrders()">
+                                            <a role="menuitem" class="navItem icon" aria-label="Settings" id="menuItem-userSettings" ng-class="showMyOrders ? 'active' : ''" style="" tabindex="-1" ng-click="toggleShowMyOrders()" tooltips tooltip-template="Orders của tôi" tooltip-side="bottom">
                                                 <span class="icon">
-                                                    <span class="iconfont heart" title="Show My Orders">
+                                                    <span class="iconfont heart">
                                                         
                                                     </span>
                                                 </span>
@@ -289,7 +289,7 @@
                                                 <div class="recents" role="menu" style="height: 100%;"> 
                                                     <!-- {{-- Recent items by aj --}} -->
                                                     <div>
-                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned', o: order})">
+                                                        <div class="order" ng-repeat="order in orders | my_filter:this" style="height: 100%" ui-sref="home.details({id : order.id, mobile:order.buyer_mobile, seller: order.seller_will_call_id || 'not-asigned'})">
                                                             <!-- {{-- Loading --}}
                                                             {{-- /Loading --}}
                                                             {{-- Begin Item --}} -->
@@ -387,10 +387,16 @@
                 <ui-view></ui-view>
             </div>
             <div class="showHelpPanelActions">
-                <button type="button" role="button" class="btn circle large closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()" tooltips tooltip-template="Get supported from Adsministrators" tooltip-side="left">
+                <button type="button" role="button" class="btn circle large closeAction" title="Close" aria-haspopup="true" ng-click="showHelpPanel()" tooltips tooltip-template="Get supported from Adsministrators" tooltip-side="left" style="display: block !important">
                         <span class="iconfont happy"></span>
-                    </button>
+                </button>
+                <div class="toggle-btn-search" style="display: block !important">
+                    <a href="/search" target="_blank">
+                        <span class="iconfont search"></span>
+                    </a>
+                </div>
             </div>
+
 
             <div class="suggested-actions" ng-class="isShowHelpPanel==true ? 'active' : ''">         
                 <div class="suggest-header">
@@ -405,7 +411,7 @@
                     <!-- <div class="report-title">Your requests today</div> -->
                     <div class="support-items">
                         <div class="s-item" ng-repeat="r in requests track by $index" ng-class="r.status==1 ? 'pendding' : (r.status==2 ? 'resolved' : 'rejected')">
-                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by {{findUser(r.fromSeller).last_name}} for:</div>
+                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by {{findUser(r.fromSeller).last_name}} for: {{r.buyer_mobile + '/' + r.buyer_name}}</div>
                             <div class="s-content">#{{$index+1}} {{r.content}}</div>
                             <div class="s-status">
                                 <span class="iconfont" ng-class="r.status==1 ? 'question' : (r.status==2 ? 'tick' : 'blockNotification')" tooltips tooltip-template="{{r.status==1 ? 'Pendding' : (r.status==2 ? 'Resolved' : 'Rejected')}}" tooltip-side="left"></span>

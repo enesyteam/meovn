@@ -16,9 +16,9 @@
                 templateUrl: "/templates/home.html"
               })
               .state('home.details', {
-    				url        : 'order/:id/:mobile/seller=:seller/select=:o',
+    				url        : 'order/:id/:mobile/seller_id=:seller',
             controller : 'DetailController',
-    				params     : { id : null,mobile: null, seller: null, o: null},
+    				params     : { id : null,mobile: null, seller: null},
     				templateUrl: 'templates/order.html'
     			})
           .state('auth',{

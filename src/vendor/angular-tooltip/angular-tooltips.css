@@ -72,7 +72,8 @@ tooltip {
   tooltip._fast._ready tip {
     animation: animate-tooltip 0.15s; }
   tooltip._steady._ready tip {
-    animation: animate-tooltip 0.35s; }
+    // animation: animate-tooltip 0.35s;
+     }
   tooltip tip {
     border-radius: 2px;
     background: rgba(97,97,97,.9);
