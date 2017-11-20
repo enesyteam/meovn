@@ -900,8 +900,6 @@ meovn.controller('OrdersController',
                         // $scope.isPageBusy = false;
                       }
                     });
-
-                    
                 }
             });
         }
@@ -1134,20 +1132,20 @@ meovn.controller('OrdersController',
             $scope.isAsideLoading = true;
             firebaseService.getAllPacks().then(function(packs) {
                 $scope.packs = packs;
-                // if ($state.$current.name == 'home.details') {
-                //     // console.log($state);
-                //     $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
-                //     angular.forEach($scope.orders, function(o, i) {
-                //       if (o.id === $stateParams.id ) {
-                //         // console.log('fucked')
-                //         $scope.active($scope.orders[i]);
-                //         // return;
-                //         // $scope.isPageBusy = false;
-                //       }
-                //     });
+                if ($state.$current.name == 'home.details') {
+                    // console.log($state);
+                    $scope.pleaseWaitMessage = 'Loading Order details. Please wait...';
+                    angular.forEach($scope.orders, function(o, i) {
+                      if (o.id === $stateParams.id ) {
+                        // console.log('fucked')
+                        $scope.active($scope.orders[i]);
+                        // return;
+                        // $scope.isPageBusy = false;
+                      }
+                    });
 
                     
-                // }
+                }
                 // $scope.isPageBusy = false;
                 $scope.isAsideLoading = false;
             });

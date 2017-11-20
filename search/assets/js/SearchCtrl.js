@@ -9,6 +9,10 @@ meovnSearch.controller('SearchController',
             $scope.sources = sources;
         });
 
+        firebaseService.getAllMembers().then(function(members) {
+            $scope.sellers = members;
+        });
+
         
         $scope.getPackFromId = function(id){
             return $filter("filter")($scope.packs, {
@@ -20,6 +24,17 @@ meovnSearch.controller('SearchController',
             return $filter("filter")($scope.sources, {
                 id: id
             })[0];
+        }
+
+        $scope.findUser = function(id) {
+            var found = $filter('filter')($scope.sellers, {
+                id: id
+            }, true);
+            if (found.length) {
+                return found[0];
+            } else {
+                return null;
+            }
         }
 
     	$scope.query = '';
