@@ -78,7 +78,7 @@
                                                         <div class="headerControls newConversationV2">
                                                             <div class="buttonRow">
                                                                 <swx-button ng-repeat="status in ordersStatuses">
-                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' tooltips tooltip-template="{{status.name + '(' + status.id + ')'}}" tooltip-side="bottom">
+                                                                        <button type="submit" role="button" class="btn secondary circle stroke" ng-class="{active: selectedOrder.status_id == status.id}" aria-label="{{status.name}}" ng-click='updateStatus(selectedOrder, $event, status)' tooltips tooltip-template="{{status.name}}" tooltip-side="bottom">
                                                                             <span class="iconfont {{status.icon_class}}">{{status.name}}</span>
                                                                             <!-- ko if: showMenuOptions -->
                                                                             <!-- /ko -->

@@ -2848,39 +2848,39 @@ only screen and (min-resolution: 2dppx) {
 }
 
 :root .swx .Avatar--online:after {
-    color: #7FBA00;
+    color: #93999d;
     content: "";
 }
 
 :root .swx .Avatar--mobile:after {
-    color: #7FBA00;
+    color: #93999d;
     content: "\f11b"
 }
 :root .swx .Avatar--idle:before{
    border-color: #FCD116; 
 }
 :root .swx .Avatar--idle:after {
-    color: #e81123;
+    color: #93999d;
     content: "";
 }
 
 :root .swx .Avatar--busy:after {
-    color: #E81123;
+    color: #93999d;
     content: "";
 }
 
 :root .swx .Avatar--donotdisturb:after {
-    color: #E81123;
+    color: #93999d;
     content: "\f10b"
 }
 
 :root .swx .Avatar--offline:after {
-    color: #93999D;
+    color: #93999d;
     content: "";
 }
 
 :root .swx .Avatar--callForwarded:after {
-    color: #7FBA00;
+    color: #93999d;
     content: "\f10e"
 }
 
@@ -2890,19 +2890,19 @@ only screen and (min-resolution: 2dppx) {
 }
 
 :root .swx .Avatar--callLater:after {
-    color: #FCD116;
+    color: #93999d;
     // content: "\f11b"
     // content: "\f10a";
     content: "";
 }
 
 :root .swx .Avatar--blocked:after {
-    color: #E81123;
+    ccolor: #93999d;
     content: "";
 }
 
 :root .swx .Avatar--more:after {
-    color: #7FBA00;
+    color: #93999d;
     content: ""
 }
 
@@ -15500,6 +15500,7 @@ only screen and (min-resolution: 2dppx) {
     font-size: 30px;
     text-align: center;
     color: #fff;
+    outline: none;
 }
 
 :root .swx .chat .conversationHeader .headerControls swx-joincall-button {

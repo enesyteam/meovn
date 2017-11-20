@@ -411,10 +411,20 @@
                     <!-- <div class="report-title">Your requests today</div> -->
                     <div class="support-items">
                         <div class="s-item" ng-repeat="r in requests track by $index" ng-class="r.status==1 ? 'pendding' : (r.status==2 ? 'resolved' : 'rejected')">
-                            <div class="s-header">{{r.created_at | date:'yyyy-MM-dd HH:mm:ss'}} by {{findUser(r.fromSeller).last_name}} for: {{r.buyer_mobile + '/' + r.buyer_name}}</div>
+                            <div class="s-header">{{r.created_at | date:'HH:mm dd-MM'}} by {{findUser(r.fromSeller).last_name}} for: {{r.buyer_mobile + '/' + r.buyer_name}}</div>
                             <div class="s-content">#{{$index+1}} {{r.content}}</div>
+                            
                             <div class="s-status">
                                 <span class="iconfont" ng-class="r.status==1 ? 'question' : (r.status==2 ? 'tick' : 'blockNotification')" tooltips tooltip-template="{{r.status==1 ? 'Pendding' : (r.status==2 ? 'Resolved' : 'Rejected')}}" tooltip-side="left"></span>
+                            </div>
+                            <div class="s-response" style="font-size: 12px;font-weight: 200;color: #999;" ng-if="r.status==3">
+                                <span>Request bị từ chối xử lý do không hợp lệ</span>
+                            </div>
+                            <div class="s-response" style="font-size: 12px;font-weight: 200;color: #999;" ng-if="r.status==2">
+                                <span>Request của bạn đã được xử lý</span>
+                            </div>
+                            <div class="s-response" style="font-size: 12px;font-weight: 200;color: #999;" ng-if="r.status==1">
+                                <span>Request đang chờ xử lý</span>
                             </div>
                         </div>
                         

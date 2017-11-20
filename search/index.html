@@ -73,6 +73,7 @@
          svg.iconic-lg:not(.iconic-icon-sm):not(.iconic-icon-md) > g.iconic-lg, svg.iconic-sm.iconic-icon-lg > g.iconic-lg, svg.iconic-md.iconic-icon-lg > g.iconic-lg {display:inline;}
       </style>
       <style>.autocomplete-container, .autocomplete-suggestions, #powered-by-constructor-io { width: NaNpx !important }</style>
+      <style> .ng-cloak { display: none !important; } </style>
    </head>
    <script>function patch() {
       window._open = window.open;
@@ -216,7 +217,7 @@
                   {{searchNote}}
               </div> -->
           </div>
-            <div ng-if="successResult.length > 0 || blocked.length > 0">
+            <div ng-if="successResult.length > 0 || blocked.length > 0"  class="ng-cloak">
               <h1>
                  Kết quả tìm kiếm
               </h1>
