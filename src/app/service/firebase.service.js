@@ -298,6 +298,16 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
     				}
     			});
+    			if(v.status_id == 6 &&  v.checked_by == uid 
+					&& v.seller_will_call_id == uid ){
+					if(dSuccessArr.indexOf(v) == -1){
+						// if admin => order checked in assign day
+						var cd = new Date(v.checked_at);
+						if(cd.getDate() == d.getDate()){
+							dSuccessArr.push(v);
+						}
+					}
+				}
     		});
 
     		// date array

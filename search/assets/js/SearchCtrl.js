@@ -3,14 +3,17 @@ meovnSearch.controller('SearchController',
 
         firebaseService.getAllPacks().then(function(packs) {
             $scope.packs = packs;
+            // $scope.$apply();
         });
 
         firebaseService.getAllSources().then(function(sources) {
             $scope.sources = sources;
+            // $scope.$apply();
         });
 
         firebaseService.getAllMembers().then(function(members) {
             $scope.sellers = members;
+            // $scope.$apply();
         });
 
         
