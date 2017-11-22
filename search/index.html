@@ -200,7 +200,46 @@
       <div class="container content">
          
          <div class="content-column">
-         <div class="ytp-spinner" data-layer="4" style="" ng-show="isSearching">
+         
+            <div ng-if="successResult.length > 0 || blocked.length > 0 || failed.length > 0"  class="ng-cloak">
+              <h1>Tìm thấy <span style="color: #cb3837;">{{successResult.length + blocked.length + failed.length}}</span> kết quả sau <span style="color: #cb3837;"> {{duration | number:2}}</span> giây</h1>
+              <div id="readme" class="markdown">
+                 <div class="success-list" ng-show="successResult.length > 0">
+                   <h2>
+                      Đã chốt (<span style="color: #cb3837;">{{successResult.length}}</span>)
+                   </h2>
+                   <small>Chú ý: Gói sản phẩm đã chốt thực tế có thể khác với dữ liệu ở đây</small>
+                   <ul style="margin-top: 10px">
+                      <li ng-repeat="o in successResult"><strong>{{o.buyer_name}}</strong><span style="color: #cb3837;">
+                        {{o.buyer_mobile}}
+                      </span> ~ {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{findPack(o.product_pack_id)}}</strong> ~ lúc: <span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}} </span>  ~ bởi: <strong>{{findUser(o.checked_by).last_name}}</strong></li>
+                   </ul>
+                 </div>
+                 <div class="failed-list" ng-show="failed.length > 0">
+                   <h2>
+                      Chưa thành đơn (<span style="color: #cb3837;">{{failed.length}}</span>)
+                   </h2>
+                   <ul>
+                      <li ng-repeat="o in failed"><span style="color: #cb3837;">{{o.buyer_mobile + '~' + o.buyer_name}}</span> ~ {{getSourceFromId(o.order_source_id).short_title}} ~ <strong>{{findPack(o.product_pack_id)}}</strong> ~ lúc:<span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}}</span>  ~ bởi: <strong>{{findUser(o.seller_will_call_id).last_name}}</strong> ~ trạng thái:<span style="color: #cb3837;"> 
+                      {{findStatus(o.status_id).name}}</span></li>
+                   </ul>
+                 </div>
+                 <div class="black-list" ng-show="blocked.length > 0">
+                   <h2>
+                      Báo xấu (<span style="color: #cb3837;">{{blocked.length}}</span>)
+                   </h2>
+                   <small>Chú ý đén nguồn/gói sản phẩm mà khách bị báo xấu</small>
+                   <ul style="margin-top: 10px">
+                      <li ng-repeat="o in blocked">{{getSourceFromId(o.source_id).short_title}} ~ <strong>{{findPack(o.pack_id)}}</strong> ~ lúc:<span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}}</span>  ~ bởi: <strong>{{findUser(o.uid).last_name}}</strong> ~ lý do:<span style="color: #cb3837;"> {{o.reason || 'Không rõ'}}</span></li>
+                   </ul>
+                 </div>
+                 
+              </div>
+            </div>
+         </div>
+         <div class="sidebar">
+            
+            <div class="ytp-spinner" data-layer="4" style="" ng-show="isSearching">
              <div>
                 <div class="ytp-spinner-container">
                    <div class="ytp-spinner-rotator">
@@ -213,57 +252,12 @@
                    </div>
                 </div>
              </div>
-             <!-- <div class="ytp-spinner-message" style="display: block;">
-                  {{searchNote}}
-              </div> -->
-          </div>
-            <div ng-if="successResult.length > 0 || blocked.length > 0"  class="ng-cloak">
-              <h1>
-                 Kết quả tìm kiếm
-              </h1>
-              <form class="star">
-                 <input type="hidden" name="name" value="shuffle-array">
-                 <input id="star-input" type="checkbox" name="isStarred" value="true">
-                 <label for="star-input" class="icon-star"></label>
-                 <input type="hidden" name="crumb" value="PHG0nJlOPRB2cGWtn_cjR61CJn9MnQBTj2J4KCUw-Ft">
-              </form>
-              <div id="readme" class="markdown">
-                 <div class="success-list" ng-show="successResult.length > 0">
-                   <h2>
-                      Đã chốt
-                   </h2>
-                   <ul>
-                      <li ng-repeat="o in successResult"><strong>{{o.buyer_name}}</strong><span style="color: #cb3837;">
-                        {{o.buyer_mobile}}
-                      </span> ~ {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{findPack(o.product_pack_id)}}</strong> ~ lúc: <span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}} </span>  ~ bởi: <strong>{{findUser(o.checked_by).last_name}}</strong></li>
-                   </ul>
-                 </div>
-                 <div class="black-list" ng-show="blocked.length > 0">
-                   <h2>
-                      Báo xấu
-                   </h2>
-                   <ul>
-                      <li ng-repeat="o in blocked">{{getSourceFromId(o.source_id).short_title}} ~ <strong>{{findPack(o.product_pack_id}}</strong> ~ lúc:<span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}}</span>  ~ bởi: <strong>{{findUser(o.uid).id}}</strong> ~ lý do: {{o.reason || 'Không rõ'}}</li>
-                   </ul>
-                 </div>
-                 
+             <div class="ytp-spinner-message" style="display: block;">
+                  Searching data in milions of rows...
               </div>
-            </div>
+          </div>
+            
          </div>
-         <!-- <div class="sidebar">
-            
-            <ul class="box">
-               <li>
-                  <strong class="pretty-number daily-downloads">14,500</strong>
-                  Orders đã chốt
-               </li>
-               <li>
-                  <strong class="pretty-number weekly-downloads">2,294</strong>
-                  Khách hàng báo xấu
-               </li>
-            </ul>
-            
-         </div> -->
       </div>
 
       <script src="/src/vendor/jquery/jquery-3.1.1.min.js"></script>
