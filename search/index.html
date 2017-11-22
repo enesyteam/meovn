@@ -233,7 +233,9 @@
                       Đã chốt
                    </h2>
                    <ul>
-                      <li ng-repeat="o in successResult"><strong>{{o.buyer_name}}</strong> ~ {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{ getPackFromId(o.product_pack_id) ? p.short_title + '/' + p.price + 'K' : 'Không rõ SP'}}</strong> ~ lúc: {{o.created_at | date:'dd/MM HH:mm'}}  ~ bởi: <strong>{{findUser(o.checked_by).id}}</strong></li>
+                      <li ng-repeat="o in successResult"><strong>{{o.buyer_name}}</strong><span style="color: #cb3837;">
+                        {{o.buyer_mobile}}
+                      </span> ~ {{getSourceFromId(o.order_source_id).short_title}} ~ Gói SP: <strong>{{findPack(o.product_pack_id)}}</strong> ~ lúc: <span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}} </span>  ~ bởi: <strong>{{findUser(o.checked_by).last_name}}</strong></li>
                    </ul>
                  </div>
                  <div class="black-list" ng-show="blocked.length > 0">
@@ -241,7 +243,7 @@
                       Báo xấu
                    </h2>
                    <ul>
-                      <li ng-repeat="o in blocked">{{getSourceFromId(o.source_id).short_title}} ~ <strong>{{getPackFromId(o.pack_id) ? getPackFromId(o.pack_id).short_title + '/' + getPackFromId(o.pack_id).price + 'K' : 'Không rõ SP'}}</strong> ~ lúc: {{o.created_at | date:'dd/MM HH:mm'}}  ~ bởi: <strong>{{findUser(o.uid).id}}</strong> ~ lý do: {{o.reason || 'Không rõ'}}</li>
+                      <li ng-repeat="o in blocked">{{getSourceFromId(o.source_id).short_title}} ~ <strong>{{findPack(o.product_pack_id}}</strong> ~ lúc:<span style="color: #cb3837;"> {{o.created_at | date:'HH:mm-dd/MM'}}</span>  ~ bởi: <strong>{{findUser(o.uid).id}}</strong> ~ lý do: {{o.reason || 'Không rõ'}}</li>
                    </ul>
                  </div>
                  

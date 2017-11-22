@@ -2,19 +2,27 @@ meovnSearch.controller('SearchController',
     function($scope, $http,$timeout, $filter, firebaseService) {
 
         firebaseService.getAllPacks().then(function(packs) {
-            $scope.packs = packs;
-            // $scope.$apply();
+            
+            $timeout(function () {
+                        $scope.packs = packs;
+                        $scope.$apply();
+                    }, 10);
         });
 
         firebaseService.getAllSources().then(function(sources) {
-            $scope.sources = sources;
-            // $scope.$apply();
+            
+             $timeout(function () {
+                        $scope.sources = sources;
+                        $scope.$apply();
+                    }, 10);
         });
 
         firebaseService.getAllMembers().then(function(members) {
-            $scope.sellers = members;
-            // $scope.$apply();
-        });
+                $timeout(function () {
+                        $scope.members = members;
+                        $scope.$apply();
+                    }, 10);
+            });
 
         
         $scope.getPackFromId = function(id){
@@ -29,15 +37,17 @@ meovnSearch.controller('SearchController',
             })[0];
         }
 
+
+
         $scope.findUser = function(id) {
-            var found = $filter('filter')($scope.sellers, {
+            return $filter("filter")($scope.members, {
                 id: id
-            }, true);
-            if (found.length) {
-                return found[0];
-            } else {
-                return null;
-            }
+            })[0];
+            
+        }
+        $scope.findPack = function(id){
+            var p = $scope.getPackFromId(id);
+            return p ? (p.short_title + '/' + p.price + 'K') : 'Không rõ';
         }
 
     	$scope.query = '';
@@ -77,7 +87,11 @@ meovnSearch.controller('SearchController',
     				});
     			
 	    		});
-
+                // console.log($scope.successResult);
+                // console.log($scope.blocked);
+                // console.log($scope.sellers);
+                // console.log($scope.sources);
+                // console.log($scope.packs);
                 
     		});
     	}
