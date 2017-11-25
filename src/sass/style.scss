@@ -17936,7 +17936,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 :root .swx .chat .history .message.participant.their.spacesWelcomeMessage .bubble .ctas {
-    margin: 1em auto 0;
+    margin: 1em auto;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -17956,7 +17956,7 @@ only screen and (min-resolution: 2dppx) {
     -webkit-flex: 1 0 1px;
     -ms-flex: 1 0 1px;
     flex: 1 0 1px;
-    border: 1px solid #E0ECF1;
+    // border: 1px solid #E0ECF1;
     border-radius: .15em;
     text-align: left;
     padding: .6em 1em .6em 3.15em;
@@ -17987,6 +17987,9 @@ only screen and (min-resolution: 2dppx) {
 
 :root .swx .chat .history .message.participant.their.spacesWelcomeMessage .bubble .ctas .cta:last-child {
     margin-left: 1em
+}
+:root .swx .chat .history .message.participant.their.spacesWelcomeMessage .bubble .ctas .cta:only-child {
+    margin-left: 0
 }
 
 :root .swx .chat .history .message.participant.their.spacesWelcomeMessage .bubble .participantMessage {

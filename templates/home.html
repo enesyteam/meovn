@@ -1,14 +1,14 @@
-<div class="shell notifications" id="notifications" aria-live="polite" aria-atomic="true" style="display: none;">
-            <div class="notification warning" role="alert" data-notification-id="1">
-                <div class="iconfont"></div>
-                <p> <a href="javascript:void(0);" class="strong" role="button">Vui lòng thay đổi mật khẩu mặc định để đảm bảo tính bảo mật cho tài khoản của bạn.</a>
-                </p>
-                <div class="close">
-                    <button class="btn transparent circle" type="btn" data-dismiss-id="1"><span class="iconfont cross" data-dismiss-id="1">Dismiss notification</span>
-                    </button>
-                </div>
-            </div>
+<div class="shell notifications" id="notifications" aria-live="polite" aria-atomic="true" style="display: none">
+    <div class="notification warning" role="alert" data-notification-id="1">
+        <div class="iconfont"></div>
+        <p> <a href="javascript:void(0);" class="strong" role="button">Vui lòng thay đổi mật khẩu mặc định để đảm bảo tính bảo mật cho tài khoản của bạn.</a>
+        </p>
+        <div class="close">
+            <button class="btn transparent circle" type="btn" data-dismiss-id="1"><span class="iconfont cross" data-dismiss-id="1">Dismiss notification</span>
+            </button>
         </div>
+    </div>
+</div>
         <!-- Preload -->
         <!-- <div class="pre-loading" style="background-color: #1f1f1f;width:100%;height:100%; position: absolute;top: 0; bottom: 0; left: 0; right: 0" ng-show="isAsideLoading">
             <div class="is-loading" style="height: 100%">
@@ -337,11 +337,6 @@
                                                                             <button type="button" ng-hide="order.seller_will_call_id" ng-click="addToFavourite($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Thêm vào danh sách của tôi"> <span class="iconfont plus"></span> </button>
                                                                             <button type="button" ng-show="userCanReleaseOrChangeStatus(order) && order.seller_will_call_id" ng-click="releaseOrder($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Hủy nhận Order"> <span class="iconfont cross"></span> </button>
                                                                         </div>
-                                                                        <!-- /ko -->
-                                                                        <!-- ko if: model.displayUnseenHeartsIcon() || !model.isRead() -->
-                                                                        <!-- /ko -->
-                                                                        <!-- ko ifnot: model.isRead -->
-                                                                        <!-- /ko -->
                                                                     </div>
                                                                 </a>
                                                             </swx-recent-item>
