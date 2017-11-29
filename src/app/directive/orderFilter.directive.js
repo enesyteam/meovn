@@ -3,7 +3,7 @@ meovn.filter('my_filter', function () {
     return items.filter(function (item) {
     	// console.log('filtering...');
     	// search
-    	if(scope.searchText.length > 0){
+    	if(scope.searchText.length > 0 && item.buyer_mobile){
     		return item.buyer_mobile.indexOf(scope.searchText) !== -1 || item.buyer_name.toUpperCase().indexOf(scope.searchText.toUpperCase()) !== -1;
     	}
     	// we need to filter orders by created_date
