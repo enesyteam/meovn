@@ -334,7 +334,13 @@
                                                                                 {{findUser(order.seller_will_call_id).last_name.charAt(0)}}
                                                                             </span>
 
-                                                                            <button type="button" ng-hide="order.seller_will_call_id" ng-click="addToFavourite($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Thêm vào danh sách của tôi"> <span class="iconfont plus"></span> </button>
+                                                                            <button ng-if="!locked" type="button" ng-hide="order.seller_will_call_id" ng-click="addToFavourite($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Thêm vào danh sách của tôi"> 
+                                                                                <span class="iconfont plus"></span> 
+                                                                            </button>
+                                                                            
+                                                                            <button ng-if="locked" type="button" ng-hide="order.seller_will_call_id" ng-click="notifyBlocked()" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Chức năng nhận số đang tạm khóa"> 
+                                                                                <span class="iconfont privacy"></span> 
+                                                                            </button>
                                                                             <button type="button" ng-show="userCanReleaseOrChangeStatus(order) && order.seller_will_call_id" ng-click="releaseOrder($event, order)" class="btn primary circle small transparent searchReset" aria-label="Clear search" style="/* display: none; */" id="pull-order-btn" title="Hủy nhận Order"> <span class="iconfont cross"></span> </button>
                                                                         </div>
                                                                     </div>
