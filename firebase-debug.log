@@ -1,36 +1,54 @@
-[debug] [2017-11-01T13:34:47.056Z] ----------------------------------------------------------------------
-[debug] [2017-11-01T13:34:47.060Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Cong\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2017-11-01T13:34:47.061Z] CLI Version:   3.14.0
-[debug] [2017-11-01T13:34:47.061Z] Platform:      win32
-[debug] [2017-11-01T13:34:47.061Z] Node Version:  v6.10.2
-[debug] [2017-11-01T13:34:47.062Z] Time:          Wed Nov 01 2017 20:34:47 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:47.062Z] ----------------------------------------------------------------------
+[debug] [2017-12-04T16:09:24.974Z] ----------------------------------------------------------------------
+[debug] [2017-12-04T16:09:24.978Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Cong\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init
+[debug] [2017-12-04T16:09:24.979Z] CLI Version:   3.15.4
+[debug] [2017-12-04T16:09:24.979Z] Platform:      win32
+[debug] [2017-12-04T16:09:24.979Z] Node Version:  v6.10.2
+[debug] [2017-12-04T16:09:24.979Z] Time:          Mon Dec 04 2017 23:09:24 GMT+0700 (SE Asia Standard Time)
+[debug] [2017-12-04T16:09:24.979Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-11-01T13:34:47.087Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-11-01T13:34:47.088Z] > authorizing via signed-in user
-[debug] [2017-11-01T13:34:47.093Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-11-01T13:34:47.093Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/izZLXkqE2a8AG0cn-Y9VHHYSgInG7ze0oqmZ48qpwh8',
+[debug] [2017-12-04T16:09:24.994Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2017-12-04T16:09:24.994Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Cong\Documents\GitHub\meovn
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2017-12-04T16:11:59.985Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-12-04T16:11:59.986Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/izZLXkqE2a8AG0cn-Y9VHHYSgInG7ze0oqmZ48qpwh8',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
-  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Wed Nov 01 2017 20:34:47 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:47.501Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-01T13:34:47.512Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/meoorder  
- Wed Nov 01 2017 20:34:47 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:48.590Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-01T13:34:48.592Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/meoorder/tokens  
- Wed Nov 01 2017 20:34:48 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:49.669Z] <<< HTTP RESPONSE 200
+  scope: 'email https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Dec 04 2017 23:11:59 GMT+0700 (SE Asia Standard Time)
+[debug] [2017-12-04T16:12:00.242Z] <<< HTTP RESPONSE 200
+[debug] [2017-12-04T16:12:00.254Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects  
+ Mon Dec 04 2017 23:12:00 GMT+0700 (SE Asia Standard Time)
+[debug] [2017-12-04T16:12:01.543Z] <<< HTTP RESPONSE 200
 [info] 
-[info] === Serving from 'C:\Users\Cong\Documents\GitHub\meovn'...
+=== Hosting Setup
 [info] 
-[debug] [2017-11-01T13:34:49.674Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/meoorder  
- Wed Nov 01 2017 20:34:49 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:50.991Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-01T13:34:50.991Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/918210217082/clients/_:getWebAppConfig  
- Wed Nov 01 2017 20:34:50 GMT+0700 (SE Asia Standard Time)
-[debug] [2017-11-01T13:34:51.987Z] <<< HTTP RESPONSE 200
-[info] i  hosting: Serving hosting files from: public
-[info] +  hosting: Local server: http://localhost:5000
-
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
+[info] +  Wrote public/404.html
+[debug] [2017-12-04T16:12:39.216Z] >>> HTTP REQUEST GET https://www.gstatic.com/firebasejs/releases.json  
+ Mon Dec 04 2017 23:12:39 GMT+0700 (SE Asia Standard Time)
+[debug] [2017-12-04T16:12:39.498Z] <<< HTTP RESPONSE 200
