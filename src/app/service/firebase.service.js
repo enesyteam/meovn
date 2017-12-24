@@ -206,6 +206,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 			});
 	}
 
+
 	// get seller orders for display chart
 	var getUserOrders = function(uid, days){
 		var res = [];
@@ -240,6 +241,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
            });
            
         });
+
         // find in orderDays array
         var calledArr = [], successArr = [], failedArr = [], otherArr = [], notCalled = [];
         var dateArr = [];
@@ -255,7 +257,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
     			angular.forEach(v.assign_data, function(a){
     				var ad = new Date(a.assigned_date);
     				// NOTE: NEED TO CHECK DUPLICATE
-    				if(ad.getDate() == d.getDate()){
+    				if(ad.getDate() == d.getDate() && ad.getMonth() == d.getMonth()){
     					if(a.status_after && (a.status_before != a.status_after && a.uid == uid)){
     						if(dCalledArr.indexOf(v) == -1 && v.status_id != 1) dCalledArr.push(v);
     					}
@@ -291,7 +293,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 
 							// if admin => order checked in assign day
 							var cd = new Date(v.checked_at);
-							if(cd.getDate() == d.getDate()){
+							if(cd.getDate() == d.getDate() && cd.getMonth() == d.getMonth()){
 								if(dSuccessArr.indexOf(v) == -1) dSuccessArr.push(v);
 								if(dCalledArr.indexOf(v) == -1) dCalledArr.push(v);
 							}
@@ -304,7 +306,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 					){
 					// if admin => order checked in assign day
 					var cd = new Date(v.checked_at);
-					if(cd.getDate() == d.getDate()){
+					if(cd.getDate() == d.getDate() && cd.getMonth() == d.getMonth()){
 						// if(dSuccessArr.indexOf(v) == -1) dSuccessArr.push(v);
 						if(checkDuplicate(dSuccessArr, v)){
 							dSuccessArr.push(v);
@@ -376,7 +378,7 @@ meovn.service('firebaseService', ["$firebaseArray", "$filter", function ($fireba
 		getMember		: getMember,
 		getMemberByEmail:getMemberByEmail,
 		submitBlockNumber : submitBlockNumber,
-		getUserOrders : getUserOrders ,
+		getUserOrders : getUserOrders 
 	}
 
 }]);
