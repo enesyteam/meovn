@@ -1130,7 +1130,7 @@ meovn.controller('OrdersController',
 
             firebaseService.getAllStatuses().then(function(statuses) {
             $scope.statuses = statuses;
-            // $scope.activeStatus = statuses[0];
+            $scope.activeStatus = statuses[0];
             $scope.ordersStatusesForFilter = [];
             angular.forEach($scope.statuses, function(value, key) {
                 if (value.active == 1 && value.allow_fillter == 1) {
